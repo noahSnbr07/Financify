@@ -1,0 +1,15 @@
+.env
+.docker.env
+
+package-lock.json
+
+npm-debug.log
+node_modules/
+
+.next/
+data/avatars/*
+.vscode/
+.git/
+.todo
+
+prisma/migrations/*

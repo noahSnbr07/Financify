@@ -1,0 +1,21 @@
+services:
+  server:
+    container_name: Server
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: 
+      - .docker.env
+    depends_on:
+      - database
+
+  database:
+    container_name: Database
+    image: postgres:alpine
+    restart: always
+    shm_size: 128mb
+    env_file:
+      - .docker.env
+
+volumes:
+  postgres_data:

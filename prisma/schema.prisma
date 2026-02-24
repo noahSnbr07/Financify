@@ -1,0 +1,83 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  compilerBuild          = "fast"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+  moduleFormat           = "esm"
+  runtime                = "nodejs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String        @id @unique @default(uuid())
+  created      DateTime      @default(now())
+  updated      DateTime      @updatedAt
+  name         String        @unique
+  avatar       String
+  hash         String
+  accounts     Account[]
+  categories   Category[]
+  logs         Log[]
+  transactions Transaction[]
+}
+
+model Transaction {
+  id         String   @id @unique @default(uuid())
+  created    DateTime @default(now())
+  updated    DateTime @updatedAt
+  value      Decimal
+  name       String
+  received   Boolean  @default(false)
+  accountId  String
+  userId     String
+  categoryId String
+  account    Account  @relation(fields: [accountId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, accountId, categoryId])
+}
+
+model Account {
+  id           String        @id @unique @default(uuid())
+  created      DateTime      @default(now())
+  updated      DateTime      @updatedAt
+  name         String        @unique
+  color        String
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+}
+
+model Category {
+  id           String        @id @unique @default(uuid())
+  created      DateTime      @default(now())
+  updated      DateTime      @updatedAt
+  name         String        @unique
+  color        String
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+}
+
+model Log {
+  id      String   @id @unique @default(uuid())
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  type    LogType
+  message String
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@index([type])
+}
+
+enum LogType {
+  Error
+  Mutation
+  Authentication
+}

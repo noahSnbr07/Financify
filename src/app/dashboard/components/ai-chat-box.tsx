@@ -9,10 +9,10 @@ export default function AIChatBox() {
 
     return (
         <button
-            className="bg-foreground rounded-sm w-full text-background p-2 font-bold flex justify-center items-center gap-4"
+            className="bg-stack border-2 border-foreground rounded-sm w-full p-2 font-bold flex justify-center items-center gap-4"
             onClick={() => router.push("/chat")}
         >
-            Go To Chat   <SendHorizontalIcon size={16} color="var(--background)" />
+            Go To Chat   <SendHorizontalIcon size={16} />
         </button>
     );
 }

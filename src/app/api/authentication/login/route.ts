@@ -11,7 +11,6 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     const cookieStore = await cookies();
 
     const { name, password }: { name: string; password: string; } = await _request.json();
-    console.log({ name, password });
 
     const valid = Boolean(
         (name && name.trim().length >= 4) &&

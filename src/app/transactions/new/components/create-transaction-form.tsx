@@ -35,12 +35,9 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
         event.preventDefault();
         if (pending) return;
         else setPending(true);
-        console.log("submitting ...");
         try {
 
-            const response = await fetch("/api/transaction/create", { method: "POST", body: JSON.stringify(transaction) });
-            const data = await response.json();
-            console.log(data);
+            await fetch("/api/transaction/create", { method: "POST", body: JSON.stringify(transaction) });
 
         } catch (error) {
             console.log(error);

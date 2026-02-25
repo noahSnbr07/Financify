@@ -31,9 +31,6 @@ function AuthenticationForm() {
                 password: formData.get("password"),
             };
 
-            console.log("Clicked action:", action);
-            console.log(`action: ${action}`);
-
             const endpoint = `/api/authentication/${action}`;
 
             const response = await fetch(endpoint, { ...data, body: JSON.stringify(payload) });

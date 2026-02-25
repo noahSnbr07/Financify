@@ -33,7 +33,7 @@ function DateRangeSelector() {
 
     return (
         <div
-            className="bg-stack rounded-md flex gap-1 p-1"
+            className="bg-stack rounded-md h-min flex gap-1 p-1"
         >
             {rangeOptions.map(function (option) {
 

@@ -1,7 +1,8 @@
 import { Screen } from "@/src/global/components";
-import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
-import { getAuth, getDashboardData, getTotalAccountVolume } from "@/src/server";
+import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, Forecast, QuickAccess, TotalBalance } from "./components";
+import { getAuth, getDashboardData, getForecast, getTotalAccountVolume } from "@/src/server";
 import { redirect } from "next/navigation";
+import { GetForecastProps } from "@/src/server/get-forecast";
 
 interface _props {
     searchParams: Promise<{ range?: number }>;
@@ -16,6 +17,7 @@ async function page({ searchParams }: _props) {
     if (!auth) redirect("/");
 
     const { categories, totalBalance, transactions, accounts } = await getDashboardData({ range });
+    const forecastData: GetForecastProps = await getForecast();
 
     return (
         <Screen label="Dashboard">
@@ -23,6 +25,9 @@ async function page({ searchParams }: _props) {
             <DateRangeSelector />
             <ContentEntry fallbackMessage="Unable to calculate Balance" renderFallback={false} label="Balance">
                 <TotalBalance balance={totalBalance} />
+            </ContentEntry>
+            <ContentEntry label="Forecast" fallbackMessage="Too few Transactions to generate Forecast" renderFallback={transactions.length < 5}>
+                <Forecast forecast={forecastData} />
             </ContentEntry>
             <ContentEntry fallbackMessage="Unable to generate Balance Chart" renderFallback={transactions.length < 1} label="Balance History">
                 <BalanceChart transactions={transactions} />

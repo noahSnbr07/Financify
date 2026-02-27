@@ -1,4 +1,4 @@
-import ollama from 'ollama'
+import { Ollama } from 'ollama'
 
 import { APIResponse } from '@/src/interfaces';
 import { getAuth } from '@/src/server';
@@ -24,44 +24,57 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         success: false
     });
 
-    const transactions = await database.transaction.findMany({
-        select: {
-            account: { select: { name: true } }, category: { select: { name: true } }, name: true, value: true, received: true, created: true
-        }, where: { userId: auth.id }, take: 20
-    });
+    try {
+        const transactions = await database.transaction.findMany({
+            select: {
+                account: { select: { name: true } }, category: { select: { name: true } }, name: true, value: true, received: true, created: true
+            }, where: { userId: auth.id }, take: 20
+        });
 
-    const { prompt }: { prompt: string; } = await _request.json();
+        const { prompt }: { prompt: string; } = await _request.json();
 
-    const parsedTransactions: ParsedTransactions = transactions.map((transaction) => ({
-        value: transaction.value.toNumber(),
-        name: transaction.name,
-        category: transaction.category.name,
-        account: transaction.account.name,
-        date: transaction.created.toLocaleDateString(),
-    }));
+        const parsedTransactions: ParsedTransactions = transactions.map((transaction) => ({
+            value: transaction.value.toNumber(),
+            name: transaction.name,
+            category: transaction.category.name,
+            account: transaction.account.name,
+            date: transaction.created.toLocaleDateString(),
+        }));
 
-    const response = await ollama.chat({
-        model: 'gemma:2b',
-        messages: [
-            ...prompts.map((prompt) => ({
-                role: "system",
-                content: prompts[prompt.id].content
-            })),
-            {
-                role: "system",
-                content: `Recent Transaction Data:\n${JSON.stringify(parsedTransactions, null, 2)}`
-            },
-            {
-                role: "user",
-                content: prompt
-            }
-        ],
-    });
+        const ollama = new Ollama({
+            host: process.env.OLLAMA_HOST || "127.0.0.1:11434",
+        });
 
-    return NextResponse.json({
-        data: response.message.content,
-        message: "Successfully prompted AI",
-        status: 200,
-        success: true,
-    });
+        const response = await ollama.chat({
+            model: process.env.OLLAMA_MODEL || "gemma:2b",
+            messages: [
+                ...prompts.map((prompt) => ({
+                    role: "system",
+                    content: prompts[prompt.id].content
+                })),
+                {
+                    role: "system",
+                    content: `Recent Transaction Data:\n${JSON.stringify(parsedTransactions, null, 2)}`
+                },
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+        });
+
+        return NextResponse.json({
+            data: response.message.content,
+            message: "Successfully prompted AI",
+            status: 200,
+            success: true,
+        });
+    } catch (error) {
+        return NextResponse.json({
+            data: error instanceof Error ? error.message : "null",
+            message: "Uncaught Server Error",
+            status: 500,
+            success: false,
+        })
+    }
 }

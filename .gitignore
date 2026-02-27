@@ -8,6 +8,7 @@ node_modules/
 
 .next/
 data/avatars/*
+backups/*
 .vscode/
 .git/
 .todo

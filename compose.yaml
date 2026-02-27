@@ -8,6 +8,7 @@ services:
       - .docker.env
     depends_on:
       - database
+      - ollama
 
   database:
     container_name: Database
@@ -17,5 +18,14 @@ services:
     env_file:
       - .docker.env
 
+  ollama:
+    container_name: Ollama
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    command: serve
+
 volumes:
   postgres_data:
+  ollama_data:

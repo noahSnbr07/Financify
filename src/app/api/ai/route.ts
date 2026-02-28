@@ -1,7 +1,7 @@
 import { Ollama } from 'ollama'
 
 import { APIResponse } from '@/src/interfaces';
-import { getAuth } from '@/src/server';
+import { getAuth, getOllamaHost } from '@/src/server';
 import { NextResponse, NextRequest } from 'next/server';
 import { prompts } from '@/src/assets';
 import { database } from '@/src/configuration';
@@ -41,8 +41,10 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             date: transaction.created.toLocaleDateString(),
         }));
 
+        const ollamaHost = await getOllamaHost();
+
         const ollama = new Ollama({
-            host: process.env.OLLAMA_HOST || "127.0.0.1:11434",
+            host: ollamaHost,
         });
 
         const response = await ollama.chat({

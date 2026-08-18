@@ -24,7 +24,7 @@ export default function TransactionHistory({ transactions }: _props) {
     return (
         <div className="flex flex-col gap-4">
             <div className="overflow-y-scroll">
-                <NewDateAnnouncer created={transactions[0].created} />
+                <NewDateAnnouncer created={transactions.length > 0 ? transactions[0].created : new Date()} />
                 {transactions.map(function (transaction, index) {
                     const newDate: boolean = (!(index <= 0) && transaction.created.getDay() !== transactions[index - 1].created.getDay());
 

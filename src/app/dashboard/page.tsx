@@ -1,8 +1,7 @@
 import { Screen } from "@/src/global/components";
-import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, Forecast, QuickAccess, TotalBalance } from "./components";
-import { getAuth, getDashboardData, getForecast, getTotalAccountVolume } from "@/src/server";
+import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
+import { getAuth, getDashboardData, getTotalAccountVolume } from "@/src/server";
 import { redirect } from "next/navigation";
-import { GetForecastProps } from "@/src/server/get-forecast";
 
 interface _props {
     searchParams: Promise<{ range?: number }>;
@@ -17,7 +16,6 @@ async function page({ searchParams }: _props) {
     if (!auth) redirect("/");
 
     const { categories, totalBalance, transactions, accounts } = await getDashboardData({ range });
-    const forecastData: GetForecastProps = await getForecast();
 
     return (
         <Screen label="Dashboard">
@@ -25,9 +23,6 @@ async function page({ searchParams }: _props) {
             <DateRangeSelector />
             <ContentEntry fallbackMessage="Unable to calculate Balance" renderFallback={false} label="Balance">
                 <TotalBalance balance={totalBalance} />
-            </ContentEntry>
-            <ContentEntry label="Forecast" fallbackMessage="Too few Transactions to generate Forecast" renderFallback={transactions.length < 5}>
-                <Forecast forecast={forecastData} />
             </ContentEntry>
             <ContentEntry fallbackMessage="Unable to generate Balance Chart" renderFallback={transactions.length < 1} label="Balance History">
                 <BalanceChart transactions={transactions} />
@@ -37,7 +32,7 @@ async function page({ searchParams }: _props) {
             </ContentEntry>
             <ContentEntry fallbackMessage="Unable to render Transactions" renderFallback={transactions.length < 1} label="Recent Transactions">
                 <div className="flex flex-col">
-                    {transactions.slice(transactions.length - 5).reverse().map(function (transaction) {
+                    {transactions.slice(transactions.length <= 5 ? 0 : transactions.length - 5).reverse().map(function (transaction) {
                         return (
                             <div
                                 key={transaction.id}
@@ -56,7 +51,7 @@ async function page({ searchParams }: _props) {
                     })}
                 </div>
             </ContentEntry>
-            <ContentEntry fallbackMessage="Unable to render Accounts" renderFallback={accounts.length <= 1} label="Accounts">
+            <ContentEntry fallbackMessage="Unable to render Accounts" renderFallback={accounts.length < 1} label="Accounts">
                 <div className="grid grid-cols-2 gap-2">
                     {accounts.map(async function (account) {
 

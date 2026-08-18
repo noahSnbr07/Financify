@@ -7,6 +7,7 @@ async function QuickAccess() {
         { id: 1, name: "New Account", href: "/accounts/new" },
         { id: 2, name: "New Category", href: "/categories/new" },
         { id: 3, name: "Transaction History", href: "/transactions/history" },
+        { id: 4, name: "Manage Categories", href: "/categories/manage" },
     ];
 
     return (

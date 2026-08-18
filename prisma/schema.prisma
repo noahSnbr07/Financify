@@ -23,6 +23,7 @@ model User {
   categories   Category[]
   logs         Log[]
   transactions Transaction[]
+  reports      Report[]
 }
 
 model Transaction {
@@ -74,6 +75,20 @@ model Log {
   user    User     @relation(fields: [userId], references: [id])
 
   @@index([type])
+}
+
+model Report {
+  //base
+  id      String   @id @unique @default(uuid())
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+
+  //props
+  filename String
+
+  //relations 
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 enum LogType {

@@ -1,4 +1,5 @@
 import { SVGIcon } from "@/src/assets";
+import { getAuth } from "@/src/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +9,8 @@ interface _props {
 }
 
 async function Screen({ children, label }: _props) {
+
+    const auth = await getAuth();
 
     return (
         <div className="flex flex-col size-full min-h-dvh">
@@ -20,15 +23,14 @@ async function Screen({ children, label }: _props) {
                     alt="Logo"
                     title="Financify" />
                 <b> {label} </b>
-                <Profile imageHref="" name="user" />
+                <Profile imageHref={`/api/resource/avatar/${auth?.avatar || "error.png"}`} name="user" />
             </header>
 
-            <main className="flex-1 min-h-0 overflow-y-auto p-4 gap-4 flex flex-col xl:grid grid-cols-2">
+            <main className="flex-1 min-h-0 overflow-auto p-4 gap-4 flex flex-col xl:grid grid-cols-2">
                 {children}
             </main>
         </div>
     );
-
 }
 
 export default Screen;

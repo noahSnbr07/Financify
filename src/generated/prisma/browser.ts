@@ -42,3 +42,8 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type Log = Prisma.LogModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel

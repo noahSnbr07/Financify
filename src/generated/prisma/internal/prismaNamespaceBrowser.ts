@@ -55,7 +55,8 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Log: 'Log'
+  Log: 'Log',
+  Report: 'Report'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -137,6 +138,17 @@ export const LogScalarFieldEnum = {
 export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
 
 
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  filename: 'filename',
+  userId: 'userId'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -151,4 +163,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

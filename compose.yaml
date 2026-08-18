@@ -28,6 +28,14 @@ services:
       - ollama_data:/root/.ollama
     command: serve
 
+  cloudflared:
+    container_name: Cloudflared
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://server:3000
+    depends_on:
+      - server
+
 volumes:
   postgres_data:
     name: "Postgres"

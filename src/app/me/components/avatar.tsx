@@ -18,7 +18,7 @@ export default function Avatar({ avatarHref, alt, name }: _props) {
                 width={32}
                 height={32}
                 className="bg-stack rounded-full"
-                src={`/api/avatar/${avatarHref}` || "error.png"}
+                src={`/api/resource/avatar/${avatarHref}` || "error.png"}
                 alt={alt}
                 title={alt} />
             <b> {name} </b>

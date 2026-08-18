@@ -1,8 +1,9 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { Avatar, LogoutButton, MemberSince, UUIDDisplay } from "./components";
+import { Avatar, LogoutButton, MemberSince, QRCode, UUIDDisplay } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
+import { NextRequest } from "next/server";
 
 async function page() {
 
@@ -25,10 +26,14 @@ async function page() {
                 created={auth.created} />
             <UUIDDisplay
                 id={auth.id} />
+            <Link
+                className="bg-stack py-2 text-center rounded-lg"
+                href={"/reports"}> Reports </Link>
             <LogoutButton />
             <Link
                 href={"/dashboard"}
                 className="underline text-foreground/50 text-center"> Go To Dashboard </Link>
+            <QRCode />
         </>
     );
 }

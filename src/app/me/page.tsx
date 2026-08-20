@@ -3,7 +3,6 @@ import { Avatar, LogoutButton, MemberSince, QRCode, UUIDDisplay } from "./compon
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
-import { NextRequest } from "next/server";
 
 async function page() {
 

@@ -1,4 +1,4 @@
-import { Screen } from "@/src/global/components";
+import Screen from "@/src/global/components/server/screen";
 import { CategoriesDestroyList, Links } from "../components";
 import { database } from "@/src/configuration";
 import { getAuth } from "@/src/server";

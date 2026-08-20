@@ -14,3 +14,5 @@ backups/*
 .todo
 
 prisma/migrations/*
+data/avatars/*
+data/backups/*

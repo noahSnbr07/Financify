@@ -15,6 +15,7 @@ export interface ParsedExtendedTransaction extends Omit<Transaction, "value"> {
     value: number;
 }
 
+
 export interface ParsedExtendedCategory extends Category {
     volume: number | null;
 }

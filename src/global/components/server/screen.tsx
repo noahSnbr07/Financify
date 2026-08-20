@@ -1,7 +1,7 @@
-import { SVGIcon } from "@/src/assets";
 import { getAuth } from "@/src/server";
 import Image from "next/image";
 import Link from "next/link";
+import { PrivacyDigitsTogglerButton } from "..";
 
 interface _props {
     label: string;
@@ -16,14 +16,9 @@ async function Screen({ children, label }: _props) {
         <div className="flex flex-col size-full min-h-dvh">
 
             <header className="flex gap-4 p-4 items-center border-b-2 justify-between border-foreground/50">
-                <Image
-                    src={SVGIcon}
-                    height={32}
-                    width={32}
-                    alt="Logo"
-                    title="Financify" />
+                <PrivacyDigitsTogglerButton />
                 <b> {label} </b>
-                <Profile imageHref={`/api/resource/avatar/${auth?.avatar || "error.png"}`} name="user" />
+                <Profile imageHref={`/api/resource/avatar/${auth?.avatar || "error.png"}`} name={auth?.name || "default"} />
             </header>
 
             <main className="flex-1 min-h-0 overflow-auto p-4 gap-4 flex flex-col xl:grid grid-cols-2">

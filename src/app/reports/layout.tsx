@@ -1,4 +1,4 @@
-import { Screen } from "@/src/global/components";
+import Screen from "@/src/global/components/server/screen";
 import React from "react";
 
 interface _props {

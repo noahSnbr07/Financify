@@ -1,7 +1,8 @@
-import { Screen } from "@/src/global/components";
+import Screen from "@/src/global/components/server/screen";
 import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
 import { getAuth, getDashboardData, getTotalAccountVolume } from "@/src/server";
 import { redirect } from "next/navigation";
+import { Digits } from "@/src/global/components";
 
 interface _props {
     searchParams: Promise<{ range?: number }>;
@@ -44,7 +45,7 @@ async function page({ searchParams }: _props) {
                                 <b
                                     className="w-20 text-center h-min rounded-full border-2"
                                     style={{ borderColor: !transaction.received ? "#bf2f2f" : "#3bbf2f" }}>
-                                    ${transaction.value.toFixed(2)}
+                                    <Digits value={transaction.value.toFixed(2)} />
                                 </b>
                             </div>
                         )
@@ -63,7 +64,7 @@ async function page({ searchParams }: _props) {
                                 key={account.id}
                                 className="border-2 border-stack p-2 flex justify-between gap-2 rounded-md">
                                 <i> {account.name} </i>
-                                <b> ${volume} </b>
+                                <b> <Digits value={volume} /> </b>
                             </div>
                         )
                     })}

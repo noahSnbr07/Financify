@@ -2,6 +2,8 @@
 
 import { PieChart, ResponsiveContainer, } from "recharts";
 import { Pie } from "recharts";
+import { ParsedExtendedCategory } from "@/src/server/get-dashboard-data";
+import { Digits } from "@/src/global/components";
 
 type ChartDataType = {
     color: string;
@@ -10,15 +12,7 @@ type ChartDataType = {
 }
 
 interface _props {
-    categories: {
-        volume: number | null;
-        color: string;
-        name: string;
-        id: string;
-        created: Date;
-        updated: Date;
-        userId: string;
-    }[];
+    categories: ParsedExtendedCategory[];
 }
 
 export default function CategoriesChart({ categories }: _props) {
@@ -72,7 +66,7 @@ function CustomLegend({ categories }: CustomLegendProps) {
                             <div style={{ background: `${category.color}` }} className="size-4 rounded-sm"></div>
                             <p> {category.label} </p>
                         </div>
-                        <b> {category.value.toFixed(2)} </b>
+                        <b> <Digits value={category.value} /> </b>
                     </div>
                 );
             })}

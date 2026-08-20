@@ -1,5 +1,6 @@
 'use client';
 
+import Digits from "@/src/global/components/client/digits";
 import Link from "next/link";
 
 interface _props {
@@ -46,7 +47,7 @@ export default function TransactionHistory({ transactions }: _props) {
                                         <i className="text-sm"> {transaction.category.name} </i>
                                     </div>
                                 </div>
-                                <b className="bg-stack p-2 rounded-sm w-1/3 text-end text-lg"> ${transaction.value} </b>
+                                <b className="bg-stack p-2 rounded-sm w-1/3 text-end text-lg"> <Digits value={transaction.value} /> </b>
                             </div>
                         </div>
                     );

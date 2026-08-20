@@ -1,4 +1,4 @@
-import { Screen } from "@/src/global/components";
+import Screen from "@/src/global/components/server/screen";
 
 interface _props {
     children: React.ReactNode;

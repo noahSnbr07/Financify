@@ -1,6 +1,7 @@
-import Screen from "./screen";
+import PrivacyDigitsTogglerButton from "./client/privacy-digits-toggler-button";
+import Digits from "./client/digits";
 
 export {
-    Screen,
-
+    Digits,
+    PrivacyDigitsTogglerButton,
 }

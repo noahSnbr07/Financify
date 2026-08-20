@@ -2,6 +2,8 @@ import "./globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import { PrivacyDigitToggler } from "../context";
+import { ToastContainer } from "react-toastify";
+import { toastConfiguration } from "../configuration";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,14 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <PrivacyDigitToggler>
-          {children}
-        </PrivacyDigitToggler>
-      </body>
-    </html>
+    <>
+      <ToastContainer {...toastConfiguration} />
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <PrivacyDigitToggler>
+            {children}
+          </PrivacyDigitToggler>
+        </body>
+      </html>
+    </>
   );
 }

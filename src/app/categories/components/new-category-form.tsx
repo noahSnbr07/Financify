@@ -7,6 +7,7 @@ import ColorPicker from "./color-picker";
 import { useRouter } from "next/navigation";
 import { APIResponse } from "@/src/interfaces";
 import { MessageCircleWarningIcon } from "lucide-react";
+import { toast } from "react-toastify";
 
 export interface NewCategoryProps {
     name: string;
@@ -32,14 +33,19 @@ export default function NewCategoryForm() {
         try {
             const response = await fetch("/api/category/create", { method: "POST", body: JSON.stringify(newCategory) });
             const data: APIResponse<null> = await response.json();
+            toast("Category has been created", { type: "success" });
 
-            if (!response.ok || !data.success) setMessage("Client Error Occurred");
+            if (!response.ok || !data.success) {
+                setMessage("Client Error Occurred");
+                toast("Category could not be created", { type: "error" });
+            }
 
             router.push("/dashboard");
 
         } catch (error) {
             console.error(error);
             setMessage("An unexpected Error Occurred");
+            toast("Category could not be created", { type: "error" });
         } finally {
             setPending(false);
         }

@@ -7,6 +7,7 @@ import { APIResponse } from "@/src/interfaces";
 import { useRouter } from "next/navigation";
 import { MessageCircleWarningIcon } from "lucide-react";
 import { colors } from "@/src/assets";
+import { toast } from "react-toastify";
 
 export interface NewAccountProps {
     color: string;
@@ -31,14 +32,19 @@ export default function NewTransactionForm() {
         try {
             const response = await fetch("/api/account/create", { method: "POST", body: JSON.stringify(newAccount) });
             const data: APIResponse<null> = await response.json();
+            toast("Account has been created", { type: "success" });
 
-            if (!response.ok || !data.success) setMessage("Client Error Occurred");
+            if (!response.ok || !data.success) {
+                setMessage("Client Error Occurred");
+                toast("Account could not be created", { type: "error" });
+            }
 
             router.push("/dashboard");
 
         } catch (error) {
             console.error(error);
             setMessage("An unexpected Error Occurred");
+            toast("Account could not be created", { type: "error" });
         } finally {
             setPending(false);
         }

@@ -4,6 +4,7 @@ import { Account, Category } from "@/src/generated/prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 interface CreateTransactionShape {
     value: number;
@@ -38,9 +39,11 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
         try {
 
             await fetch("/api/transaction/create", { method: "POST", body: JSON.stringify(transaction) });
+            toast("Transaction created successfully", { type: "success" });
 
         } catch (error) {
             console.log(error);
+            toast("Transaction could not be generated", { type: "error" });
         } finally {
             setPending(false);
             router.push("/dashboard")

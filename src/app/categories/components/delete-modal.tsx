@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
+import { toast } from "react-toastify";
 
 interface _props {
     categoryId: string;
@@ -17,12 +18,18 @@ export default function DeleteModal({ categoryId, setModal, setPickedCategoryId 
     async function deleteCategory(categoryId: string): Promise<void> {
         setPending(true);
 
-        const requestBody = JSON.stringify({ categoryId });
-        await fetch(`/api/category/delete`, { body: requestBody, method: "POST" });
-
-        setPickedCategoryId("");
-        setPending(false);
-        setModal(false);
+        try {
+            const requestBody = JSON.stringify({ categoryId });
+            await fetch(`/api/category/delete`, { body: requestBody, method: "POST" });
+            toast("Category has been deleted", { type: "success" });
+        } catch (error) {
+            console.error(error);
+            toast("Category could not be deleted", { type: "error" });
+        } finally {
+            setPickedCategoryId("");
+            setPending(false);
+            setModal(false);
+        }
         router.refresh();
     }
 

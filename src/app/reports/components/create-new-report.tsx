@@ -3,6 +3,7 @@
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CreateNewReport() {
 
@@ -19,9 +20,11 @@ export default function CreateNewReport() {
             await fetch(url, options);
         } catch (error) {
             console.error(error);
+            toast("Your report could not be generated", { type: "error" });
         } finally {
             setPending(false);
             router.refresh();
+            toast("Your report has been generated", { type: "success" });
         }
     }
 

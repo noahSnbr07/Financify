@@ -43,7 +43,7 @@ export default function DeleteModal({ categoryId, setModal, setPickedCategoryId 
             style={{
                 backgroundColor: "rgba(0, 0, 0, .5)",
             }}
-            className="absolute h-full w-full px-8 z-10 grid place-content-center"
+            className="fixed h-full w-full px-8 z-10 grid place-content-center"
         >
             <div className="bg-stack flex flex-col items-center gap-4 p-4 rounded-xl">
                 <p> Deleting this Category will also forcefully remove its attached Transactions. </p>

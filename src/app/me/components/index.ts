@@ -3,6 +3,7 @@ import LogoutButton from "./logout-button";
 import MemberSince from "./member-since";
 import UUIDDisplay from "./uuid-display";
 import QRCode from "./qr-code";
+import WipeDataButton from "./wipe-data-button";
 
 export {
     Avatar,
@@ -10,4 +11,5 @@ export {
     MemberSince,
     UUIDDisplay,
     QRCode,
+    WipeDataButton,
 }

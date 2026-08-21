@@ -7,5 +7,8 @@
 * Install Dependencies
 > `npm install`
 
-* Run Containers, Pull Ollama Model, Restart
+* Run Containers, Pull Ollama Model, Restart (deprecated)
 > `docker compose up --build -d && docker exec -it Ollama ollama pull gemma:2b && docker compose down && docker compose up -d`
+
+* Run Application
+> `podman compose up --build -d`

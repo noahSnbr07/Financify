@@ -1,7 +1,7 @@
 import { getAuth } from "@/src/server";
 import Image from "next/image";
 import Link from "next/link";
-import { PrivacyDigitsTogglerButton } from "..";
+import PrivacyDigitsTogglerButton from "../client/privacy-digits-toggler-button";
 
 interface _props {
     label: string;

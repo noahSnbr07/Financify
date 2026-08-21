@@ -5,6 +5,7 @@ import getTotalAccountVolume from "./get-total-account-volume";
 import getUserDatabaseStats from "./get-user-database-stats";
 import getDashboardData from "./get-dashboard-data";
 import getOllamaHost from "./get-ollama-host";
+import wipeData from "./wipe-data";
 
 export {
     databaseLog,
@@ -13,5 +14,6 @@ export {
     getTotalAccountVolume,
     getUserDatabaseStats,
     getDashboardData,
-    getOllamaHost
+    getOllamaHost,
+    wipeData,
 }

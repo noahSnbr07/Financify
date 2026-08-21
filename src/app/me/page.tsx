@@ -1,5 +1,5 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { Avatar, LogoutButton, MemberSince, QRCode, UUIDDisplay } from "./components";
+import { Avatar, LogoutButton, MemberSince, QRCode, UUIDDisplay, WipeDataButton } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
@@ -33,6 +33,7 @@ async function page() {
                 href={"/dashboard"}
                 className="underline text-foreground/50 text-center"> Go To Dashboard </Link>
             <QRCode />
+            <WipeDataButton />
         </>
     );
 }

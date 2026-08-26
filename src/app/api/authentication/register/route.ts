@@ -1,10 +1,10 @@
 import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
-import { databaseLog } from '@/src/server';
+import { apiResponsePresets } from '@/src/static';
 import { hash } from 'bcrypt';
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse<null>>> {
+export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
     const { name, password }: { name: string; password: string; } = await _request.json();
 
@@ -13,46 +13,25 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         password && password.trim().length > 1
     );
 
-    if (!valid) return NextResponse.json({
-        data: null,
-        message: "Invalid Form Inputs",
-        status: 400,
-        success: false
-    });
+    if (!valid) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Name and password must be at least 4 characters." }));
 
     try {
 
         const targetUser = await database.user.findUnique({ where: { name } });
-        if (targetUser) return NextResponse.json({
-            data: null,
-            message: "Username Reserved",
-            status: 400,
-            success: false,
-        });
+        if (targetUser) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Username reserved." }));
 
         const hashedPassword = await hash(password, 4);
 
-        const newUser = await database.user.create({
-            data: { name, hash: hashedPassword, avatar: "default.png" }
+        await database.user.create({
+            data: { name, hash: hashedPassword, avatar: "default.png", budget: 100 }
         });
 
-        await databaseLog({ type: "Authentication", userId: newUser.id, message: "Account Created" });
-
-        return NextResponse.json({
-            data: null,
-            message: "Account Created",
-            status: 200,
-            success: true,
-        });
+        return NextResponse.json(apiResponsePresets.CREATED({ message: "User created." }));
 
     } catch (error) {
         console.error(error);
-        await databaseLog({ type: "Authentication", userId: "<no id>", message: "Registration Failed" });
-        return NextResponse.json({
-            data: null,
-            message: "Uncaught Error",
-            status: 500,
-            success: false,
-        });
+
+        if (error instanceof Error) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: error.message }));
+        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error." }))
     }
 }

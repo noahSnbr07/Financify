@@ -5,6 +5,7 @@ import { getAuth, getOllamaHost } from '@/src/server';
 import { NextResponse, NextRequest } from 'next/server';
 import { prompts } from '@/src/assets';
 import { database } from '@/src/configuration';
+import { apiResponsePresets } from '@/src/static';
 
 type ParsedTransactions = {
     name: string;
@@ -14,15 +15,10 @@ type ParsedTransactions = {
     date: string;
 }[];
 
-export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse<string>>> {
+export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
     const auth = await getAuth();
-    if (!auth) return NextResponse.json({
-        data: "unauthorized to access resource",
-        message: "authorization failed",
-        status: 400,
-        success: false
-    });
+    if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
 
     try {
         const transactions = await database.transaction.findMany({
@@ -65,18 +61,10 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             ],
         });
 
-        return NextResponse.json({
-            data: response.message.content,
-            message: "Successfully prompted AI",
-            status: 200,
-            success: true,
-        });
+        return NextResponse.json(apiResponsePresets.OK({ message: response.message.content }));
     } catch (error) {
-        return NextResponse.json({
-            data: error instanceof Error ? error.message : "null",
-            message: "Uncaught Server Error",
-            status: 500,
-            success: false,
-        })
+        console.error(error)
+        if (error instanceof Error) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: error.message }));
+        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error" }))
     }
 }

@@ -1,17 +1,13 @@
 import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
-import { databaseLog, getAuth } from '@/src/server';
+import { getAuth } from '@/src/server';
+import { apiResponsePresets } from '@/src/static';
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse<null>>> {
+export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
     const auth = await getAuth();
-    if (!auth) return NextResponse.json({
-        data: null,
-        message: "Authentication failed",
-        status: 403,
-        success: false,
-    });
+    if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
 
     const { color, name }: { color: string; name: string; } = await _request.json();
 
@@ -20,12 +16,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         name && name.trim().length > 0
     );
 
-    if (!validRequestBody) return NextResponse.json({
-        data: null,
-        message: "Invalid Form Body",
-        status: 400,
-        success: false
-    });
+    if (!validRequestBody) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Color or name invalid." }));
 
     try {
         const newAccount = await database.account.create({
@@ -36,30 +27,14 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             }
         });
 
-        if (!newAccount) return NextResponse.json({
-            data: null,
-            message: "Operation failed",
-            status: 500,
-            success: false
-        })
+        if (!newAccount) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Account could not be created." }))
 
-        return NextResponse.json({
-            data: null,
-            message: "Account Created",
-            status: 200,
-            success: true,
-        })
+        return NextResponse.json(apiResponsePresets.CREATED({ message: "Account has been created" }))
 
     } catch (error) {
 
         console.error(error);
-        await databaseLog({ type: "Error", userId: auth.id, message: "Couldn't INSERT Account" })
-
-        return NextResponse.json({
-            data: null,
-            message: "Uncaught Error occurred",
-            status: 500,
-            success: true,
-        });
+        if (error instanceof Error) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: error.message }));
+        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error" }))
     }
 }

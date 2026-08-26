@@ -3,6 +3,7 @@ interface User {
     id: string;
     created: Date;
     updated: Date;
+    budget: number;
     avatar: string;
     iat: number;
     exp: number;

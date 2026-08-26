@@ -31,7 +31,7 @@ export default function NewTransactionForm() {
 
         try {
             const response = await fetch("/api/account/create", { method: "POST", body: JSON.stringify(newAccount) });
-            const data: APIResponse<null> = await response.json();
+            const data: APIResponse = await response.json();
             toast("Account has been created", { type: "success" });
 
             if (!response.ok || !data.success) {

@@ -8,7 +8,7 @@ export default function Statistics({ totalAccounts, totalCategories, totalTransa
 
 
     return (
-        <div className="bg-stack rounded-md p-4 flex justify-evenly">
+        <div className="bg-stack rounded-lg p-4 flex justify-evenly">
             <StatisticEntry label="Accounts" value={totalAccounts} />
             <StatisticEntry label="Categories" value={totalCategories} />
             <StatisticEntry label="Transactions" value={totalTransactions} />

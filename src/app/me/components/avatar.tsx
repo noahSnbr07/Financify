@@ -15,13 +15,13 @@ export default function Avatar({ avatarHref, alt, name }: _props) {
             className="flex gap-4 items-center w-full bg-stack rounded-lg p-4"
         >
             <Image
-                width={32}
-                height={32}
+                width={64}
+                height={64}
                 className="bg-stack rounded-full"
-                src={`/api/resource/avatar/${avatarHref}` || "error.png"}
+                src={`/api/resource/avatar/${avatarHref}` || "default.png"}
                 alt={alt}
                 title={alt} />
-            <b> {name} </b>
+            <b className="text-xl"> {name} </b>
         </div>
     );
 }

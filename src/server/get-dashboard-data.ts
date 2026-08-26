@@ -1,7 +1,9 @@
 import { database } from "../configuration";
 import { Account, Category, Transaction } from "../generated/prisma/client";
 import { TransactionWhereInput } from "../generated/prisma/models";
+import getAccountVolumes from "./get-account-volumes";
 import getAuth from "./get-auth";
+import getBudget from "./get-budget";
 import getCategoryVolume from "./get-category-volume";
 import getTotalBalance from "./get-total-balance";
 
@@ -15,16 +17,22 @@ export interface ParsedExtendedTransaction extends Omit<Transaction, "value"> {
     value: number;
 }
 
+export interface ParsedAccount extends Omit<Account, "created" | "updated" | "userId"> {
+    negativeSum: number;
+    positiveSum: number;
+}
+
 
 export interface ParsedExtendedCategory extends Category {
     volume: number | null;
 }
 
 interface GetDashboardDataProps {
+    totalBalance: number;
+    budgetExceeded: number;
     transactions: ParsedExtendedTransaction[];
     categories: ParsedExtendedCategory[];
-    totalBalance: number;
-    accounts: Account[];
+    accounts: ParsedAccount[];
 }
 
 async function getDashboardData({ range }: _props): Promise<GetDashboardDataProps> {
@@ -36,6 +44,7 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
         transactions: [],
         accounts: [],
         totalBalance: 0,
+        budgetExceeded: 0,
     };
 
     const transactionFilter: TransactionWhereInput = {
@@ -51,7 +60,20 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
         };
     }
 
-    const [transactions, categories, accounts] = await Promise.all([
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const budget = await getBudget();
+
+    type TransactionWithRelations = Transaction & {
+        account: { name: string; };
+        category: { name: string; };
+    };
+
+    type expectedData = [TransactionWithRelations[], Category[], Account[], Transaction[]]
+
+    const [transactions, categories, accounts, transactionsThisMonth]: expectedData = await Promise.all([
 
         database.transaction.findMany({
             where: transactionFilter,
@@ -79,7 +101,35 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
                 },
             },
         }),
+
+        database.transaction.findMany({
+            where: {
+                userId: auth.id,
+                created: {
+                    gte: startOfMonth,
+                    lt: startOfNextMonth
+                }
+            }
+        })
+
     ]);
+
+    const parsedAccounts: ParsedAccount[] = await Promise.all(accounts.map(async (account) => {
+
+        const sums = await getAccountVolumes({ accountId: account.id });
+
+        return {
+            ...account,
+            negativeSum: sums.negativeSum,
+            positiveSum: sums.positiveSum,
+        }
+    }))
+
+    const monthlyTotal = transactionsThisMonth
+        .filter((t) => !t.received)
+        .reduce((accumulator, currentValue) => accumulator + currentValue.value.toNumber(), 0);
+
+    const budgetExceededInPercentage = Number(((monthlyTotal / budget) * 100).toFixed(2));
 
     const parsedTransactions = transactions.map(function (transaction) {
         return { ...transaction, value: transaction.value.toNumber() }
@@ -92,11 +142,13 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
     );
 
     const totalBalance = await getTotalBalance({ where: transactionFilter });
+
     return {
         categories: parsedCategories,
         transactions: parsedTransactions,
         totalBalance: totalBalance,
-        accounts: accounts,
+        accounts: parsedAccounts,
+        budgetExceeded: budgetExceededInPercentage,
     }
 }
 

@@ -13,9 +13,9 @@ export default function LogoutButton() {
 
         try {
             const response = await fetch("/api/authentication/logout", { method: "POST" });
-            const data: APIResponse<null> = await response.json();
+            const data: APIResponse = await response.json();
 
-            if (response.ok && data.success) router.push("/");
+            if (response.ok && data.success) router.push("/authentication");
         } catch (error) {
             console.error(error);
         }
@@ -24,7 +24,7 @@ export default function LogoutButton() {
     return (
         <button
             onClick={logout}
-            className="flex gap-4 p-4 bg-foreground text-background justify-center items-center font-bold rounded-md">
+            className="flex gap-4 p-4 bg-foreground text-background justify-center items-center font-bold rounded-lg">
             <LogOutIcon size={20} color="var(--background)" strokeWidth={2} />
             <p> Logout </p>
         </button>

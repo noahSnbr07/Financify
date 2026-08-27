@@ -16,9 +16,6 @@ backups/*
 prisma/migrations/*
 data/avatars/*
 data/backups/*
-<<<<<<< HEAD
 
 notes/*
-=======
-notes/
->>>>>>> origin/main
+generated/

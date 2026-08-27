@@ -139,23 +139,6 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
-export type EnumLogTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.LogType | Prisma.EnumLogTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumLogTypeFilter<$PrismaModel> | $Enums.LogType
-}
-
-export type EnumLogTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.LogType | Prisma.EnumLogTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.LogType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumLogTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumLogTypeFilter<$PrismaModel>
-}
-
 export type StringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -326,23 +309,6 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
-}
-
-export type NestedEnumLogTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.LogType | Prisma.EnumLogTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumLogTypeFilter<$PrismaModel> | $Enums.LogType
-}
-
-export type NestedEnumLogTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.LogType | Prisma.EnumLogTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.LogType[] | Prisma.ListEnumLogTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumLogTypeWithAggregatesFilter<$PrismaModel> | $Enums.LogType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumLogTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumLogTypeFilter<$PrismaModel>
 }
 
 export type NestedStringNullableFilter<$PrismaModel = never> = {

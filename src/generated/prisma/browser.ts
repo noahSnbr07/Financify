@@ -38,11 +38,6 @@ export type Account = Prisma.AccountModel
  */
 export type Category = Prisma.CategoryModel
 /**
- * Model Log
- * 
- */
-export type Log = Prisma.LogModel
-/**
  * Model Report
  * 
  */

@@ -55,7 +55,6 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Log: 'Log',
   Report: 'Report'
 } as const
 
@@ -125,18 +124,6 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
-
-
-export const LogScalarFieldEnum = {
-  id: 'id',
-  created: 'created',
-  updated: 'updated',
-  type: 'type',
-  message: 'message',
-  userId: 'userId'
-} as const
-
-export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
 
 
 export const ReportScalarFieldEnum = {

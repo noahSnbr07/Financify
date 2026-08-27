@@ -22,7 +22,6 @@ model User {
   budget       Float
   accounts     Account[]
   categories   Category[]
-  logs         Log[]
   transactions Transaction[]
   reports      Report[]
 }
@@ -64,18 +63,6 @@ model Category {
   userId       String
   user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
-}
-
-model Log {
-  id      String   @id @unique @default(uuid())
-  created DateTime @default(now())
-  updated DateTime @updatedAt
-  type    LogType
-  message String
-  userId  String
-  user    User     @relation(fields: [userId], references: [id])
-
-  @@index([type])
 }
 
 model Report {

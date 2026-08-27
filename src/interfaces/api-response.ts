@@ -1,8 +1,7 @@
-interface APIResponse<DataType> {
+interface APIResponse {
     status: number;
     success: boolean;
     message: string;
-    data: DataType;
 }
 
 export default APIResponse;

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 async function page() {
 
     const auth = await getAuth();
-    if (!auth) redirect("/");
+    if (!auth) redirect("/authentication");
 
     const userConfig = { where: { user: { id: auth.id } } }
 

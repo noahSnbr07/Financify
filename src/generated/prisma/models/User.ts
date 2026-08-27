@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  budget: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  budget: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -31,6 +41,7 @@ export type UserMinAggregateOutputType = {
   name: string | null
   avatar: string | null
   hash: string | null
+  budget: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -40,6 +51,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   avatar: string | null
   hash: string | null
+  budget: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -49,9 +61,18 @@ export type UserCountAggregateOutputType = {
   name: number
   avatar: number
   hash: number
+  budget: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  budget?: true
+}
+
+export type UserSumAggregateInputType = {
+  budget?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -60,6 +81,7 @@ export type UserMinAggregateInputType = {
   name?: true
   avatar?: true
   hash?: true
+  budget?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -69,6 +91,7 @@ export type UserMaxAggregateInputType = {
   name?: true
   avatar?: true
   hash?: true
+  budget?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -78,6 +101,7 @@ export type UserCountAggregateInputType = {
   name?: true
   avatar?: true
   hash?: true
+  budget?: true
   _all?: true
 }
 
@@ -119,6 +143,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -149,6 +185,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -160,7 +198,10 @@ export type UserGroupByOutputType = {
   name: string
   avatar: string
   hash: string
+  budget: number
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -190,6 +231,7 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   avatar?: Prisma.StringFilter<"User"> | string
   hash?: Prisma.StringFilter<"User"> | string
+  budget?: Prisma.FloatFilter<"User"> | number
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   logs?: Prisma.LogListRelationFilter
@@ -204,6 +246,7 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   logs?: Prisma.LogOrderByRelationAggregateInput
@@ -221,6 +264,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updated?: Prisma.DateTimeFilter<"User"> | Date | string
   avatar?: Prisma.StringFilter<"User"> | string
   hash?: Prisma.StringFilter<"User"> | string
+  budget?: Prisma.FloatFilter<"User"> | number
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   logs?: Prisma.LogListRelationFilter
@@ -235,9 +279,12 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -250,6 +297,7 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   avatar?: Prisma.StringWithAggregatesFilter<"User"> | string
   hash?: Prisma.StringWithAggregatesFilter<"User"> | string
+  budget?: Prisma.FloatWithAggregatesFilter<"User"> | number
 }
 
 export type UserCreateInput = {
@@ -259,6 +307,7 @@ export type UserCreateInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   logs?: Prisma.LogCreateNestedManyWithoutUserInput
@@ -273,6 +322,7 @@ export type UserUncheckedCreateInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
@@ -287,6 +337,7 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUpdateManyWithoutUserNestedInput
@@ -301,6 +352,7 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
@@ -315,6 +367,7 @@ export type UserCreateManyInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
 }
 
 export type UserUpdateManyMutationInput = {
@@ -324,6 +377,7 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -333,6 +387,7 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -342,6 +397,11 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  budget?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -351,6 +411,7 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -360,6 +421,11 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
+  budget?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  budget?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -378,6 +444,14 @@ export type StringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserCreateNestedOneWithoutTransactionsInput = {
@@ -459,6 +533,7 @@ export type UserCreateWithoutTransactionsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   logs?: Prisma.LogCreateNestedManyWithoutUserInput
@@ -472,6 +547,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
@@ -501,6 +577,7 @@ export type UserUpdateWithoutTransactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUpdateManyWithoutUserNestedInput
@@ -514,6 +591,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
@@ -527,6 +605,7 @@ export type UserCreateWithoutAccountsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   logs?: Prisma.LogCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -540,6 +619,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -569,6 +649,7 @@ export type UserUpdateWithoutAccountsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -582,6 +663,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -595,6 +677,7 @@ export type UserCreateWithoutCategoriesInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   logs?: Prisma.LogCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -608,6 +691,7 @@ export type UserUncheckedCreateWithoutCategoriesInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -637,6 +721,7 @@ export type UserUpdateWithoutCategoriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -650,6 +735,7 @@ export type UserUncheckedUpdateWithoutCategoriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -663,6 +749,7 @@ export type UserCreateWithoutLogsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -676,6 +763,7 @@ export type UserUncheckedCreateWithoutLogsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -705,6 +793,7 @@ export type UserUpdateWithoutLogsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -718,6 +807,7 @@ export type UserUncheckedUpdateWithoutLogsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -731,6 +821,7 @@ export type UserCreateWithoutReportsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   logs?: Prisma.LogCreateNestedManyWithoutUserInput
@@ -744,6 +835,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   name: string
   avatar: string
   hash: string
+  budget: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
@@ -773,6 +865,7 @@ export type UserUpdateWithoutReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUpdateManyWithoutUserNestedInput
@@ -786,6 +879,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
@@ -866,6 +960,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   avatar?: boolean
   hash?: boolean
+  budget?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   logs?: boolean | Prisma.User$logsArgs<ExtArgs>
@@ -881,6 +976,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   avatar?: boolean
   hash?: boolean
+  budget?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -890,6 +986,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   avatar?: boolean
   hash?: boolean
+  budget?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -899,9 +996,10 @@ export type UserSelectScalar = {
   name?: boolean
   avatar?: boolean
   hash?: boolean
+  budget?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created" | "updated" | "name" | "avatar" | "hash", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created" | "updated" | "name" | "avatar" | "hash" | "budget", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
@@ -929,6 +1027,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     avatar: string
     hash: string
+    budget: number
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1363,6 +1462,7 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly hash: Prisma.FieldRef<"User", 'String'>
+  readonly budget: Prisma.FieldRef<"User", 'Float'>
 }
     
 

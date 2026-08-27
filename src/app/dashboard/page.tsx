@@ -1,6 +1,6 @@
 import Screen from "@/src/global/components/server/screen";
-import { AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
-import { getAuth, getDashboardData, getTotalAccountVolume } from "@/src/server";
+import { AccountChart, AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
+import { getAuth, getColorForBudgetExceeding, getDashboardData, getTotalAccountVolume } from "@/src/server";
 import { redirect } from "next/navigation";
 import { Digits } from "@/src/global/components";
 
@@ -14,16 +14,18 @@ async function page({ searchParams }: _props) {
     const { range = 0 } = await searchParams;
 
     const auth = await getAuth();
-    if (!auth) redirect("/");
+    if (!auth) redirect("/authentication");
 
-    const { categories, totalBalance, transactions, accounts } = await getDashboardData({ range });
+    const { categories, totalBalance, transactions, accounts, budgetExceeded } = await getDashboardData({ range });
+
+    const color = await getColorForBudgetExceeding({ exceeding: budgetExceeded })
 
     return (
         <Screen label="Dashboard">
             <QuickAccess />
             <DateRangeSelector />
             <ContentEntry index={0} fallbackMessage="Unable to calculate Balance" renderFallback={false} label="Balance">
-                <TotalBalance balance={totalBalance} />
+                <TotalBalance color={color} budgetExceeded={budgetExceeded} balance={totalBalance} />
             </ContentEntry>
             <ContentEntry index={1} fallbackMessage="Unable to generate Balance Chart" renderFallback={transactions.length < 1} label="Balance History">
                 <BalanceChart transactions={transactions} />
@@ -31,7 +33,10 @@ async function page({ searchParams }: _props) {
             <ContentEntry index={2} fallbackMessage="Unable to generate Category Chart" renderFallback={categories.length < 1} label="Category Volume">
                 <CategoriesChart categories={categories} />
             </ContentEntry>
-            <ContentEntry index={3} fallbackMessage="Unable to render Transactions" renderFallback={transactions.length < 1} label="Recent Transactions">
+            <ContentEntry index={3} label="Accounts I/O" renderFallback={accounts.length < 1} fallbackMessage="Unable to render account chart">
+                <AccountChart accounts={accounts} />
+            </ContentEntry>
+            <ContentEntry index={4} fallbackMessage="Unable to render Transactions" renderFallback={transactions.length < 1} label="Recent Transactions">
                 <div className="flex flex-col">
                     {transactions.slice(transactions.length <= 5 ? 0 : transactions.length - 5).reverse().map(function (transaction) {
                         return (
@@ -52,7 +57,7 @@ async function page({ searchParams }: _props) {
                     })}
                 </div>
             </ContentEntry>
-            <ContentEntry index={4} fallbackMessage="Unable to render Accounts" renderFallback={accounts.length < 1} label="Accounts">
+            <ContentEntry index={5} fallbackMessage="Unable to render Accounts" renderFallback={accounts.length < 1} label="Accounts">
                 <div className="grid grid-cols-2 gap-2">
                     {accounts.map(async function (account) {
 
@@ -71,7 +76,7 @@ async function page({ searchParams }: _props) {
                 </div>
             </ContentEntry>
             <ContentEntry
-                index={5}
+                index={6}
                 renderFallback={false}
                 fallbackMessage="Unable to render AI Chat Box"
                 label="AI Chat Integration">

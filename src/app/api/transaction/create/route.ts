@@ -1,6 +1,7 @@
 import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
-import { databaseLog, getAuth } from '@/src/server';
+import { getAuth } from '@/src/server';
+import { apiResponsePresets } from '@/src/static';
 import { NextResponse, NextRequest } from 'next/server';
 
 interface CreateTransactionShape {
@@ -11,13 +12,13 @@ interface CreateTransactionShape {
     spent: boolean;
 }
 
-export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse<null>>> {
+export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
     const rawData: CreateTransactionShape = await _request.json();
     const { account, category, name, spent, value } = rawData;
 
     const auth = await getAuth();
-    if (!auth) return NextResponse.json({ data: null, message: "Authentication failed", status: 403, success: false });
+    if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
 
     try {
         await database.transaction.create({
@@ -37,14 +38,11 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             },
         });
 
-        await databaseLog({ type: "Mutation", message: "Transaction Create", userId: auth.id });
-
-        return NextResponse.json({ data: null, message: "Transaction Created", status: 200, success: true });
+        return NextResponse.json(apiResponsePresets.CREATED({ message: "Transaction created successfully." }));
 
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({
-            data: null, message: "Internal Server Error", status: 500, success: false,
-        });
+        console.error(error);
+        if (error instanceof Error) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: error.message }));
+        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error." }))
     }
 }

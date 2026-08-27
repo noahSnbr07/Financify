@@ -21,7 +21,7 @@ export default function WipeDataButton() {
             const url: string = "/api/authentication/reset";
             const options: RequestInit = { method: "POST", }
             const response = await fetch(url, options);
-            const data: APIResponse<null> = await response.json();
+            const data: APIResponse = await response.json();
 
             if (!response.ok || !data.success || data.status !== 200) throw new Error("Unexpected Server Error");
 

@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 async function page() {
 
     const auth = await getAuth();
-    if (!auth) redirect("/");
+    if (!auth) redirect("/authentication");
 
     const categories = await database.category.findMany({ where: { userId: auth.id } })
 

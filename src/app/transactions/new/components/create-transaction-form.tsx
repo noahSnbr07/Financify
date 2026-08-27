@@ -1,6 +1,8 @@
 'use client';
 
 import { Account, Category } from "@/src/generated/prisma/client";
+import { Warning } from "@/src/global/components";
+import { warnings } from "@/src/static";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -31,6 +33,8 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
 
     const [pending, setPending] = useState<boolean>(false);
     const router = useRouter();
+
+    const buttonBlocked = Boolean(pending || accounts.length < 1 || categories.length < 1);
 
     async function submitForm(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -71,6 +75,9 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
             onSubmit={function (event) { submitForm(event) }}
         >
 
+            {categories.length < 1 && <Warning warning={warnings.NO_CATEGORIES} />}
+            {accounts.length < 1 && <Warning warning={warnings.NO_ACCOUNTS} />}
+
             <input
                 autoFocus
                 className="bg-stack text-center p-4 text-3xl font-bold rounded-lg"
@@ -97,7 +104,7 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
 
             <div className="flex flex-col gap-2 bg-stack rounded-lg px-4 py-2">
                 <i className="text-sm text-foreground/50"> Pick The Associated Account</i>
-                <div className="flex gap-2 overflow-x-auto w-full whitespace-nowrap">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 overflow-x-auto w-full whitespace-nowrap">
                     {accounts.map(function (account) {
                         return (
                             <button
@@ -105,7 +112,7 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                                 style={{ background: selectedAccount === account.id ? "var(--stack)" : "transparent" }}
                                 key={account.id}
                                 type="button"
-                                className="h-12 py-2 rounded-sm bg-stack px-8 border-2 font-bold border-stack">
+                                className="py-2 rounded-sm bg-stack px-8 border-2 font-bold border-stack">
                                 {account.name}
                             </button>
                         );
@@ -130,16 +137,9 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                 </div>
             </div>
 
-            <pre className="bg-stack rounded-lg p-2 flex flex-col gap-2">
-                <i className="opacity-50 text-sm"> Insert Operation Preview </i>
-                <code className="px-2">
-                    {JSON.stringify(transaction, null, 2)}
-                </code>
-            </pre>
-
             <button
-                disabled={pending}
-                style={{ opacity: pending ? .5 : 1 }}
+                disabled={buttonBlocked}
+                style={{ opacity: buttonBlocked ? .5 : 1 }}
                 className="border-4 text-xl border-foreground rounded-lg p-4 font-bold"
                 type="submit"> Submit </button>
             <Link
@@ -159,7 +159,7 @@ interface TransferDirectionTogglerProps {
 
 function TransferDirectionToggler({ spent, updateTransaction }: TransferDirectionTogglerProps) {
 
-    const baseClassName: string = "flex-1 border-2 border-foreground/50 rounded-md p-2";
+    const baseClassName: string = "flex-1 border-2 border-foreground/50 rounded-md py-2";
 
     function updateTransactionTransferDirection(value: boolean): void {
         updateTransaction((previous: CreateTransactionShape) => ({ ...previous, spent: value }));

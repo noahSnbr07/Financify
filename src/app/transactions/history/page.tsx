@@ -3,7 +3,6 @@ import { getAuth } from "@/src/server";
 import { redirect } from "next/navigation";
 import { Sorting, TransactionHistory } from "./components";
 import { SORTING } from "./components/sorting";
-import { constructSortingByParameter } from "./functions";
 
 interface _props {
     searchParams: Promise<Readonly<{ sort: SORTING }>>;
@@ -12,11 +11,9 @@ interface _props {
 async function page({ searchParams }: _props) {
 
     const auth = await getAuth();
-    if (!auth) redirect("/");
+    if (!auth) redirect("/authentication");
 
     const { sort } = await searchParams;
-
-    const ordering = await constructSortingByParameter({ sorting: sort });
 
     const transactions = await database.transaction.findMany({
         where: {
@@ -31,7 +28,6 @@ async function page({ searchParams }: _props) {
                 }
             }
         },
-        orderBy: ordering,
     });
 
     const parsedTransactions = transactions.map(function (transaction) {

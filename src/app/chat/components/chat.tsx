@@ -4,10 +4,22 @@ import { ChangeEvent, useState, useRef, useEffect } from "react";
 import Message, { MessageProps } from "./message";
 import { APIResponse } from "@/src/interfaces";
 import { SendHorizontalIcon, Server } from "lucide-react";
+import Avatar from "./avatar";
 
-export default function Chat() {
+interface _props {
+    initialized: Date;
+}
 
-    const [messages, setMessages] = useState<MessageProps[]>([]);
+export default function Chat({ initialized }: _props) {
+
+    const [messages, setMessages] = useState<MessageProps[]>([
+        {
+            content: "Hello! this is Fluffle - your personal Finance Manager and Advisor. Ask me anything and I will be happy to assist",
+            id: 0,
+            sender: "bot",
+            timeStamp: initialized,
+        }
+    ]);
     const [prompt, setPrompt] = useState<string>("");
     const [pending, setPending] = useState<boolean>(false);
 
@@ -31,16 +43,16 @@ export default function Chat() {
             body: JSON.stringify({ prompt: temporaryPrompt })
         });
 
-        const data: APIResponse<string> = await response.json();
+        const data: APIResponse = await response.json();
 
-        if (data.success && response.ok) {
+        if (response.ok) {
             setMessages(prev => [
                 ...prev,
                 {
-                    content: data.data,
+                    content: data.message,
                     id: Date.now(),
                     sender: "bot",
-                    timeStamp: new Date()
+                    timeStamp: new Date(),
                 }
             ]);
         }
@@ -50,6 +62,7 @@ export default function Chat() {
 
     return (
         <div className="flex flex-1 h-full flex-col gap-4">
+            <Avatar thinking={pending} />
             <div className="flex flex-col gap-4 flex-1 overflow-y-auto">
                 {messages.map((message) => <Message key={message.id} {...message} />)}
                 <div ref={messagesEndRef} />

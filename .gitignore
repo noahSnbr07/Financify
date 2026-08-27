@@ -16,3 +16,5 @@ backups/*
 prisma/migrations/*
 data/avatars/*
 data/backups/*
+
+notes/*

@@ -17,6 +17,7 @@ async function getAuth(token?: string): Promise<User | null> {
         const auth = verify(authToken, secret, { algorithms: ["HS256"] });
         return auth as unknown as User;
     } catch (error) {
+        console.error(error);
         return null;
     }
 }

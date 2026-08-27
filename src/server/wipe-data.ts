@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { database } from "../configuration";
 import getAuth from "./get-auth";
 
@@ -12,9 +13,9 @@ async function wipeData(): Promise<void> {
         database.transaction.deleteMany(selector),
         database.category.deleteMany(selector),
         database.account.deleteMany(selector),
-        database.log.deleteMany(selector),
         database.report.deleteMany(selector),
     ]).catch((error: Error) => {
+        toast(error.message, { type: "error" });
         throw new Error(error.message);
     });
 }

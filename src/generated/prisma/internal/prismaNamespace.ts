@@ -401,7 +401,6 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Log: 'Log',
   Report: 'Report'
 } as const
 
@@ -418,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "transaction" | "account" | "category" | "log" | "report"
+    modelProps: "user" | "transaction" | "account" | "category" | "report"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -718,80 +717,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Log: {
-      payload: Prisma.$LogPayload<ExtArgs>
-      fields: Prisma.LogFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.LogFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.LogFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        findFirst: {
-          args: Prisma.LogFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.LogFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        findMany: {
-          args: Prisma.LogFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>[]
-        }
-        create: {
-          args: Prisma.LogCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        createMany: {
-          args: Prisma.LogCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.LogCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>[]
-        }
-        delete: {
-          args: Prisma.LogDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        update: {
-          args: Prisma.LogUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        deleteMany: {
-          args: Prisma.LogDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.LogUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.LogUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>[]
-        }
-        upsert: {
-          args: Prisma.LogUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LogPayload>
-        }
-        aggregate: {
-          args: Prisma.LogAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateLog>
-        }
-        groupBy: {
-          args: Prisma.LogGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LogGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.LogCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LogCountAggregateOutputType> | number
-        }
-      }
-    }
     Report: {
       payload: Prisma.$ReportPayload<ExtArgs>
       fields: Prisma.ReportFieldRefs
@@ -957,18 +882,6 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
-export const LogScalarFieldEnum = {
-  id: 'id',
-  created: 'created',
-  updated: 'updated',
-  type: 'type',
-  message: 'message',
-  userId: 'userId'
-} as const
-
-export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
-
-
 export const ReportScalarFieldEnum = {
   id: 'id',
   created: 'created',
@@ -1070,20 +983,6 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
- * Reference to a field of type 'LogType'
- */
-export type EnumLogTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogType'>
-    
-
-
-/**
- * Reference to a field of type 'LogType[]'
- */
-export type ListEnumLogTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogType[]'>
     
 
 
@@ -1255,7 +1154,6 @@ export type GlobalOmitConfig = {
   transaction?: Prisma.TransactionOmit
   account?: Prisma.AccountOmit
   category?: Prisma.CategoryOmit
-  log?: Prisma.LogOmit
   report?: Prisma.ReportOmit
 }
 

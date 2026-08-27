@@ -54,6 +54,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         verify(accessToken, process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
         return response;
     } catch (error) {
+        console.error(error);
         // Token expired, try to refresh
         if (!refreshToken) {
             return NextResponse.redirect("/authentication", 308)

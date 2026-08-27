@@ -1,7 +1,12 @@
 'use client';
 
 import Digits from "@/src/global/components/client/digits";
+import { APIResponse } from "@/src/interfaces";
+import { TrashIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface _props {
     transactions: {
@@ -37,17 +42,20 @@ export default function TransactionHistory({ transactions }: _props) {
                             <div
                                 className="flex items-center justify-between">
                                 <div
-                                    className="flex gap-4 items-center"
+                                    className="flex gap-4 items-center flex-1"
                                 >
                                     <CalendarDate
                                         received={transaction.received}
                                         created={transaction.created} />
                                     <div className="flex flex-col gap-1">
                                         <b> {transaction.name} </b>
-                                        <i className="text-sm"> {transaction.category.name} </i>
+                                        <i className="text-sm truncate"> {transaction.category.name} </i>
                                     </div>
                                 </div>
-                                <b className="bg-stack p-2 rounded-sm w-1/3 text-end text-lg"> <Digits value={transaction.value} /> </b>
+                                <div className="w-full max-w-1/3 flex gap-4 bg-stack rounded-sm justify-end items-center p-2">
+                                    <b className="text-lg"> <Digits value={transaction.value} /> </b>
+                                    <DeleteButton transactionId={transaction.id} />
+                                </div>
                             </div>
                         </div>
                     );
@@ -91,4 +99,43 @@ function NewDateAnnouncer({ created }: { created: Date }) {
             <hr className="border-stack border-2 rounded-full flex-1" />
         </div>
     );
+}
+
+function DeleteButton({ transactionId }: { transactionId: string; }) {
+
+    const [pending, setPending] = useState<boolean>(false);
+    const router = useRouter();
+
+    async function deleteTransaction() {
+        if (pending) return;
+        else setPending(true);
+
+        try {
+
+            const url: string = `/api/transaction/delete/${transactionId}`;
+            const options: RequestInit = { method: "POST", }
+
+            const response = await fetch(url, options);
+            if (!response.ok) toast("Uncaught client error.", { type: "error" });
+
+            const data: APIResponse = await response.json();
+            if (!data.success || data.status !== 200) toast(data.message, { type: "error" });
+
+            toast(data.message, { type: "success" });
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setPending(false);
+            router.refresh();
+        }
+    }
+
+    return (
+        <button
+            onClick={deleteTransaction}
+            disabled={pending}
+            style={{ opacity: pending ? .5 : 1 }}
+            className="bg-red-800 p-2 rounded-sm"> <TrashIcon /> </button>
+    )
 }

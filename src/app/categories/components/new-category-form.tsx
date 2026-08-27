@@ -32,7 +32,7 @@ export default function NewCategoryForm() {
 
         try {
             const response = await fetch("/api/category/create", { method: "POST", body: JSON.stringify(newCategory) });
-            const data: APIResponse<null> = await response.json();
+            const data: APIResponse = await response.json();
             toast("Category has been created", { type: "success" });
 
             if (!response.ok || !data.success) {

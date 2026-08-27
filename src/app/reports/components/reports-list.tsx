@@ -10,7 +10,7 @@ export default function ReportsList({ reports }: _props) {
 
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 flex-1 overflow-y-scroll">
             {reports.map((report) => (
                 <Link
                     key={report.id}

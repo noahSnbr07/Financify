@@ -45,7 +45,7 @@ export default function DeleteModal({ categoryId, setModal, setPickedCategoryId 
             }}
             className="fixed h-full w-full px-8 z-10 grid place-content-center"
         >
-            <div className="bg-stack flex flex-col items-center gap-4 p-4 rounded-xl">
+            <div className="bg-background flex flex-col items-center gap-4 p-4 rounded-xl">
                 <p> Deleting this Category will also forcefully remove its attached Transactions. </p>
                 <div className="flex justify-between w-full">
                     <button onClick={aboardDeletion} className="py-2 font-bold px-8 rounded-sm bg-stack"> Aboard </button>

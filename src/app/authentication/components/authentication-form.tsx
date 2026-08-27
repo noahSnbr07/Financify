@@ -34,7 +34,7 @@ function AuthenticationForm() {
             const endpoint = `/api/authentication/${action}`;
 
             const response = await fetch(endpoint, { ...data, body: JSON.stringify(payload) });
-            const responseData: APIResponse<null> = await response.json();
+            const responseData: APIResponse = await response.json();
 
             setMessage(responseData.message);
             setPending(false);

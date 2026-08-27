@@ -19,6 +19,7 @@ model User {
   name         String        @unique
   avatar       String
   hash         String
+  budget       Float
   accounts     Account[]
   categories   Category[]
   logs         Log[]

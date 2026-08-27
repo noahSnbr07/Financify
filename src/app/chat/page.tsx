@@ -4,7 +4,7 @@ async function page() {
 
 
     return (
-        <Chat />
+        <Chat initialized={new Date()} />
     );
 }
 

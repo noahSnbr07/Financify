@@ -1,5 +1,5 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { Avatar, LogoutButton, MemberSince, QRCode, UUIDDisplay, WipeDataButton } from "./components";
+import { Avatar, LogoutButton, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay, WipeDataButton } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import Link from "next/link";
 async function page() {
 
     const auth = await getAuth();
-    if (!auth) redirect("/");
+    if (!auth) redirect("/authentication");
 
     const stats = await getUserDatabaseStats({ userId: auth.id });
 
@@ -21,6 +21,8 @@ async function page() {
                 totalAccounts={stats.totalAccounts}
                 totalCategories={stats.totalCategories}
                 totalTransactions={stats.totalTransactions} />
+            <UpdateAvatar />
+            <UpdateBudget current={auth.budget} />
             <MemberSince
                 created={auth.created} />
             <UUIDDisplay
@@ -29,11 +31,11 @@ async function page() {
                 className="bg-stack py-2 text-center rounded-lg"
                 href={"/reports"}> Reports </Link>
             <LogoutButton />
+            <WipeDataButton />
+            <QRCode />
             <Link
                 href={"/dashboard"}
                 className="underline text-foreground/50 text-center"> Go To Dashboard </Link>
-            <QRCode />
-            <WipeDataButton />
         </>
     );
 }

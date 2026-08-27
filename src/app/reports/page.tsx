@@ -12,8 +12,7 @@ async function page() {
     const reports = await database.report.findMany({ where: { user: { id: auth.id } } });
 
     return (
-        <>
-            <CreateNewReport />
+        <div className="flex flex-col gap-4">
             <hr className="w-full border-stack border-2 rounded-full" />
             <ReportsList reports={reports} />
             <hr className="w-full border-stack border-2 rounded-full" />
@@ -22,7 +21,8 @@ async function page() {
                 className="underline text-foreground/50 text-center">
                 Dashboard
             </Link>
-        </>
+            <CreateNewReport />
+        </div>
     );
 }
 

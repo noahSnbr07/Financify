@@ -9,7 +9,7 @@ interface _props {
 export default function UUIDDisplay({ id }: _props) {
 
     return (
-        <div className="flex flex-col gap-4 p-4 bg-stack rounded-md">
+        <div className="flex flex-col gap-4 p-4 bg-stack rounded-lg">
             <p className="text-foreground/50"> Universally Unique Identifier: </p>
             <div className="flex gap-4 items-center">
                 <UserIcon size={20} />

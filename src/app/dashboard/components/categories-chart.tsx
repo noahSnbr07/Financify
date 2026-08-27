@@ -6,6 +6,7 @@ import { ParsedExtendedCategory } from "@/src/server/get-dashboard-data";
 import { Digits } from "@/src/global/components";
 
 type ChartDataType = {
+    index: number;
     color: string;
     label: string;
     value: number;
@@ -17,13 +18,13 @@ interface _props {
 
 export default function CategoriesChart({ categories }: _props) {
 
-    const transformedCategories: ChartDataType[] = categories.map(function (category) {
+    const transformedCategories: ChartDataType[] = categories.map(function (category, _index) {
         return {
+            index: _index,
             color: `${category.color}`,
             fill: `${category.color}`,
             label: category.name,
             value: category.volume || 0,
-
         }
     });
 
@@ -60,13 +61,13 @@ function CustomLegend({ categories }: CustomLegendProps) {
 
                 return (
                     <div
-                        key={category.color}
+                        key={category.index}
                         className="flex justify-between p-2 items-center text-sm">
                         <div className="flex gap-2 items-center">
                             <div style={{ background: `${category.color}` }} className="size-4 rounded-sm"></div>
                             <p> {category.label} </p>
                         </div>
-                        <b> <Digits value={category.value} /> </b>
+                        <b> <Digits value={category.value.toFixed(2)} /> </b>
                     </div>
                 );
             })}

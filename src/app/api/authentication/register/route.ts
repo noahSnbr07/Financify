@@ -23,7 +23,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         const hashedPassword = await hash(password, 4);
 
         await database.user.create({
-            data: { name, hash: hashedPassword, avatar: "default.png", budget: 100 }
+            data: { name, hash: hashedPassword, avatar: "error.png", budget: 100 }
         });
 
         return NextResponse.json(apiResponsePresets.CREATED({ message: "User created." }));

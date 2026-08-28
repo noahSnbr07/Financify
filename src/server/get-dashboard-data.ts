@@ -80,8 +80,7 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
             include: {
                 account: { select: { name: true } },
                 category: { select: { name: true } },
-            },
-            orderBy: { created: "asc" },
+            }, orderBy: { created: "asc" },
         }),
 
         database.category.findMany({

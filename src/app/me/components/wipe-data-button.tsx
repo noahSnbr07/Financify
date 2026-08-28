@@ -36,8 +36,6 @@ export default function WipeDataButton() {
             setVisible(false);
             router.refresh();
         }
-
-        console.log("wiping");
     }
 
     return (

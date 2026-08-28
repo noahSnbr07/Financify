@@ -2,7 +2,7 @@
 
 import { Account, Category } from "@/src/generated/prisma/client";
 import { Warning } from "@/src/global/components";
-import { warnings } from "@/src/static";
+import { warnings } from "@/src/static/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -46,7 +46,7 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
             toast("Transaction created successfully", { type: "success" });
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
             toast("Transaction could not be generated", { type: "error" });
         } finally {
             setPending(false);

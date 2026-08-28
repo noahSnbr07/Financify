@@ -18,6 +18,7 @@ async function page() {
                 alt={auth.name}
                 avatarHref={auth.avatar} />
             <Statistics
+                totalReports={stats.totalReports}
                 totalAccounts={stats.totalAccounts}
                 totalCategories={stats.totalCategories}
                 totalTransactions={stats.totalTransactions} />

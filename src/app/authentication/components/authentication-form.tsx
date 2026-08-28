@@ -40,6 +40,7 @@ function AuthenticationForm() {
             setPending(false);
 
             if (response.ok && responseData.success) router.push("/dashboard");
+            if (response.status === 429) setMessage("try again later.")
 
         } catch (error) {
             if (error instanceof Error) {
@@ -93,7 +94,7 @@ function AuthenticationForm() {
             <ResponseBox
                 pending={pending}
                 message={message}
-                show={message.length > 0}
+                show={message !== undefined && message.length > 0}
             />
 
         </form>

@@ -3,6 +3,7 @@
 import { APIResponse } from "@/src/interfaces";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 
 export default function LogoutButton() {
@@ -16,6 +17,7 @@ export default function LogoutButton() {
             const data: APIResponse = await response.json();
 
             if (response.ok && data.success) router.push("/authentication");
+            else if (response.status === 429) toast("Too many Requests", { type: "info" });
         } catch (error) {
             console.error(error);
         }

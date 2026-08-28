@@ -12,7 +12,6 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
     const refreshToken = request.cookies.get("financify-refresh-token")?.value;
 
     const response = NextResponse.next();
-    if (!accessToken || accessToken === undefined) return response;
 
     if (
         request.nextUrl.pathname.startsWith('/_next') ||
@@ -21,7 +20,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         request.nextUrl.pathname.startsWith('/authentication')
 
     ) {
-        return NextResponse.next();
+        return response;
     }
 
     let rateLimitPreset: RateLimiterRedis = LIMIT_PRESETS.STRICT;
@@ -47,6 +46,8 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
     }
 
     try {
+        if (!accessToken || accessToken === undefined) return response;
+
         const user = verify(accessToken || "", process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
         if (!user) response.cookies.delete("financify-access-token");
         return response;

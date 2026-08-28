@@ -17,5 +17,4 @@ prisma/migrations/*
 data/avatars/*
 data/backups/*
 
-notes/*
 generated/

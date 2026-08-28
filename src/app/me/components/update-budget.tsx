@@ -42,7 +42,7 @@ export default function UpdateBudget({ current }: _props) {
 
     return (
         <div className="flex flex-col gap-2 bg-stack rounded-lg p-4">
-            <b className="text-sm text-foreground/50"> Update Your Monthly Budget</b>
+            <b className="text-sm text-foreground/50"> Update Your Monthly Budget (current: ${current}) </b>
             <div className="flex gap-2">
                 <input
                     value={budget}

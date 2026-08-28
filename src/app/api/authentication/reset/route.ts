@@ -2,9 +2,9 @@ import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
 import { getAuth } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
+export async function POST(): Promise<NextResponse<APIResponse>> {
 
     const auth = await getAuth();
     if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());

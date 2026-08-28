@@ -4,11 +4,12 @@ services:
     build: .
     ports:
       - "3000:3000"
-    env_file: 
+    env_file:
       - .docker.env
     depends_on:
       - database
       - ollama
+      - redis
 
   database:
     container_name: Database
@@ -36,8 +37,19 @@ services:
     depends_on:
       - server
 
+  redis:
+    container_name: Redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
 volumes:
   postgres_data:
     name: "Postgres"
   ollama_data:
     name: "Ollama"
+  redis_data:
+    name: "Redis"

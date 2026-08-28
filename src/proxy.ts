@@ -1,63 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getClientIp, rateLimiter, RateLimitPresets } from './rate-limiting';
 import { verify, sign } from 'jsonwebtoken';
 import { database } from '@/src/configuration';
+import { checkRateLimit } from './server/check-rate-limit';
+import { getClientIP } from './server';
+import { RateLimiterRedis } from 'rate-limiter-flexible';
+import { LIMIT_PRESETS } from './static';
 
 export default async function proxy(request: NextRequest): Promise<NextResponse> {
+
     const accessToken = request.cookies.get("financify-access-token")?.value;
     const refreshToken = request.cookies.get("financify-refresh-token")?.value;
 
-    // Skip if no access token
-    if (!accessToken) {
-        return NextResponse.next();
-    }
+    const response = NextResponse.next();
+    if (!accessToken || accessToken === undefined) return response;
 
-    // Skip static files
     if (
         request.nextUrl.pathname.startsWith('/_next') ||
         request.nextUrl.pathname.startsWith('/static') ||
-        request.nextUrl.pathname.match(/\.(js|css|png|jpg|gif|ico|svg?)$/)
+        request.nextUrl.pathname.match(/\.(js|css|png|jpg|gif|ico|svg?)$/) ||
+        request.nextUrl.pathname.startsWith('/authentication')
+
     ) {
         return NextResponse.next();
     }
 
-    const clientIp = getClientIp(request);
-    const pathname = request.nextUrl.pathname;
-    const response = NextResponse.next();
+    let rateLimitPreset: RateLimiterRedis = LIMIT_PRESETS.STRICT;
 
-    // Determine rate limit config
-    const config = pathname.startsWith('/api/authentication/login')
-        ? RateLimitPresets.auth
-        : RateLimitPresets.standard;
+    if (request.nextUrl.pathname.startsWith("/api/authentication/login")) rateLimitPreset = LIMIT_PRESETS.AUTH;
+    if (request.nextUrl.pathname.startsWith("/api/authentication/register")) rateLimitPreset = LIMIT_PRESETS.AUTH;
+    else if (request.nextUrl.pathname.startsWith("/api/report/create")) rateLimitPreset = LIMIT_PRESETS.STRICT;
+    else if (request.nextUrl.pathname.startsWith("/api/ai/")) rateLimitPreset = LIMIT_PRESETS.AI;
+    else rateLimitPreset = LIMIT_PRESETS.STANDARD;
 
-    // Check rate limit first
-    const result = rateLimiter.check(clientIp, config.limit, config.window);
+    const ip = await getClientIP({ request });
 
-    response.headers.set('X-RateLimit-Limit', String(result.limit));
-    response.headers.set('X-RateLimit-Current', String(result.current));
-    response.headers.set('X-RateLimit-Reset', String(Math.ceil(result.resetTime / 1000)));
+    const { success, retryAfter } = await checkRateLimit(ip, rateLimitPreset);
 
-    if (!result.success) {
-        return new NextResponse('Too Many Requests', {
-            status: 429,
-            headers: {
-                'X-RateLimit-Limit': String(result.limit),
-                'X-RateLimit-Current': String(result.current),
-                'X-RateLimit-Reset': String(Math.ceil(result.resetTime / 1000)),
-                'Retry-After': String(result.retryAfter),
-            },
-        });
+    if (!success) {
+        return NextResponse.json(
+            { error: 'Too many requests' },
+            {
+                status: 429,
+                headers: { 'Retry-After': Math.ceil(retryAfter || 60).toString() },
+            }
+        );
     }
 
-    // Verify access token
     try {
-        verify(accessToken, process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
+        const user = verify(accessToken || "", process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
+        if (!user) response.cookies.delete("financify-access-token");
         return response;
-    } catch (error) {
-        // Token expired, try to refresh
-        if (!refreshToken) {
-            return NextResponse.redirect("/authentication", 308)
-        }
+    }
+    catch (error) {
+        console.error(error);
+        if (!refreshToken) return NextResponse.redirect(new URL("/authentication", request.nextUrl), 308)
 
         try {
             const decoded = verify(
@@ -66,7 +62,6 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
                 { algorithms: ["HS256"] }
             ) as { userId: string; };
 
-            // Get user from database
             const user = await database.user.findUnique({
                 where: { id: decoded.userId },
                 omit: { hash: true },
@@ -76,13 +71,11 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
                 return response;
             }
 
-            // Create new access token
             const newAccessToken = sign(user, process.env.JWT_SECRET as string, {
                 algorithm: "HS256",
                 expiresIn: "15m",
             });
 
-            // Set new token in response
             response.cookies.set({
                 name: "financify-access-token",
                 value: newAccessToken,
@@ -99,14 +92,3 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         }
     }
 }
-
-export const config = {
-    matcher: [
-        "/dashboard",
-        "/me",
-        "/transactions/new",
-        "/transactions/history",
-        "/accounts/new",
-        "/categories/new",
-    ],
-};

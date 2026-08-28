@@ -1,7 +1,8 @@
 import apiResponsePresets from "./api-response-presets";
-import warnings from "./warning";
+import LIMIT_PRESETS from "./rate-limit-preset";
+
 
 export {
     apiResponsePresets,
-    warnings,
+    LIMIT_PRESETS,
 }

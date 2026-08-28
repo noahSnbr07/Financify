@@ -23,8 +23,26 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     try {
         const transactions = await database.transaction.findMany({
             select: {
-                account: { select: { name: true } }, category: { select: { name: true } }, name: true, value: true, received: true, created: true
-            }, where: { userId: auth.id }, take: 20
+                account:
+                {
+                    select: {
+                        name: true
+                    }
+                },
+                category: {
+                    select: {
+                        name: true
+                    }
+                },
+                name:
+                    true,
+                value: true,
+                received: true,
+                created:
+                    true,
+            },
+            where: { userId: auth.id }, take: 20,
+            orderBy: { created: "desc", }
         });
 
         const { prompt }: { prompt: string; } = await _request.json();

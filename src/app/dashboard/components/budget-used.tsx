@@ -1,7 +1,5 @@
 'use client';
 
-import { DollarSignIcon } from "lucide-react";
-
 interface _props {
     budgetExceeded: number;
     color: string;

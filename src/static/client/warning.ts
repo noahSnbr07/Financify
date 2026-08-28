@@ -1,5 +1,3 @@
-
-
 export interface WarningProps {
     id: number;
     href: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import { WarningProps } from "@/src/static/warning";
+import { WarningProps } from "@/src/static/client/warning";
 import { TriangleAlertIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -9,7 +9,6 @@ interface _props {
 }
 
 export default function Warning({ warning }: _props) {
-
 
     return (
         <div className="bg-yellow-600/50 p-4 rounded-lg flex flex-col gap-4 border-2 border-yellow-400/50">

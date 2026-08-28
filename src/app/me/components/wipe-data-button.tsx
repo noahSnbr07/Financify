@@ -1,6 +1,7 @@
 'use client';
 
 import { APIResponse } from "@/src/interfaces";
+import { TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -35,8 +36,6 @@ export default function WipeDataButton() {
             setVisible(false);
             router.refresh();
         }
-
-        console.log("wiping");
     }
 
     return (
@@ -65,8 +64,9 @@ export default function WipeDataButton() {
 
             <button
                 onClick={() => setVisible(true)}
-                className="bg-red-800 rounded-lg py-4 font-bold">
-                Wipe all Data
+                className="bg-red-800 items-center rounded-lg py-4 flex gap-4 justify-center font-bold">
+                <TrashIcon size={20} />
+                <p> Wipe all Data </p>
             </button>
         </>
     );

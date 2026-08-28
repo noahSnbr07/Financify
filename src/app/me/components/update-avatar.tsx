@@ -1,7 +1,7 @@
 'use client';
 
 import { APIResponse } from "@/src/interfaces";
-import { Image } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
@@ -44,10 +44,10 @@ export default function UpdateAvatar() {
     return (
         <div className="bg-stack rounded-lg p-4 flex justify-center">
             <label
-                className="text-center w-full font-bold flex gap-2 text-foreground/50"
+                className="text-center w-full font-bold flex gap-4 text-foreground/50"
                 htmlFor="avatar">
-                <Image opacity={.5} />
-                Change Avatar
+                <ImageIcon opacity={.5} />
+                <p> Change Avatar </p>
             </label>
             <input
                 className="hidden"

@@ -7,8 +7,3 @@ npm-debug.log
 .env
 .docker.env
 .next/
-<<<<<<< HEAD
-notes/*
-=======
-notes/
->>>>>>> origin/main

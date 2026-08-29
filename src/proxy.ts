@@ -53,7 +53,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         return response;
     }
     catch (error) {
-        console.error(error);
+	console.error(error);
         if (!refreshToken) return NextResponse.redirect(new URL("/authentication", request.nextUrl), 308)
 
         try {

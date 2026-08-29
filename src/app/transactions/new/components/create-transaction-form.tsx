@@ -3,9 +3,10 @@
 import { Account, Category } from "@/src/generated/prisma/client";
 import { Warning } from "@/src/global/components";
 import { warnings } from "@/src/static/client";
+import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, CSSProperties, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 interface CreateTransactionShape {
@@ -39,6 +40,14 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
     async function submitForm(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (pending) return;
+
+        if (
+            transaction.name.length < 1 ||
+            transaction.category.length < 1 ||
+            transaction.account.length < 1 ||
+            transaction.value === 0
+        ) return toast("Invalid form data.", { type: "error" });
+
         else setPending(true);
         try {
 
@@ -109,7 +118,7 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                         return (
                             <button
                                 onClick={() => selectAccount(account.id)}
-                                style={{ background: selectedAccount === account.id ? "var(--stack)" : "transparent" }}
+                                style={{ border: `2px solid ${selectedAccount === account.id ? "var(--color-foreground)" : "transparent"}` }}
                                 key={account.id}
                                 type="button"
                                 className="py-2 rounded-sm bg-stack px-8 border-2 font-bold border-stack">
@@ -117,6 +126,10 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                             </button>
                         );
                     })}
+                    <Link
+                        className="bg-stack rounded-sm flex justify-center p-2 border-foreground/50 border-2"
+                        href={"/accounts/new"}
+                    > <PlusIcon opacity={.5} /> </Link>
                 </div>
             </div>
 
@@ -134,6 +147,10 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                                 onClick={() => selectCategory(category.id)}> {category.name} </button>
                         );
                     })}
+                    <Link
+                        className="bg-stack rounded-sm flex justify-center p-2 border-foreground/50 border-2"
+                        href={"/categories/new"}
+                    > <PlusIcon opacity={.5} /> </Link>
                 </div>
             </div>
 
@@ -159,19 +176,24 @@ interface TransferDirectionTogglerProps {
 
 function TransferDirectionToggler({ spent, updateTransaction }: TransferDirectionTogglerProps) {
 
-    const baseClassName: string = "flex-1 border-2 border-foreground/50 rounded-md py-2";
+    const baseClassName: string = "flex-1 border-2 border-foreground/50 rounded-md py-2 font-bold";
 
     function updateTransactionTransferDirection(value: boolean): void {
         updateTransaction((previous: CreateTransactionShape) => ({ ...previous, spent: value }));
     }
 
+    const styles: { active: CSSProperties, inactive: CSSProperties, } = {
+        active: { background: "var(--color-foreground)", color: "var(--color-background)" },
+        inactive: { background: "var(--color-background)", color: "var(--color-foreground)" },
+    }
+
     return (
         <div className="flex p-2 gap-2 bg-stack rounded-lg">
             <button
-                style={{ background: spent ? "var(--color-stack)" : "transparent" }}
+                style={spent ? styles.active : styles.inactive}
                 className={baseClassName} type="button" onClick={() => updateTransactionTransferDirection(true)} > Spent </button>
             <button
-                style={{ background: !spent ? "var(--color-stack)" : "transparent" }}
+                style={!spent ? styles.active : styles.inactive}
                 className={baseClassName} type="button" onClick={() => updateTransactionTransferDirection(false)} > Received </button>
         </div>
     );

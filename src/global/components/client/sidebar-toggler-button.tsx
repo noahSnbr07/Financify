@@ -2,7 +2,7 @@
 
 import { SidebarContext } from "@/src/context";
 import { useSidebarToggler } from "@/src/hooks";
-import { EyeIcon, EyeOffIcon, SidebarClose, SidebarOpen } from "lucide-react";
+import { SidebarClose, SidebarOpen } from "lucide-react";
 
 export default function SidebarTogglerButton() {
 

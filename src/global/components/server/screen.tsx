@@ -1,7 +1,6 @@
 import { getAuth } from "@/src/server";
 import Image from "next/image";
 import Link from "next/link";
-import PrivacyDigitsTogglerButton from "../client/privacy-digits-toggler-button";
 import { ArrowLeftIcon } from "lucide-react";
 import SidebarTogglerButton from "../client/sidebar-toggler-button";
 

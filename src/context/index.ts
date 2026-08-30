@@ -1,6 +1,9 @@
-import { PrivacyDigitToggler, PrivacyDigitTogglerContext } from "./privacy-digit-toggler";
+import { PrivacyDigitTogglerContext, PrivacyDigitToggler } from "./privacy-digit-toggler";
+import { SidebarContext, SidebarToggler } from "./sidebar-toggler";
 
 export {
-    PrivacyDigitToggler,
+    SidebarContext,
     PrivacyDigitTogglerContext,
+    PrivacyDigitToggler,
+    SidebarToggler,
 }

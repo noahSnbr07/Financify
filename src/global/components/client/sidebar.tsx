@@ -3,7 +3,7 @@
 import { usePrivacyToggler, useSidebarToggler } from "@/src/hooks";
 import SidebarTogglerButton from "./sidebar-toggler-button";
 import { AnimatePresence, motion } from "framer-motion"
-import { BotMessageSquareIcon, EyeIcon, EyeOffIcon, LayoutDashboardIcon, PlusIcon, XIcon } from "lucide-react";
+import { BotMessageSquareIcon, EyeIcon, EyeOffIcon, LayoutDashboardIcon, PlusIcon, Settings2Icon, XIcon } from "lucide-react";
 import React from "react";
 import { useRouter } from "next/navigation";
 
@@ -50,6 +50,12 @@ export default function Sidebar() {
                             href="/chat"
                             icon={<BotMessageSquareIcon opacity={.5} />}
                             label="Ask Fluffle AI"
+                            toggle={sidebar!.toggle}
+                        />
+                        <SidebarLink
+                            href="/settings"
+                            icon={<Settings2Icon opacity={.5} />}
+                            label="Settings"
                             toggle={sidebar!.toggle}
                         />
                         <hr className="border-2 rounded-full border-stack" />

@@ -33,7 +33,7 @@ export default function CreateNewReport() {
             disabled={pending}
             style={{ opacity: pending ? .5 : 1 }}
             onClick={async () => await createNewReport()}
-            className="bg-foreground text-background flex-1 flex justify-center items-center gap-4 py-4 rounded-lg cursor-pointer">
+            className="bg-foreground text-background flex justify-center items-center gap-4 py-4 rounded-lg cursor-pointer">
             <PlusIcon size={24} color="black" />
             <b> Create New Report </b>
         </button>

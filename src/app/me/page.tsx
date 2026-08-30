@@ -1,5 +1,5 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { Avatar, LogoutButton, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay, WipeDataButton } from "./components";
+import { Avatar, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
@@ -31,8 +31,6 @@ async function page() {
             <Link
                 className="bg-stack py-2 text-center rounded-lg"
                 href={"/reports"}> Reports </Link>
-            <LogoutButton />
-            <WipeDataButton />
             <QRCode />
             <Link
                 href={"/dashboard"}

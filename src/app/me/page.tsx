@@ -28,9 +28,6 @@ async function page() {
                 created={auth.created} />
             <UUIDDisplay
                 id={auth.id} />
-            <Link
-                className="bg-stack py-2 text-center rounded-lg"
-                href={"/reports"}> Reports </Link>
             <QRCode />
             <Link
                 href={"/dashboard"}

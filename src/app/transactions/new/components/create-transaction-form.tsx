@@ -113,7 +113,7 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
 
             <div className="flex flex-col gap-2 bg-stack rounded-lg px-4 py-2">
                 <i className="text-sm text-foreground/50"> Pick The Associated Account</i>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 overflow-x-auto w-full whitespace-nowrap">
+                <div className="grid grid-cols-2 gap-2 overflow-x-auto w-full whitespace-nowrap">
                     {accounts.map(function (account) {
                         return (
                             <button

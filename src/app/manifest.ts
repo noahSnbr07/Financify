@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
     return {
         name: 'Financify',
         short_name: 'Financify',
-        description: 'Track Finances',
+        description: 'Track Your Every-Day Finances',
         start_url: '/',
         display: 'fullscreen',
         background_color: '#101010',

@@ -6,6 +6,7 @@ import TotalBalance from "./total-balance";
 import DateRangeSelector from "./date-range-selector";
 import AIChatBox from "./ai-chat-box";
 import AccountChart from "./account-chart";
+import BudgetRadarChart from "./budget-radar-chart";
 
 export {
     ContentEntry,
@@ -16,4 +17,5 @@ export {
     DateRangeSelector,
     AIChatBox,
     AccountChart,
+    BudgetRadarChart,
 }

@@ -13,56 +13,66 @@ datasource db {
 }
 
 model User {
-  id           String        @id @unique @default(uuid())
-  created      DateTime      @default(now())
-  updated      DateTime      @updatedAt
-  name         String        @unique
-  avatar       String
-  hash         String
-  budget       Float
-  accounts     Account[]
-  categories   Category[]
-  transactions Transaction[]
-  reports      Report[]
+  id            String         @id @unique @default(uuid())
+  created       DateTime       @default(now())
+  updated       DateTime       @updatedAt
+  name          String         @unique
+  avatar        String
+  hash          String
+  budget        Float
+  accounts      Account[]
+  categories    Category[]
+  transactions  Transaction[]
+  reports       Report[]
+  subscriptions Subscription[]
 }
 
 model Transaction {
-  id         String   @id @unique @default(uuid())
-  created    DateTime @default(now())
-  updated    DateTime @updatedAt
-  value      Decimal
-  name       String
-  received   Boolean  @default(false)
-  accountId  String
-  userId     String
-  categoryId String
-  account    Account  @relation(fields: [accountId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  id             String          @id @unique @default(uuid())
+  created        DateTime        @default(now())
+  updated        DateTime        @updatedAt
+  value          Decimal
+  name           String
+  received       Boolean         @default(false)
+  type           TransactionType @default(manual)
+  accountId      String
+  userId         String
+  categoryId     String
+  account        Account         @relation(fields: [accountId], references: [id])
+  category       Category        @relation(fields: [categoryId], references: [id])
+  user           User            @relation(fields: [userId], references: [id])
+  subscription   Subscription?   @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String?
 
-  @@index([userId, accountId, categoryId])
+  @@index([userId, accountId, categoryId, subscriptionId])
 }
 
 model Account {
-  id           String        @id @unique @default(uuid())
-  created      DateTime      @default(now())
-  updated      DateTime      @updatedAt
-  name         String        @unique
-  color        String
-  userId       String
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id            String         @id @unique @default(uuid())
+  created       DateTime       @default(now())
+  updated       DateTime       @updatedAt
+  name          String         @unique
+  color         String
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  transactions  Transaction[]
+  subscriptions Subscription[]
+
+  @@index([userId])
 }
 
 model Category {
-  id           String        @id @unique @default(uuid())
-  created      DateTime      @default(now())
-  updated      DateTime      @updatedAt
-  name         String        @unique
-  color        String
-  userId       String
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id            String         @id @unique @default(uuid())
+  created       DateTime       @default(now())
+  updated       DateTime       @updatedAt
+  name          String         @unique
+  color         String
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  transactions  Transaction[]
+  subscriptions Subscription[]
+
+  @@index([userId])
 }
 
 model Report {
@@ -79,8 +89,47 @@ model Report {
   userId String?
 }
 
-enum LogType {
-  Error
-  Mutation
-  Authentication
+model Subscription {
+  // base
+  id      String   @id @unique @default(uuid())
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+
+  // props
+  name     String
+  value    Decimal
+  interval SubscriptionInterval @default(monthly)
+
+  // foreign keys
+  userId     String
+  accountId  String
+  categoryId String
+
+  // relations
+  user     User     @relation(fields: [userId], references: [id])
+  account  Account  @relation(fields: [accountId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  // dates
+  startDate       DateTime  @default(now())
+  nextBillingDate DateTime
+  lastBillingDate DateTime?
+  endDate         DateTime?
+
+  // nested relations
+  transactions Transaction[]
+
+  @@index([userId, accountId, categoryId])
+}
+
+enum TransactionType {
+  manual
+  subscription
+}
+
+enum SubscriptionInterval {
+  weekly
+  monthly
+  quarterly
+  annual
 }

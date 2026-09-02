@@ -42,3 +42,8 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type Report = Prisma.ReportModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel

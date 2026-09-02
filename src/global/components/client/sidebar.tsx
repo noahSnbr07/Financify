@@ -41,6 +41,25 @@ export default function Sidebar() {
                             toggle={sidebar!.toggle}
                         />
                         <SidebarLink
+                            href="/categories/new"
+                            icon={<PlusIcon opacity={.5} />}
+                            label="Create Category"
+                            toggle={sidebar!.toggle}
+                        />
+                        <SidebarLink
+                            href="/accounts/new"
+                            icon={<PlusIcon opacity={.5} />}
+                            label="Create Account"
+                            toggle={sidebar!.toggle}
+                        />
+                        <SidebarLink
+                            href="/subscriptions/new"
+                            icon={<PlusIcon opacity={.5} />}
+                            label="Create Subscription"
+                            toggle={sidebar!.toggle}
+                        />
+                        <hr className="border-2 rounded-full border-stack" />
+                        <SidebarLink
                             href="/dashboard"
                             icon={<LayoutDashboardIcon opacity={.5} />}
                             label="Dashboard"

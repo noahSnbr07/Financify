@@ -55,7 +55,8 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Report: 'Report'
+  Report: 'Report',
+  Subscription: 'Subscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -94,9 +95,11 @@ export const TransactionScalarFieldEnum = {
   value: 'value',
   name: 'name',
   received: 'received',
+  type: 'type',
   accountId: 'accountId',
   userId: 'userId',
-  categoryId: 'categoryId'
+  categoryId: 'categoryId',
+  subscriptionId: 'subscriptionId'
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
@@ -135,6 +138,25 @@ export const ReportScalarFieldEnum = {
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  name: 'name',
+  value: 'value',
+  interval: 'interval',
+  userId: 'userId',
+  accountId: 'accountId',
+  categoryId: 'categoryId',
+  startDate: 'startDate',
+  nextBillingDate: 'nextBillingDate',
+  lastBillingDate: 'lastBillingDate',
+  endDate: 'endDate'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -359,10 +359,6 @@ export type ReportUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type ReportCreateWithoutUserInput = {
   id?: string
   created?: Date | string

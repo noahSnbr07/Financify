@@ -1,9 +1,11 @@
+import { Decimal } from "@prisma/client/runtime/client";
 import { database } from "../configuration";
-import { Account, Category, Transaction } from "../generated/prisma/client";
+import { Account, Category, Subscription, Transaction } from "../generated/prisma/client";
 import { TransactionWhereInput } from "../generated/prisma/models";
 import getAccountVolumes from "./get-account-volumes";
 import getAuth from "./get-auth";
 import getBudget from "./get-budget";
+import getCategoryPercentage from "./get-category-percentage";
 import getCategoryVolume from "./get-category-volume";
 import getTotalBalance from "./get-total-balance";
 
@@ -22,6 +24,10 @@ export interface ParsedAccount extends Omit<Account, "created" | "updated" | "us
     positiveSum: number;
 }
 
+export interface CategoryPercentage extends Category {
+    percentage: number;
+    color: string;
+}
 
 export interface ParsedExtendedCategory extends Category {
     volume: number | null;
@@ -33,6 +39,8 @@ interface GetDashboardDataProps {
     transactions: ParsedExtendedTransaction[];
     categories: ParsedExtendedCategory[];
     accounts: ParsedAccount[];
+    categoryPercentages: CategoryPercentage[];
+    subscriptions: Subscription[];
 }
 
 async function getDashboardData({ range }: _props): Promise<GetDashboardDataProps> {
@@ -45,6 +53,8 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
         accounts: [],
         totalBalance: 0,
         budgetExceeded: 0,
+        categoryPercentages: [],
+        subscriptions: [],
     };
 
     const transactionFilter: TransactionWhereInput = {
@@ -71,9 +81,16 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
         category: { name: string; };
     };
 
-    type expectedData = [TransactionWithRelations[], Category[], Account[], Transaction[]]
+    type CategoryWithTransaction = Category & {
+        transactions: {
+            value: Decimal;
+            received: boolean;
+        }[]
+    }
 
-    const [transactions, categories, accounts, transactionsThisMonth]: expectedData = await Promise.all([
+    type expectedData = [TransactionWithRelations[], CategoryWithTransaction[], Account[], Transaction[], Subscription[]]
+
+    const [transactions, categories, accounts, transactionsThisMonth, subscriptions]: expectedData = await Promise.all([
 
         database.transaction.findMany({
             where: transactionFilter,
@@ -90,6 +107,14 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
                     some: transactionFilter,
                 },
             },
+            include: {
+                transactions: {
+                    select: {
+                        value: true,
+                        received: true,
+                    }
+                }
+            }
         }),
 
         database.account.findMany({
@@ -107,11 +132,17 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
                 created: {
                     gte: startOfMonth,
                     lt: startOfNextMonth
-                }
-            }
+                },
+            },
+        }),
+
+        database.subscription.findMany({
+            where: { userId: auth.id }
         })
 
     ]);
+
+    const categoryPercentages = await getCategoryPercentage({ transactions: transactionsThisMonth });
 
     const parsedAccounts: ParsedAccount[] = await Promise.all(accounts.map(async (account) => {
 
@@ -136,7 +167,18 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
 
     const parsedCategories = await Promise.all(
         categories.map(async function (category) {
-            return { ...category, volume: await getCategoryVolume({ category }) }
+            // Convert Decimal values in transactions to numbers
+            const transactionsWithParsedValues = category.transactions.map((t) => ({
+                ...t,
+                value: t.value.toNumber(),
+            }));
+
+            return {
+                ...category,
+                transactions: transactionsWithParsedValues,
+                volume: await getCategoryVolume({ category }),
+                color: category.color,
+            }
         })
     );
 
@@ -148,6 +190,8 @@ async function getDashboardData({ range }: _props): Promise<GetDashboardDataProp
         totalBalance: totalBalance,
         accounts: parsedAccounts,
         budgetExceeded: budgetExceededInPercentage,
+        categoryPercentages: categoryPercentages,
+        subscriptions,
     }
 }
 

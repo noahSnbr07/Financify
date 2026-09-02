@@ -9,10 +9,19 @@
 * 🟢 You can import this file directly.
 */
 
-export const LogType = {
-  Error: 'Error',
-  Mutation: 'Mutation',
-  Authentication: 'Authentication'
+export const TransactionType = {
+  manual: 'manual',
+  subscription: 'subscription'
 } as const
 
-export type LogType = (typeof LogType)[keyof typeof LogType]
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const SubscriptionInterval = {
+  weekly: 'weekly',
+  monthly: 'monthly',
+  quarterly: 'quarterly',
+  annual: 'annual'
+} as const
+
+export type SubscriptionInterval = (typeof SubscriptionInterval)[keyof typeof SubscriptionInterval]

@@ -9,19 +9,21 @@ export interface UserDatabaseStats {
     totalCategories: number;
     totalAccounts: number;
     totalReports: number;
+    totalSubscriptions: number;
 }
 
 async function getUserDatabaseStats({ userId }: _props) {
 
-    const [totalTransactions, totalCategories, totalAccounts, totalReports] = await Promise.all([
+    const [totalTransactions, totalCategories, totalAccounts, totalReports, subscriptions] = await Promise.all([
         await database.transaction.count({ where: { userId } }),
         await database.category.count({ where: { userId } }),
         await database.account.count({ where: { userId } }),
         await database.report.count({ where: { userId } }),
+        await database.subscription.count({ where: { userId } }),
     ]);
 
     return {
-        totalTransactions, totalCategories, totalAccounts, totalReports
+        totalTransactions, totalCategories, totalAccounts, totalReports, subscriptions,
     }
 }
 

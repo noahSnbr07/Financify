@@ -1,4 +1,3 @@
-import Screen from "@/src/global/components/server/screen";
 import { CategoriesDestroyList, Links } from "../components";
 import { database } from "@/src/configuration";
 import { getAuth } from "@/src/server";
@@ -12,11 +11,10 @@ async function page() {
     const categories = await database.category.findMany({ where: { userId: auth.id } })
 
     return (
-        <Screen
-            label="Manage Categories">
+        <>
             <CategoriesDestroyList categories={categories} />
             <Links />
-        </Screen>
+        </>
     );
 }
 export default page

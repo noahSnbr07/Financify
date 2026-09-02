@@ -52,8 +52,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         if (!user) response.cookies.delete("financify-access-token");
         return response;
     }
-    catch (error) {
-	console.error(error);
+    catch {
         if (!refreshToken) return NextResponse.redirect(new URL("/authentication", request.nextUrl), 308)
 
         try {

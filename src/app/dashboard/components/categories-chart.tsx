@@ -29,13 +29,13 @@ export default function CategoriesChart({ categories }: _props) {
     });
 
     return (
-        <div className="flex flex-col items-center h-full w-full min-h-64 min-w-0">
+        <div className="flex flex-col items-center gap-4 h-full w-full min-h-64 min-w-0">
             <ResponsiveContainer minHeight={256}>
-                <PieChart
-                    margin={{ bottom: 24, left: 16, right: 16, top: 16, }}>
+                <PieChart>
                     <Pie
                         data={transformedCategories}
                         innerRadius="75%"
+                        strokeWidth={0}
                         outerRadius="100%"
                         cornerRadius="100%"
                         fill="rgba(127, 127, 127, .5)"

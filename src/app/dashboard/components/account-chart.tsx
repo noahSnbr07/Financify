@@ -32,9 +32,8 @@ export default function AccountChart({ accounts }: _props) {
                 <CartesianGrid amplitude={100} opacity={.5} />
                 <Typed.XAxis dataKey="name" />
 
-                <Bar fill="orangered" dataKey="negativeSum" stackId="b" />
-                <Bar fill="cyan" dataKey="totalSum" stackId="c" />
-                <Bar fill="limegreen" dataKey="positiveSum" stackId="a" />
+                <Bar fill="orangered" dataKey="negativeSum" stackId="a" opacity={.75} strokeWidth={0} label />
+                <Bar fill="limegreen" dataKey="positiveSum" stackId="a" opacity={.75} strokeWidth={0} label />
 
             </BarChart>
         </ResponsiveContainer>

@@ -1,5 +1,5 @@
 import Screen from "@/src/global/components/server/screen";
-import { AccountChart, AIChatBox, BalanceChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
+import { AccountChart, AIChatBox, BalanceChart, BudgetRadarChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
 import { getAuth, getColorForBudgetExceeding, getDashboardData, getTotalAccountVolume } from "@/src/server";
 import { redirect } from "next/navigation";
 import { Digits } from "@/src/global/components";
@@ -16,7 +16,7 @@ async function page({ searchParams }: _props) {
     const auth = await getAuth();
     if (!auth) redirect("/authentication");
 
-    const { categories, totalBalance, transactions, accounts, budgetExceeded } = await getDashboardData({ range });
+    const { categories, totalBalance, transactions, accounts, budgetExceeded, categoryPercentages } = await getDashboardData({ range });
 
     const color = await getColorForBudgetExceeding({ exceeding: budgetExceeded })
 
@@ -27,16 +27,19 @@ async function page({ searchParams }: _props) {
             <ContentEntry index={0} renderFallback={false} label="Balance">
                 <TotalBalance color={color} budgetExceeded={budgetExceeded} balance={totalBalance} />
             </ContentEntry>
-            <ContentEntry index={1} renderFallback={transactions.length < 1} label="Balance History">
+            <ContentEntry index={1} renderFallback={false} label="Budget">
+                <BudgetRadarChart categories={categoryPercentages} />
+            </ContentEntry>
+            <ContentEntry index={2} renderFallback={transactions.length < 1} label="Balance History">
                 <BalanceChart transactions={transactions} />
             </ContentEntry>
-            <ContentEntry index={2} renderFallback={categories.length < 1} label="Category Volume">
+            <ContentEntry index={3} renderFallback={categories.length < 1} label="Category Volume">
                 <CategoriesChart categories={categories} />
             </ContentEntry>
-            <ContentEntry index={3} label="Accounts I/O" renderFallback={accounts.length < 1}>
+            <ContentEntry index={4} label="Accounts I/O" renderFallback={accounts.length < 1}>
                 <AccountChart accounts={accounts} />
             </ContentEntry>
-            <ContentEntry index={4} renderFallback={transactions.length < 1} label="Recent Transactions">
+            <ContentEntry index={5} renderFallback={transactions.length < 1} label="Recent Transactions">
                 <div className="flex flex-col">
                     {transactions.slice(transactions.length <= 5 ? 0 : transactions.length - 5).reverse().map(function (transaction) {
                         return (
@@ -57,7 +60,7 @@ async function page({ searchParams }: _props) {
                     })}
                 </div>
             </ContentEntry>
-            <ContentEntry index={5} renderFallback={accounts.length < 1} label="Accounts">
+            <ContentEntry index={6} renderFallback={accounts.length < 1} label="Accounts">
                 <div className="grid grid-cols-2 gap-2">
                     {accounts.map(async function (account) {
 
@@ -76,7 +79,7 @@ async function page({ searchParams }: _props) {
                 </div>
             </ContentEntry>
             <ContentEntry
-                index={6}
+                index={7}
                 renderFallback={false}
                 label="AI Chat Integration">
                 <AIChatBox />

@@ -10,6 +10,7 @@ import refreshAccessToken from "./refresh-access-token";
 import getColorForBudgetExceeding from "./get-color-for-budget-exceeding";
 import getClientIP from "./get-client-ip";
 import { checkRateLimit } from "./check-rate-limit";
+import getNextBillingDate from "./get-next-billing-date";
 
 export {
     getAuth,
@@ -24,4 +25,5 @@ export {
     getColorForBudgetExceeding,
     getClientIP,
     checkRateLimit,
+    getNextBillingDate
 }

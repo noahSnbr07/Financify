@@ -2,7 +2,7 @@ import cron, { ScheduledTask } from 'node-cron';
 import { createTransactionFromSubscriptionBilling } from '../server';
 import { CRON_JOB_INTERVALS } from '../static';
 
-let cronJobs: ScheduledTask[] = [];
+const cronJobs: ScheduledTask[] = [];
 
 export function initializeCron() {
     const billingTask = cron.schedule(CRON_JOB_INTERVALS.EVERY.SIX_HOURS, async () => {

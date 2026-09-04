@@ -1,8 +1,7 @@
-import { database } from "../configuration";
-import getAuth from "./get-auth";
+import { TransactionWithRelations } from "./get-dashboard-data";
 
 interface _props {
-    accountId: string;
+    transactions: TransactionWithRelations[];
 }
 
 type AccountVolumes = {
@@ -11,44 +10,26 @@ type AccountVolumes = {
     totalSum: number;
 }
 
-async function getAccountVolumes({ accountId }: _props): Promise<AccountVolumes> {
+async function getAccountVolumes({ transactions, accountId, }: _props & { accountId: string }): Promise<AccountVolumes> {
+    const accountTransactions = transactions.filter(
+        transaction => transaction.accountId === accountId
+    );
 
-    const defaultVolumes: Readonly<AccountVolumes> = {
-        totalSum: 0,
-        negativeSum: 0,
-        positiveSum: 0,
-    }
+    return accountTransactions.reduce(
+        (volumes, transaction) => {
+            const value = transaction.value.toNumber();
 
-    const auth = await getAuth();
-    if (!auth) return defaultVolumes;
+            if (transaction.received) {
+                volumes.positiveSum += value;
+            } else {
+                volumes.negativeSum += value;
+            }
 
-    const transactions = await database.transaction.findMany({
-        where: { account: { id: accountId }, },
-        select: { value: true, received: true, }
-    });
-
-    if (transactions.length < 1) return defaultVolumes;
-
-    const totalVolume = transactions.reduce(function (accumulator, currentValue) {
-        if (currentValue.received) return accumulator + currentValue.value.toNumber();
-        else return accumulator;
-    }, 0);
-
-    const totalNegativeVolume = transactions.reduce(function (accumulator, currentValue) {
-        if (!currentValue.received) return accumulator + currentValue.value.toNumber();
-        else return accumulator;
-    }, 0);
-
-    const totalPositiveVolume = transactions.reduce(function (accumulator, currentValue) {
-        if (currentValue.received) return accumulator + currentValue.value.toNumber();
-        else return accumulator;
-    }, 0);
-
-    return {
-        totalSum: totalVolume,
-        positiveSum: totalPositiveVolume,
-        negativeSum: totalNegativeVolume,
-    }
-
+            volumes.totalSum += value;
+            return volumes;
+        },
+        { totalSum: 0, negativeSum: 0, positiveSum: 0 }
+    );
 }
+
 export default getAccountVolumes;

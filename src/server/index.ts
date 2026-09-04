@@ -11,6 +11,8 @@ import getColorForBudgetExceeding from "./get-color-for-budget-exceeding";
 import getClientIP from "./get-client-ip";
 import { checkRateLimit } from "./check-rate-limit";
 import getNextBillingDate from "./get-next-billing-date";
+import createTransactionFromSubscriptionBilling from "./create-transaction-from-subscription-billing";
+import generateSubscriptionsForecast from "./generate-subscriptions-forecast";
 
 export {
     getAuth,
@@ -22,8 +24,10 @@ export {
     getAccountVolumes,
     getBudget,
     refreshAccessToken,
+    createTransactionFromSubscriptionBilling,
     getColorForBudgetExceeding,
     getClientIP,
     checkRateLimit,
-    getNextBillingDate
+    getNextBillingDate,
+    generateSubscriptionsForecast,
 }

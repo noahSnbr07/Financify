@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import { InfoIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { InfoIcon } from "lucide-react"
 
 interface _props {
     children: React.ReactNode;
@@ -13,14 +12,11 @@ interface _props {
 export default function ContentEntry({ children, label, renderFallback, index }: _props) {
 
     return (
-        <motion.div
-            transition={{ delay: index * .25 }}
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -32 }}
-            className="bg-stack rounded-xl p-2 flex flex-col min-h-24 gap-2">
+        <div
+            className="bg-stack rounded-xl p-2 flex flex-col min-h-24 gap-2"
+        >
             {renderFallback ? <FallBackContent /> : <DefaultContent label={label}> {children} </DefaultContent>}
-        </motion.div>
+        </div>
     );
 }
 

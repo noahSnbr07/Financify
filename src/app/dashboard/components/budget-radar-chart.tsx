@@ -1,6 +1,6 @@
 'use client';
 
-import { CategoryPercentage } from "@/src/server/get-dashboard-data";
+import type { CategoryPercentage } from "@/src/server/get-dashboard-data";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 
 interface _props {
@@ -20,7 +20,10 @@ export default function BudgetRadarChart({ categories }: _props) {
 
     return (
         <div className="flex flex-col">
-            <ResponsiveContainer minHeight={256}>
+            <ResponsiveContainer
+                minHeight={256}
+                width={"100%"}
+            >
                 <RadarChart data={parsed}>
                     <PolarGrid opacity={.5} />
                     <PolarAngleAxis dataKey="name" fontSize={16} />

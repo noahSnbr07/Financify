@@ -99,6 +99,7 @@ model Subscription {
   name     String
   value    Decimal
   interval SubscriptionInterval @default(monthly)
+  state    SubscriptionState    @default(active)
 
   // foreign keys
   userId     String
@@ -120,6 +121,11 @@ model Subscription {
   transactions Transaction[]
 
   @@index([userId, accountId, categoryId])
+}
+
+enum SubscriptionState {
+  active
+  canceled
 }
 
 enum TransactionType {

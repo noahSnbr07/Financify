@@ -11,8 +11,6 @@ interface TotalBalanceProps {
 
 export default function TotalBalance({ balance, budgetExceeded, color }: TotalBalanceProps) {
 
-
-
     return (
         <div className="flex-1 bg-stack flex justify-center flex-col gap-2 p-4 min-h-20 rounded-lg items-center">
             <Digits additionalClassName="font-bold text-4xl" value={Number(balance.toFixed(2))} />

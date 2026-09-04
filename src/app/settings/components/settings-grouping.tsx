@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { APIResponse } from "@/src/interfaces";
 
@@ -41,10 +40,7 @@ function SubSection({ icon, label, description, id, apiEndpoint, destructiveOper
     const [pending, setPending] = useState<boolean>(false);
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: id * .25 }}
+        <div
             className="flex flex-col gap-4 bg-stack rounded-lg">
             <div className="flex gap-4 p-4 items-center bg-stack rounded-t-lg">
                 {icon}
@@ -63,7 +59,7 @@ function SubSection({ icon, label, description, id, apiEndpoint, destructiveOper
                     }}
                 > {buttonLabel} </button>
             </div>
-        </motion.div>
+        </div>
     );
 }
 

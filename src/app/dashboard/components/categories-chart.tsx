@@ -2,7 +2,7 @@
 
 import { PieChart, ResponsiveContainer, } from "recharts";
 import { Pie } from "recharts";
-import { ParsedExtendedCategory } from "@/src/server/get-dashboard-data";
+import type { ParsedCategory } from "@/src/server/get-dashboard-data";
 import { Digits } from "@/src/global/components";
 
 type ChartDataType = {
@@ -13,7 +13,7 @@ type ChartDataType = {
 }
 
 interface _props {
-    categories: ParsedExtendedCategory[];
+    categories: ParsedCategory[];
 }
 
 export default function CategoriesChart({ categories }: _props) {
@@ -30,7 +30,10 @@ export default function CategoriesChart({ categories }: _props) {
 
     return (
         <div className="flex flex-col items-center gap-4 h-full w-full min-h-64 min-w-0">
-            <ResponsiveContainer minHeight={256}>
+            <ResponsiveContainer
+                minHeight={256}
+                width={"100%"}
+            >
                 <PieChart>
                     <Pie
                         data={transformedCategories}

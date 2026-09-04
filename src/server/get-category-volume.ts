@@ -1,14 +1,13 @@
 import { database } from "../configuration";
 import { Category } from "../generated/prisma/client";
-import getAuth from "./get-auth";
+import { User } from "../interfaces";
 
 interface Props {
     category: Category;
+    auth: User;
 }
 
-async function getCategoryVolume({ category }: Props): Promise<number | null> {
-    const auth = await getAuth();
-    if (!auth) return null;
+async function getCategoryVolume({ auth, category }: Props): Promise<number | null> {
 
     const transactions = await database.transaction.findMany({
         where: {

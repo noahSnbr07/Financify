@@ -1,6 +1,6 @@
 'use client';
 
-import { ParsedExtendedTransaction } from "@/src/server/get-dashboard-data";
+import type { ParsedTransaction } from "@/src/server/get-dashboard-data";
 import {
     CartesianGrid,
     Legend,
@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 interface Props {
-    transactions: ParsedExtendedTransaction[];
+    transactions: ParsedTransaction[];
 }
 
 export default function BalanceChart({ transactions }: Props) {
@@ -35,10 +35,12 @@ export default function BalanceChart({ transactions }: Props) {
         expense: number;
     }[]);
 
-
     return (
         <div className="w-full h-full min-h-64 min-w-0">
-            <ResponsiveContainer className={"h-full w-full min-h-64 min-w-64"} aspect={undefined} minHeight={256}>
+            <ResponsiveContainer
+                minHeight={256}
+                width={"100%"}
+            >
                 <LineChart
                     height={"100%"}
                     width={"100%"}

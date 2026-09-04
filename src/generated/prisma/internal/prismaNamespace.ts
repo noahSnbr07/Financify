@@ -977,6 +977,7 @@ export const SubscriptionScalarFieldEnum = {
   name: 'name',
   value: 'value',
   interval: 'interval',
+  state: 'state',
   userId: 'userId',
   accountId: 'accountId',
   categoryId: 'categoryId',
@@ -1107,6 +1108,20 @@ export type EnumSubscriptionIntervalFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'SubscriptionInterval[]'
  */
 export type ListEnumSubscriptionIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionInterval[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SubscriptionState'
+ */
+export type EnumSubscriptionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionState'>
+    
+
+
+/**
+ * Reference to a field of type 'SubscriptionState[]'
+ */
+export type ListEnumSubscriptionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionState[]'>
     
 
 

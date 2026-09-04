@@ -1,6 +1,6 @@
 'use client';
 
-import { ParsedAccount } from "@/src/server/get-dashboard-data";
+import type { ParsedAccount } from "@/src/server/get-dashboard-data";
 import { Bar, BarChart, CartesianGrid, createHorizontalChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface _props {
@@ -22,6 +22,7 @@ export default function AccountChart({ accounts }: _props) {
     return (
         <ResponsiveContainer
             minHeight={256}
+            width={"100%"}
         >
 
             <BarChart

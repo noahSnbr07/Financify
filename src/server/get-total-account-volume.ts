@@ -1,15 +1,20 @@
 import { database } from "../configuration";
+import { User } from "../interfaces";
 
 interface _props {
     accountId: string;
+    auth: User;
 }
 
-async function getTotalAccountVolume({ accountId }: _props) {
+async function getTotalAccountVolume({ accountId, auth }: _props) {
 
     const transactions = await database.transaction.findMany({
         where: {
             account: {
                 id: accountId
+            },
+            user: {
+                id: auth.id
             }
         }
     });

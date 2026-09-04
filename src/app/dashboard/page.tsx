@@ -1,8 +1,8 @@
 import Screen from "@/src/global/components/server/screen";
-import { AccountChart, AIChatBox, BalanceChart, BudgetRadarChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, TotalBalance } from "./components";
-import { getAuth, getColorForBudgetExceeding, getDashboardData, getTotalAccountVolume } from "@/src/server";
+import { AccountChart, AccountVolumes, AIChatBox, BalanceChart, BudgetRadarChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, SubscriptionData, TotalBalance, TransactionHistory } from "./components";
+import { getAuth, getDashboardData } from "@/src/server";
 import { redirect } from "next/navigation";
-import { Digits } from "@/src/global/components";
+import UpComingBillings from "./components/billings";
 
 interface _props {
     searchParams: Promise<{ range?: number }>;
@@ -16,77 +16,64 @@ async function page({ searchParams }: _props) {
     const auth = await getAuth();
     if (!auth) redirect("/authentication");
 
-    const { categories, totalBalance, transactions, accounts, budgetExceeded, categoryPercentages } = await getDashboardData({ range });
-
-    const color = await getColorForBudgetExceeding({ exceeding: budgetExceeded })
+    const {
+        categories,
+        totalBalance,
+        transactions,
+        accounts,
+        budgetExceeded,
+        categoryPercentages,
+        subscriptions,
+        subscriptionForecast,
+        budgetIndexColor
+    } = await getDashboardData({ auth, range });
 
     return (
         <Screen label="Dashboard">
             <QuickAccess />
             <DateRangeSelector />
-            <ContentEntry index={0} renderFallback={false} label="Balance">
-                <TotalBalance color={color} budgetExceeded={budgetExceeded} balance={totalBalance} />
+
+            <ContentEntry renderFallback={false} index={0} label="Balance">
+                <TotalBalance color={budgetIndexColor} budgetExceeded={budgetExceeded} balance={totalBalance} />
             </ContentEntry>
-            <ContentEntry index={1} renderFallback={false} label="Budget">
-                <BudgetRadarChart categories={categoryPercentages} />
-            </ContentEntry>
-            <ContentEntry index={2} renderFallback={transactions.length < 1} label="Balance History">
+
+            <ContentEntry renderFallback={transactions.length < 1} index={1} label="History">
                 <BalanceChart transactions={transactions} />
             </ContentEntry>
-            <ContentEntry index={3} renderFallback={categories.length < 1} label="Category Volume">
+
+            <ContentEntry renderFallback={categories.length < 1} index={2} label="Category Interests">
+                <BudgetRadarChart categories={categoryPercentages} />
+            </ContentEntry>
+
+            <ContentEntry renderFallback={categories.length < 1} index={3} label="Category Volume">
                 <CategoriesChart categories={categories} />
             </ContentEntry>
-            <ContentEntry index={4} label="Accounts I/O" renderFallback={accounts.length < 1}>
+
+            <ContentEntry renderFallback={accounts.length < 1} index={4} label="Accounts In/Out">
                 <AccountChart accounts={accounts} />
             </ContentEntry>
-            <ContentEntry index={5} renderFallback={transactions.length < 1} label="Recent Transactions">
-                <div className="flex flex-col">
-                    {transactions.slice(transactions.length <= 5 ? 0 : transactions.length - 5).reverse().map(function (transaction) {
-                        return (
-                            <div
-                                key={transaction.id}
-                                className="flex justify-between gap-2 border-y last:border-b-0 items-center first:border-t-0 border-stack p-2">
-                                <div className="flex flex-col">
-                                    <p> {transaction.name} </p>
-                                    <p className="text-sm text-foreground/50"> {transaction.account.name} {"·"} {transaction.category.name} </p>
-                                </div>
-                                <b
-                                    className="w-20 text-center h-min rounded-full border-2"
-                                    style={{ borderColor: !transaction.received ? "#bf2f2f" : "#3bbf2f" }}>
-                                    <Digits value={transaction.value.toFixed(2)} />
-                                </b>
-                            </div>
-                        )
-                    })}
-                </div>
-            </ContentEntry>
-            <ContentEntry index={6} renderFallback={accounts.length < 1} label="Accounts">
-                <div className="grid grid-cols-2 gap-2">
-                    {accounts.map(async function (account) {
 
-                        const volume = await getTotalAccountVolume({ accountId: account.id });
-
-                        return (
-                            <div
-                                style={{ background: account.color }}
-                                key={account.id}
-                                className="border-2 border-stack p-2 flex justify-between gap-2 rounded-md">
-                                <i> {account.name} </i>
-                                <b> <Digits value={volume} /> </b>
-                            </div>
-                        )
-                    })}
-                </div>
+            <ContentEntry renderFallback={subscriptions.length < 1} index={5} label="Billings">
+                <UpComingBillings billings={subscriptionForecast.billings} />
             </ContentEntry>
-            <ContentEntry
-                index={7}
-                renderFallback={false}
-                label="AI Chat Integration">
+
+            <ContentEntry renderFallback={subscriptions.length < 1} index={6} label="Subscription Forecast">
+                <SubscriptionData averages={subscriptionForecast.averages} />
+            </ContentEntry>
+
+            <ContentEntry renderFallback={transactions.length < 1} index={7} label="Transactions">
+                <TransactionHistory transactions={transactions} />
+            </ContentEntry>
+
+            <ContentEntry renderFallback={accounts.length < 1} index={8} label="Account Balances">
+                <AccountVolumes accounts={accounts} />
+            </ContentEntry>
+
+            <ContentEntry renderFallback={false} index={9} label="AI Chat">
                 <AIChatBox />
             </ContentEntry>
         </Screen>
     );
-
 }
 
 export default page;

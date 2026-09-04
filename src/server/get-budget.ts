@@ -1,15 +1,8 @@
 import { database } from "../configuration";
-import getAuth from "./get-auth";
+import { User } from "../interfaces";
 
-
-export default async function getBudget() {
-
-    const auth = await getAuth();
-    if (!auth) return 0;
+export default async function getBudget({ auth }: { auth: User }) {
 
     const user = await database.user.findUnique({ where: { id: auth.id } });
-
     return user && user.budget ? user?.budget : 0;
-
-
 }

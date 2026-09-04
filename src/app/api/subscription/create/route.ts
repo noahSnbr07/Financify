@@ -1,6 +1,6 @@
 import { CreateSubscriptionType } from '@/src/app/subscriptions/new/components/new-subscription-form';
 import { database } from '@/src/configuration';
-import { SubscriptionInterval } from '@/src/generated/prisma/enums';
+import { SubscriptionInterval, SubscriptionState } from '@/src/generated/prisma/enums';
 import { APIResponse } from '@/src/interfaces';
 import { getAuth, getNextBillingDate } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
@@ -36,6 +36,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
 
         await database.subscription.create({
             data: {
+                interval,
                 name,
                 value,
                 startDate,
@@ -43,6 +44,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
                 nextBillingDate,
                 accountId,
                 categoryId,
+                state: SubscriptionState.active
             }
         });
 

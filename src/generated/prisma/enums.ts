@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const SubscriptionState = {
+  active: 'active',
+  canceled: 'canceled'
+} as const
+
+export type SubscriptionState = (typeof SubscriptionState)[keyof typeof SubscriptionState]
+
+
 export const TransactionType = {
   manual: 'manual',
   subscription: 'subscription'

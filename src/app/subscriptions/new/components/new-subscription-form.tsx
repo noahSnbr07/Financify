@@ -52,7 +52,6 @@ export default function NewSubscriptionForm({ categories, accounts }: _props) {
     )
 
     async function submitForm() {
-        console.log(pending)
         if (pending) return;
         else setPending(true);
 
@@ -60,7 +59,7 @@ export default function NewSubscriptionForm({ categories, accounts }: _props) {
 
             if (invalidForm()) return toast("Form data invalid.")
 
-            const response = await fetch("/api/subscription/create", { method: "POST", body: JSON.stringify({ ...subscription, startDate: new Date() }) });
+            const response = await fetch("/api/subscription/create", { method: "POST", body: JSON.stringify(subscription) });
             const data: APIResponse = await response.json();
 
             toast(data.message, { type: (!response.ok || !data.success) ? "error" : "success" });

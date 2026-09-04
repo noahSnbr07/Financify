@@ -1,5 +1,6 @@
 'use client';
 
+import { TransactionType } from "@/src/generated/prisma/enums";
 import Digits from "@/src/global/components/client/digits";
 import { APIResponse } from "@/src/interfaces";
 import { TrashIcon } from "lucide-react";
@@ -13,6 +14,7 @@ interface _props {
         category: {
             name: string;
         };
+        type: TransactionType;
         value: number;
         id: string;
         created: Date;
@@ -48,7 +50,10 @@ export default function TransactionHistory({ transactions }: _props) {
                                         received={transaction.received}
                                         created={transaction.created} />
                                     <div className="flex flex-col gap-1">
-                                        <b> {transaction.name} </b>
+                                        <div className="flex items-center gap-2">
+                                            <div className="bg-foreground/50 items-center text-background px-2 py-0 rounded-full text-sm w-min"> {transaction.type === "manual" ? "Manual" : "Billing"} </div>
+                                            <b> {transaction.name} </b>
+                                        </div>
                                         <i className="text-sm truncate"> {transaction.category.name} </i>
                                     </div>
                                 </div>

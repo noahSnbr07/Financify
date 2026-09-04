@@ -1,30 +1,34 @@
 'use client';
 
-import { Dispatch, SetStateAction } from "react";
-import { CreateSubscriptionType } from "./new-subscription-form";
 import { Account } from "@/src/generated/prisma/client";
 import Link from "next/link";
 import { PlusIcon } from "lucide-react";
+import FormStateIndicator from "./form-state-indicator";
 
 interface _props {
-    setSubscription: Dispatch<SetStateAction<CreateSubscriptionType>>;
-    subscription: CreateSubscriptionType;
+    onChange: (account: Account) => void;
+    account: Account;
     accounts: Account[];
 }
-export default function AccountSelector({ setSubscription, subscription, accounts }: _props) {
+
+export default function AccountSelector({ account, accounts, onChange }: _props) {
 
     return (
         <div className="flex flex-col gap-4 p-4 bg-stack rounded-lg">
-            <b className="text-sm text-foreground/50"> Select Account </b>
+            <FormStateIndicator label="Select Account:" value={account.name} color={account.color} />
+
             <div className="grid grid-cols-2 gap-4">
-                {accounts.map(function (account) {
+                {accounts.map(function (indexedAccount) {
                     return (
                         <button
-                            key={account.id}
+                            key={indexedAccount.id}
                             type="button"
                             className="rounded-sm p-2 font-bold"
-                            style={{ border: `4px solid ${account.color}`, background: subscription.accountId === account.id ? `${account.color}` : "var(--stack)" }}
-                            onClick={() => setSubscription((previous) => ({ ...previous, accountId: account.id }))}> {account.name} </button>
+                            style={{
+                                border: `4px solid ${indexedAccount.color}`,
+                                background: indexedAccount.id === account.id ? `${indexedAccount.color}` : "var(--stack)"
+                            }}
+                            onClick={() => onChange(indexedAccount)}> {indexedAccount.name} </button>
                     );
                 })}
                 <Link

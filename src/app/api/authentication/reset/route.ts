@@ -9,16 +9,16 @@ export async function POST(): Promise<NextResponse<APIResponse>> {
     const auth = await getAuth();
     if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
 
-    const query = { where: { user: { id: auth.id } } }
-
     try {
 
-        await Promise.all([
-            database.transaction.deleteMany(query),
-            database.category.deleteMany(query),
-            database.account.deleteMany(query),
-            database.report.deleteMany(query),
-        ]);
+        await database.$transaction(async (transaction) => {
+            const query = { where: { userId: auth.id } };
+            await transaction.transaction.deleteMany(query);
+            await transaction.subscription.deleteMany(query);
+            await transaction.category.deleteMany(query);
+            await transaction.account.deleteMany(query);
+            await transaction.report.deleteMany(query);
+        });
 
         return NextResponse.json(apiResponsePresets.OK({ message: "All Data deleted" }))
 

@@ -16,10 +16,10 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         name && name.trim().length > 0
     );
 
-    if (!validRequestBody) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Color or name invalid." }));
+    if (!validRequestBody) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Either color or name invalid." }));
 
     try {
-        const newAccount = await database.account.create({
+        await database.account.create({
             data: {
                 color,
                 name,
@@ -27,14 +27,11 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             }
         });
 
-        if (!newAccount) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Account could not be created." }))
-
-        return NextResponse.json(apiResponsePresets.CREATED({ message: "Account has been created" }))
+        return NextResponse.json(apiResponsePresets.OK({ message: "New account created." }));
 
     } catch (error) {
-
         console.error(error);
         if (error instanceof Error) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: error.message }));
-        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error" }))
+        else return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "Uncaught server error." }))
     }
 }

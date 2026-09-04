@@ -1,19 +1,13 @@
 import { database } from "@/src/configuration";
 import { getAuth } from "@/src/server";
 import { redirect } from "next/navigation";
-import { Sorting, TransactionHistory } from "./components";
-import { SORTING } from "./components/sorting";
+import { TransactionHistory } from "./components";
 
-interface _props {
-    searchParams: Promise<Readonly<{ sort: SORTING }>>;
-}
 
-async function page({ searchParams }: _props) {
+async function page() {
 
     const auth = await getAuth();
     if (!auth) redirect("/authentication");
-
-    const { sort } = await searchParams;
 
     const transactions = await database.transaction.findMany({
         where: {
@@ -27,7 +21,7 @@ async function page({ searchParams }: _props) {
                     name: true,
                 }
             }
-        },
+        }
     });
 
     const parsedTransactions = transactions.map(function (transaction) {
@@ -36,10 +30,9 @@ async function page({ searchParams }: _props) {
 
     return (
         <div className="h-full flex flex-col gap-4">
-            <Sorting activeSorting={sort} />
             <TransactionHistory transactions={parsedTransactions} />
         </div>
     );
 }
 
-export default page
+export default page;

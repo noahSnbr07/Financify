@@ -1,4 +1,4 @@
-import { Trash2Icon } from "lucide-react";
+import { LogOutIcon, Trash2Icon } from "lucide-react";
 import { Section } from "./components";
 
 async function page() {
@@ -10,9 +10,9 @@ async function page() {
                 subsections={[{
                     id: 0,
                     description: "Delete my access token and log me out",
-                    icon: <Trash2Icon opacity={.5} size={20} />,
+                    icon: <LogOutIcon opacity={.5} size={20} />,
                     label: "Logout",
-                    apiEndpoint: "/authentication/logout",
+                    apiEndpoint: "/api/authentication/logout",
                     destructiveOperation: false,
                     buttonLabel: "Logout",
                 }]}

@@ -1,28 +1,12 @@
 "use client";
 
-import { Subscription, SubscriptionInterval } from "@/src/generated/prisma/browser";
-import { APIResponse } from "@/src/interfaces";
-import { useRouter } from "next/navigation";
+import { SubscriptionInterval } from "@/src/generated/prisma/browser";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import NameInput from "./name-input";
-import DatePicker from "./date-picker";
-import ValuePicker from "./value-picker";
-import IntervalSelector from "./interval-selector";
 import { Account, Category } from "@/src/generated/prisma/client";
 import { Warning } from "@/src/global/components";
 import { warnings } from "@/src/static/client";
-import CategorySelector from "./category-selector";
-import AccountSelector from "./account-selector";
-
-export type CreateSubscriptionType = Pick<Subscription,
-    "interval" |
-    "name" |
-    "accountId" |
-    "categoryId" |
-    "startDate"> & {
-        value: number;
-    };
+import { AccountSelector, CategorySelector, DatePicker, IntervalSelector, StringInput, ValuePicker } from "@/utils/form-components";
+import { SuccessAction, useFetch } from "@/src/hooks";
 
 interface _props {
     categories: Category[];
@@ -31,88 +15,78 @@ interface _props {
 
 export default function NewSubscriptionForm({ categories, accounts }: _props) {
 
-    const [subscription, setSubscription] = useState<CreateSubscriptionType>({
-        interval: SubscriptionInterval.monthly,
+    const now = new Date();
+
+    const [subscription, setSubscription] = useState({
+        interval: SubscriptionInterval.monthly as SubscriptionInterval,
         name: "",
         startDate: new Date(),
         value: 0,
-        accountId: "",
-        categoryId: "",
+        account: { id: "", name: "", created: now, updated: now, userId: "", color: "", },
+        category: { id: "", name: "", created: now, updated: now, userId: "", color: "", },
     });
 
-    const [pending, setPending] = useState<boolean>(false);
-    const router = useRouter();
+    const { SubmitButton } = useFetch({
+        href: "/api/subscription/create",
+        feedback: {
+            error: "Subscription could not be created",
+            success: "Subscription has been created",
+        },
+        data: {
+            interval: subscription.interval,
+            name: subscription.name,
+            startDate: subscription.startDate,
+            value: subscription.value,
+            accountId: subscription.account.id,
+            categoryId: subscription.category.id,
+        },
+        onSuccess: SuccessAction.redirect,
+        redirectHref: "/dashboard",
+        submitConditions: [
+            subscription.name.length > 0,
+            subscription.value > 0,
+            subscription.account.id.length > 0,
+            subscription.category.id.length > 0,
+        ],
+    });
 
-    const invalidForm = () => Boolean(
-        subscription.value === 0 ||
-        subscription.name.length < 1 ||
-        subscription.startDate.toLocaleDateString().length < 1 ||
-        categories.length < 1 ||
-        accounts.length < 1
-    )
-
-    async function submitForm() {
-        if (pending) return;
-        else setPending(true);
-
-        try {
-
-            if (invalidForm()) return toast("Form data invalid.")
-
-            const response = await fetch("/api/subscription/create", { method: "POST", body: JSON.stringify(subscription) });
-            const data: APIResponse = await response.json();
-
-            toast(data.message, { type: (!response.ok || !data.success) ? "error" : "success" });
-
-
-            router.push("/dashboard");
-
-        } catch (error) {
-            console.error(error);
-            if (error instanceof Error) toast(error.message, { type: "error" });
-            toast("Subscription could not be created", { type: "error" });
-        } finally {
-            setPending(false);
-        }
-    }
+    //name value interval category account date
 
     return (
         <div className="flex flex-col gap-4">
             {categories.length < 1 && <Warning warning={warnings.NO_CATEGORIES} />}
             {accounts.length < 1 && <Warning warning={warnings.NO_ACCOUNTS} />}
 
-            <NameInput
-                setSubscription={setSubscription}
-                subscription={subscription}
+            <StringInput
+                onChange={(name) => setSubscription((previous) => ({ ...previous, name }))}
+                value={subscription.name ?? ""}
+                autoFocus
+                placeholder="select name ..."
             />
             <ValuePicker
-                setSubscription={setSubscription}
-                subscription={subscription}
+                onChange={(value) => setSubscription((previous) => ({ ...previous, value }))}
+                value={subscription.value}
             />
             <IntervalSelector
-                setSubscription={setSubscription}
-                subscription={subscription}
+                interval={subscription.interval}
+                onChange={(interval) => setSubscription((previous) => ({ ...previous, interval }))}
             />
             <CategorySelector
                 categories={categories}
-                setSubscription={setSubscription}
-                subscription={subscription}
+                category={subscription.category}
+                onChange={(category) => setSubscription((previous) => ({ ...previous, category }))}
             />
             <AccountSelector
+                account={subscription.account}
                 accounts={accounts}
-                setSubscription={setSubscription}
-                subscription={subscription}
+                onChange={(account) => setSubscription((previous) => ({ ...previous, account }))}
             />
             <DatePicker
-                setSubscription={setSubscription}
-                subscription={subscription}
+                date={subscription.startDate}
+                onChange={(startDate) => setSubscription((previous) => ({ ...previous, startDate }))}
             />
-            <button
-                onClick={submitForm}
-                disabled={invalidForm()}
-                style={{ opacity: (invalidForm()) ? .5 : 1 }}
-                className="w-full rounded-lg border-2 border-foreground flex justify-center items-center text-lg font-bold p-4"
-            > Submit </button>
+
+            {SubmitButton}
         </div>
     );
 }

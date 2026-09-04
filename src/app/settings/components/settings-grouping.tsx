@@ -41,6 +41,7 @@ function SubSection({ icon, label, description, id, apiEndpoint, destructiveOper
 
     return (
         <div
+            key={id}
             className="flex flex-col gap-4 bg-stack rounded-lg">
             <div className="flex gap-4 p-4 items-center bg-stack rounded-t-lg">
                 {icon}

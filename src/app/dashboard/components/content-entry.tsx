@@ -13,6 +13,7 @@ export default function ContentEntry({ children, label, renderFallback, index }:
 
     return (
         <div
+            key={index}
             className="bg-stack rounded-xl p-2 flex flex-col min-h-24 gap-2"
         >
             {renderFallback ? <FallBackContent /> : <DefaultContent label={label}> {children} </DefaultContent>}

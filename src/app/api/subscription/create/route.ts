@@ -1,4 +1,3 @@
-import { CreateSubscriptionType } from '@/src/app/subscriptions/new/components/new-subscription-form';
 import { database } from '@/src/configuration';
 import { SubscriptionInterval, SubscriptionState } from '@/src/generated/prisma/enums';
 import { APIResponse } from '@/src/interfaces';
@@ -18,7 +17,14 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         value,
         accountId,
         categoryId,
-    }: CreateSubscriptionType = await _request.json();
+    }: {
+        interval: SubscriptionInterval;
+        name: string;
+        startDate: Date;
+        value: number;
+        accountId: string;
+        categoryId: string;
+    } = await _request.json();
 
     const validRequestBody = Boolean(
         accountId && accountId.length > 0 &&
@@ -27,6 +33,8 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         interval && Object.values(SubscriptionInterval).includes(interval) &&
         new Date(startDate) instanceof Date
     );
+
+    console.table({ interval })
 
     if (!validRequestBody) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Form data invalid." }));
 

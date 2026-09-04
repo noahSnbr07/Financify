@@ -14,7 +14,7 @@ function QuickAccess() {
 
     return (
         <div className="flex gap-2 overflow-x-auto w-full whitespace-nowrap">
-            {accessibleEndpoints.map(function (endpoint, _index: number) {
+            {accessibleEndpoints.map(function (endpoint) {
                 return (
                     <div
                         className="px-4 py-1 bg-stack rounded-full max-h-8"

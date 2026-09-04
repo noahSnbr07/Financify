@@ -13,7 +13,6 @@ async function page() {
 
     return (
         <div className="flex flex-col gap-4">
-            <hr className="w-full border-stack border-2 rounded-full" />
             <ReportsList reports={reports} />
             <hr className="w-full border-stack border-2 rounded-full" />
             <Link

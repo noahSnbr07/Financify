@@ -2,9 +2,10 @@
 
 import { usePrivacyToggler, useSidebarToggler } from "@/src/hooks";
 import SidebarTogglerButton from "./sidebar-toggler-button";
-import { BotMessageSquareIcon, EyeIcon, EyeOffIcon, LayoutDashboardIcon, PlusIcon, Settings2Icon, XIcon } from "lucide-react";
-import React from "react";
+import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { type SidebarLink, sidebarLinks } from "@/src/static/client";
+import Link from "next/link";
 
 export default function Sidebar() {
 
@@ -14,7 +15,7 @@ export default function Sidebar() {
     return !sidebar?.hidden && (
         <div
             className="fixed flex z-10 top-0 left-0 w-full h-full bg-background/50">
-            <div className="flex flex-col w-full bg-background md:w-1/2 lg:w-1/3">
+            <div className="flex flex-col w-full overflow-y-auto bg-background md:w-1/2 lg:w-1/3">
                 <div className="p-4 h-16.5 flex items-center gap-4 border-b-2 border-foreground/50">
                     <SidebarTogglerButton />
                     <b> Menu </b>
@@ -27,49 +28,36 @@ export default function Sidebar() {
                         {privacyButton?.hidden ? "Show Digits" : "Hide Digits"}
                     </button>
                     <hr className="border-2 rounded-full border-stack" />
-                    <SidebarLink
-                        href="/transactions/new"
-                        icon={<PlusIcon opacity={.5} />}
-                        label="Create Transaction"
-                        toggle={sidebar!.toggle}
-                    />
-                    <SidebarLink
-                        href="/categories/new"
-                        icon={<PlusIcon opacity={.5} />}
-                        label="Create Category"
-                        toggle={sidebar!.toggle}
-                    />
-                    <SidebarLink
-                        href="/accounts/new"
-                        icon={<PlusIcon opacity={.5} />}
-                        label="Create Account"
-                        toggle={sidebar!.toggle}
-                    />
-                    <SidebarLink
-                        href="/subscriptions/new"
-                        icon={<PlusIcon opacity={.5} />}
-                        label="Create Subscription"
-                        toggle={sidebar!.toggle}
-                    />
+                    <div className="flex flex-col gap-4">
+                        {sidebarLinks.base.map((link) => (
+                            <Link
+                                onClick={() => sidebar?.toggle()}
+                                className="bg-stack flex rounded-lg font-bold p-4 gap-4"
+                                key={link.id}
+                                href={link.href}>
+                                {link.icon}
+                                {link.label}
+                            </Link>
+                        ))}
+                    </div>
                     <hr className="border-2 rounded-full border-stack" />
-                    <SidebarLink
-                        href="/dashboard"
-                        icon={<LayoutDashboardIcon opacity={.5} />}
-                        label="Dashboard"
-                        toggle={sidebar!.toggle}
-                    />
-                    <SidebarLink
-                        href="/chat"
-                        icon={<BotMessageSquareIcon opacity={.5} />}
-                        label="Ask Fluffle AI"
-                        toggle={sidebar!.toggle}
-                    />
-                    <SidebarLink
-                        href="/settings"
-                        icon={<Settings2Icon opacity={.5} />}
-                        label="Settings"
-                        toggle={sidebar!.toggle}
-                    />
+                    <div className="grid grid-cols-2 gap-4">
+                        {sidebarLinks.create.map((link) => (
+                            <SidebarLink
+                                key={link.id}
+                                {...link}
+                            />
+                        ))}
+                    </div>
+
+                    <hr className="border-2 rounded-full border-stack" />
+                    <div className="grid gap-4 grid-cols-2">
+                        {sidebarLinks.manage.map((link) => (
+                            <SidebarLink
+                                key={link.id}
+                                {...link} />
+                        ))}
+                    </div>
                     <hr className="border-2 rounded-full border-stack" />
                     <button
                         onClick={sidebar?.toggle}
@@ -83,26 +71,20 @@ export default function Sidebar() {
     );
 }
 
-interface SidebarLink {
-    label: string;
-    href: string;
-    icon: React.JSX.Element;
-    toggle: () => void;
-}
-
-function SidebarLink({ label, href, icon, toggle }: SidebarLink) {
+function SidebarLink({ label, href, icon }: SidebarLink) {
 
     const router = useRouter();
+    const sidebar = useSidebarToggler();
 
     function sidebarNavigateTo() {
         router.push(href);
-        toggle();
+        sidebar?.toggle();
     }
 
     return (
         <button
             onClick={sidebarNavigateTo}
-            className="flex gap-4 p-4 bg-stack font-bold rounded-lg">
+            className="flex flex-col text-sm text-foreground/50 items-center gap-4 p-4 bg-stack font-bold rounded-lg">
             {icon}
             {label}
         </button>

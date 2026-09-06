@@ -7,7 +7,7 @@ function QuickAccess() {
     const accessibleEndpoints = [
         { id: 0, name: "New Transaction", href: "/transactions/new" },
         { id: 1, name: "New Subscription", href: "/subscriptions/new" },
-        { id: 2, name: "Transaction History", href: "/transactions/history" },
+        { id: 2, name: "Manage Transactions", href: "/transactions/manage" },
         { id: 3, name: "Manage Categories", href: "/categories/manage" },
         { id: 4, name: "Manage Subscriptions", href: "/subscriptions/manage" },
     ];

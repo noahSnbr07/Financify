@@ -8,7 +8,7 @@ async function layout({ children }: _props) {
 
 
     return (
-        <Screen label="Transaction History">
+        <Screen label="Manage Transactions">
             {children}
         </Screen>
     );

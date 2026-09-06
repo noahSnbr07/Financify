@@ -27,7 +27,7 @@ interface _props {
     }[];
 }
 
-export default function TransactionHistory({ transactions }: _props) {
+export default function ManageTransactions({ transactions }: _props) {
 
     return (
         <div className="flex flex-col gap-4">

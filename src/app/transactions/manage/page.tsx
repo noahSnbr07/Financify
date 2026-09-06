@@ -1,7 +1,7 @@
 import { database } from "@/src/configuration";
 import { getAuth } from "@/src/server";
 import { redirect } from "next/navigation";
-import { TransactionHistory } from "./components";
+import { ManageTransactions } from "./components";
 
 
 async function page() {
@@ -30,7 +30,7 @@ async function page() {
 
     return (
         <div className="h-full flex flex-col gap-4">
-            <TransactionHistory transactions={parsedTransactions} />
+            <ManageTransactions transactions={parsedTransactions} />
         </div>
     );
 }

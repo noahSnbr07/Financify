@@ -9,13 +9,13 @@ const warnings: { NO_CATEGORIES: WarningProps; NO_ACCOUNTS: WarningProps; } = {
     NO_CATEGORIES: {
         id: 0,
         href: "/categories/new",
-        body: "In order to create a Transaction you must first create a category.",
+        body: "You must first create a category.",
         label: "Create Category",
     },
     NO_ACCOUNTS: {
         id: 1,
         href: "/accounts/new",
-        body: "In order to create a Transaction you must first create an account.",
+        body: "You must first create an account.",
         label: "Create Account",
     }
 

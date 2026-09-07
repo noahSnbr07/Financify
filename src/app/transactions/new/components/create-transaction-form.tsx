@@ -7,8 +7,9 @@ import { warnings } from "@/src/static/client";
 import { AccountSelector, CategorySelector, InOutSwitch, StringInput, ValuePicker } from "@/utils/form-components";
 import Link from "next/link";
 import { useState } from "react";
+import BalanceCalculation from "./balance-calculation";
 
-interface CreateTransactionShape {
+export interface CreateTransactionShape {
     value: number;
     name: string;
     category: Category;
@@ -78,6 +79,9 @@ export default function CreateTransactionForm({ accounts, categories }: CreateTr
                 categories={categories}
                 category={transaction.category}
                 onChange={(category) => setTransaction({ ...transaction, category })}
+            />
+            <BalanceCalculation
+                newTransaction={transaction}
             />
             {SubmitButton}
             <Link

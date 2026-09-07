@@ -4,4 +4,11 @@ interface APIResponse {
     message: string;
 }
 
-export default APIResponse;
+interface APIResponseWithData<DataType> extends APIResponse {
+    data: DataType;
+}
+
+export {
+    type APIResponse,
+    type APIResponseWithData,
+}

@@ -10,6 +10,7 @@ function QuickAccess() {
         { id: 2, name: "Manage Transactions", href: "/transactions/manage" },
         { id: 3, name: "Manage Categories", href: "/categories/manage" },
         { id: 4, name: "Manage Subscriptions", href: "/subscriptions/manage" },
+        { id: 5, name: "Manage Accounts", href: "/accounts/manage" },
     ];
 
     return (

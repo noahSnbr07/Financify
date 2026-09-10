@@ -45,7 +45,7 @@ export default function BalanceCalculation({ newTransaction }: _props) {
 
         const timeout = setTimeout(refetchData, 2000);
         return () => clearTimeout(timeout);
-    }, [newTransaction]);
+    }, [newTransaction, body]);
 
     return (
         <div className="flex flex-col gap-4 p-4 bg-stack rounded-lg">

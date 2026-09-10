@@ -37,11 +37,11 @@ async function page({ searchParams }: _props) {
                 <TotalBalance color={budgetIndexColor} budgetExceeded={budgetExceeded} balance={totalBalance} />
             </ContentEntry>
 
-            <ContentEntry renderFallback={transactions.length < 1} index={1} label="History">
+            <ContentEntry renderFallback={transactions.length < 2} index={1} label="History">
                 <BalanceChart transactions={transactions} />
             </ContentEntry>
 
-            <ContentEntry renderFallback={categories.length < 1} index={2} label="Category Interests">
+            <ContentEntry renderFallback={categories.length < 3} index={2} label="Category Interests">
                 <BudgetRadarChart categories={categoryPercentages} />
             </ContentEntry>
 

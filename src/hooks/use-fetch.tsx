@@ -14,6 +14,8 @@ interface _props {
     href: string;
     data?: unknown;
     redirectHref?: string;
+    buttonClassName?: string;
+    buttonLabel?: string;
     onSuccess: SuccessAction;
     feedback: {
         error: string;
@@ -26,7 +28,7 @@ type UseFetchResponse = {
     SubmitButton: React.JSX.Element;
 }
 
-export default function useFetch({ href, data, onSuccess, redirectHref = "", feedback, submitConditions }: _props): UseFetchResponse {
+export default function useFetch({ href, data, buttonLabel, buttonClassName = "", onSuccess, redirectHref = "", feedback, submitConditions }: _props): UseFetchResponse {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const conditionsFulfilled = submitConditions.every(Boolean);
@@ -41,7 +43,7 @@ export default function useFetch({ href, data, onSuccess, redirectHref = "", fee
             const response = await fetch(href, { method: "POST", body: JSON.stringify(data) });
             const responseData: APIResponse = await response.json();
 
-            if (!response.ok || !responseData.success || responseData.status < 200 || responseData.status >= 300) {
+            if (!response.ok || !responseData.success) {
                 return toast(feedback.error, { type: "error" });
             }
 
@@ -50,7 +52,7 @@ export default function useFetch({ href, data, onSuccess, redirectHref = "", fee
             else if (onSuccess === SuccessAction.refresh) router.refresh();
 
         } catch (error) {
-            console.error(error);
+            if (error instanceof Error) console.error(error)
             toast("Unhandled server error.", { type: "error" });
         } finally {
             setIsSubmitting(false);
@@ -62,9 +64,11 @@ export default function useFetch({ href, data, onSuccess, redirectHref = "", fee
             <button
                 onClick={callEndpoint}
                 disabled={blocked}
+                className={buttonClassName || "w-full rounded-lg border-2 border-foreground flex justify-center items-center text-lg font-bold p-4"}
                 style={{ opacity: blocked ? .5 : 1 }}
-                className="w-full rounded-lg border-2 border-foreground flex justify-center items-center text-lg font-bold p-4"
-            > Submit </button>
+            >
+                {buttonLabel || "Submit"}
+            </button>
         ),
     };
 }

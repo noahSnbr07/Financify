@@ -1,5 +1,4 @@
 import { database } from '@/src/configuration';
-import { APIResponse } from '@/src/interfaces';
 import { APIResponseWithData } from '@/src/interfaces/api-response';
 import { getAuth } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
@@ -65,10 +64,14 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     try {
 
         //transactions this month
-        const [budget, transactions] = await Promise.all([
+        const [budget, transactions, transactionsThisMonth] = await Promise.all([
             database.user.findUnique({ where: { id: auth.id }, select: { budget: true, } }),
 
-            await database.transaction.findMany({
+            database.transaction.findMany({
+                where: { userId: auth.id },
+            }),
+
+            database.transaction.findMany({
                 where: {
                     userId: auth.id,
                     ...timeSlideSelection
@@ -76,12 +79,21 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             }),
         ]);
 
-        const totalSpending = transactions.filter((t) => !t.received).reduce((acc, curr) => acc + Number(curr.value), 0);
-        const oldBalance = Math.round(transactions.reduce((acc, curr) => !curr.received ? acc + Number(curr.value) : acc - Number(curr.value), 0));
-        const newBalance = Math.round(received ? oldBalance + value : oldBalance - value);
-        const oldBudget = Math.round((totalSpending / (budget?.budget || 1)) * 100);
-        const newBudget = received ? oldBudget : Math.round((((totalSpending + value) / (budget?.budget || 1)) * 100));
-        const transactionBudget = newBudget - oldBudget;
+        const totalSpending = transactionsThisMonth
+            .filter((transaction) => !transaction.received)
+            .reduce((total, transaction) => total + Number(transaction.value), 0);
+        const currentBalance = transactions.reduce(
+            (total, transaction) => total + (transaction.received ? 1 : -1) * Number(transaction.value),
+            0,
+        );
+        const oldBalance = Number(currentBalance.toFixed(2));
+        const newBalance = Number((currentBalance + (received ? value : -value)).toFixed(1));
+        const budgetLimit = budget?.budget || 1;
+        const oldBudget = Number(((totalSpending / budgetLimit) * 100).toFixed(1));
+        const newBudget = received
+            ? oldBudget
+            : Number((((totalSpending + value) / budgetLimit) * 100).toFixed(1));
+        const transactionBudget = Number((newBudget - oldBudget).toFixed(1));
 
         return NextResponse.json({
             data: {

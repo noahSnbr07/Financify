@@ -72,7 +72,6 @@ export default function BalanceCalculation({ newTransaction }: _props) {
 function DataDelta({ oldValue, newValue, label, metric, delta }: { oldValue: number; newValue: number; label: string; metric: string; delta: string; }) {
 
     const TrendIcon = Boolean(newValue > oldValue) ? <TrendingUpIcon opacity={.5} size={20} /> : <TrendingDownIcon opacity={.5} size={20} />
-    console.log(oldValue, newValue);
 
     return (
         <div className="p-4 grid grid-cols-5 border-y-2 odd:border-none border-stack items-center">

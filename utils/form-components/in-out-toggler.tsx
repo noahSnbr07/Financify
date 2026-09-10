@@ -17,8 +17,6 @@ export default function InOutSwitch({ out, onChange }: _props) {
         inactive: { background: "var(--color-background)", color: "var(--color-foreground)" },
     }
 
-    console.log(out)
-
     return (
         <div className="flex flex-col gap-4 p-4 rounded-lg bg-stack">
             <FormStateIndicator label="Select Direction:" value={out ? "out" : "in"} />

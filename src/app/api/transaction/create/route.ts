@@ -40,8 +40,6 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             },
         });
 
-        console.log(newTransaction)
-
         if (!newTransaction) return NextResponse.json(apiResponsePresets.INTERNAL_SERVER_ERROR({ error: "New transaction could not be created" }));
 
         const response = apiResponsePresets.CREATED({ message: "Transaction created successfully." });

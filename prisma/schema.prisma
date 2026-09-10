@@ -38,7 +38,7 @@ model Transaction {
   accountId      String
   userId         String
   categoryId     String
-  account        Account         @relation(fields: [accountId], references: [id])
+  account        Account         @relation(fields: [accountId], references: [id], onDelete: Cascade)
   category       Category        @relation(fields: [categoryId], references: [id])
   user           User            @relation(fields: [userId], references: [id])
   subscription   Subscription?   @relation(fields: [subscriptionId], references: [id])

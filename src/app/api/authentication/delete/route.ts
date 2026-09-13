@@ -2,6 +2,7 @@ import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
 import { getAuth } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
+import { existsSync, unlinkSync } from 'fs';
 import { NextResponse } from 'next/server';
 
 export async function POST(): Promise<NextResponse<APIResponse>> {
@@ -9,18 +10,27 @@ export async function POST(): Promise<NextResponse<APIResponse>> {
     const auth = await getAuth();
     if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
 
-    const query = { where: { user: { id: auth.id } } }
-
     try {
+        const files = await database.file.findMany({
+            where: { userId: auth.id },
+            select: { url: true },
+        });
 
-        await Promise.all([
-            database.transaction.deleteMany(query),
-            database.category.deleteMany(query),
-            database.account.deleteMany(query),
-            database.report.deleteMany(query),
-        ]);
+        await database.$transaction(async (transaction) => {
+            const query = { where: { userId: auth.id } };
 
-        await database.user.delete({ where: { id: auth.id } });
+            await transaction.transaction.deleteMany(query);
+            await transaction.subscription.deleteMany(query);
+            await transaction.category.deleteMany(query);
+            await transaction.account.deleteMany(query);
+            await transaction.file.deleteMany(query);
+
+            await transaction.user.delete({ where: { id: auth.id } });
+        });
+
+        for (const file of files) {
+            if (existsSync(file.url)) unlinkSync(file.url);
+        }
 
         return NextResponse.json(apiResponsePresets.OK({ message: "User deleted" }))
 

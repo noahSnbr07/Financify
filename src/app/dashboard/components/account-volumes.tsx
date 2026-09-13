@@ -15,10 +15,10 @@ export default function AccountVolumes({ accounts }: _props) {
 
                 return (
                     <div
-                        style={{ background: account.color }}
+                        style={{ border: `2px solid ${account.color}` }}
                         key={account.id}
                         className="border-2 border-stack p-2 flex justify-between gap-2 rounded-md">
-                        <i> {account.name} </i>
+                        <b> {account.name} </b>
                         <b> <Digits value={account.volume} /> </b>
                     </div>
                 )

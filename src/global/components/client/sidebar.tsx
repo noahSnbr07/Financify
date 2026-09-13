@@ -6,6 +6,8 @@ import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { type SidebarLink, sidebarLinks } from "@/src/static/client";
 import Link from "next/link";
+import Image from "next/image";
+import { SVGIcon } from "@/src/assets";
 
 export default function Sidebar() {
 
@@ -14,11 +16,17 @@ export default function Sidebar() {
 
     return !sidebar?.hidden && (
         <div
-            className="fixed flex z-10 top-0 left-0 w-full h-full bg-background/50">
+            className="fixed flex z-1000 top-0 left-0 w-full h-full bg-background/50">
             <div className="flex flex-col w-full overflow-y-auto bg-background md:w-1/2 lg:w-1/3">
-                <div className="p-4 h-16.5 flex items-center gap-4 border-b-2 border-foreground/50">
+                <div className="p-4 flex items-center justify-between gap-4 border-b-2 border-foreground/50">
                     <SidebarTogglerButton />
                     <b> Menu </b>
+                    <Image
+                        src={SVGIcon}
+                        height={32}
+                        width={32}
+                        className="rounded-full"
+                        alt="sidebar-icon" />
                 </div>
                 <div className="flex-1 p-4 flex flex-col gap-4">
                     <button
@@ -61,7 +69,7 @@ export default function Sidebar() {
                     <hr className="border-2 rounded-full border-stack" />
                     <button
                         onClick={sidebar?.toggle}
-                        className="bg-red-600/50 font-bold flex gap-4 p-4 rounded-lg">
+                        className="bg-red-800/50 font-bold flex gap-4 p-4 rounded-lg">
                         <XIcon opacity={.5} />
                         Collapse Sidebar
                     </button>

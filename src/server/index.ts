@@ -13,6 +13,7 @@ import { checkRateLimit } from "./check-rate-limit";
 import getNextBillingDate from "./get-next-billing-date";
 import createTransactionFromSubscriptionBilling from "./create-transaction-from-subscription-billing";
 import generateSubscriptionsForecast from "./generate-subscriptions-forecast";
+import uploadFile from "./upload-file";
 
 export {
     getAuth,
@@ -30,4 +31,5 @@ export {
     checkRateLimit,
     getNextBillingDate,
     generateSubscriptionsForecast,
+    uploadFile,
 }

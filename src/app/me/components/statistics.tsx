@@ -4,7 +4,7 @@ import { UserDatabaseStats } from "@/src/server/get-user-database-stats";
 
 type _props = UserDatabaseStats;
 
-export default function Statistics({ totalAccounts, totalCategories, totalTransactions, totalReports, totalSubscriptions }: _props) {
+export default function Statistics({ totalAccounts, totalCategories, totalTransactions, totalFiles, totalSubscriptions }: _props) {
 
 
     return (
@@ -12,7 +12,7 @@ export default function Statistics({ totalAccounts, totalCategories, totalTransa
             <StatisticEntry label="Accounts" value={totalAccounts} />
             <StatisticEntry label="Categories" value={totalCategories} />
             <StatisticEntry label="Transactions" value={totalTransactions} />
-            <StatisticEntry label="Reports" value={totalReports} />
+            <StatisticEntry label="Files" value={totalFiles} />
             <StatisticEntry label="Subscriptions" value={totalSubscriptions} />
         </div>
     );

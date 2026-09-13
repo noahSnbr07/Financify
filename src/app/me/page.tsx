@@ -1,5 +1,5 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { Avatar, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay } from "./components";
+import { AvatarCard, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
@@ -13,13 +13,10 @@ async function page() {
 
     return (
         <>
-            <Avatar
-                name={auth.name}
-                alt={auth.name}
-                avatarHref={auth.avatar} />
+            <AvatarCard />
             <Statistics
                 totalSubscriptions={stats.subscriptions}
-                totalReports={stats.totalReports}
+                totalFiles={stats.totalFiles}
                 totalAccounts={stats.totalAccounts}
                 totalCategories={stats.totalCategories}
                 totalTransactions={stats.totalTransactions} />

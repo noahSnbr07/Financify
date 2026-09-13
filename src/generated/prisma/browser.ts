@@ -38,12 +38,12 @@ export type Account = Prisma.AccountModel
  */
 export type Category = Prisma.CategoryModel
 /**
- * Model Report
- * 
- */
-export type Report = Prisma.ReportModel
-/**
  * Model Subscription
  * 
  */
 export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model File
+ * 
+ */
+export type File = Prisma.FileModel

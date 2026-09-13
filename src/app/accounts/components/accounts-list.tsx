@@ -4,6 +4,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 import { AccountsListAccountTypeParsed } from "../manage/page";
 import { SuccessAction, useFetch } from "@/src/hooks";
+import { Warning } from "@/src/global/components";
+import { warnings } from "@/src/static/client";
 
 interface _props {
     accounts: AccountsListAccountTypeParsed[];
@@ -57,21 +59,12 @@ function AccountListEntry({ account }: { account: AccountsListAccountTypeParsed 
                         <KeyValuePair label={"Created"} value={account.created.toLocaleDateString()} />
                     </div>
                     {SubmitButton}
+                    <Warning noLink warning={warnings.DELETES_TRANSACTIONS_AND_SUBSCRIPTIONS} />
                 </div>
             )}
         </div>
     )
 }
-
-/*
-name: string;
-id: string;
-created: Date;
-updated: Date;
-color: string;
-userId: string;
-t: x[];
-*/
 
 interface KeyValuePairProps {
     label: string | number;

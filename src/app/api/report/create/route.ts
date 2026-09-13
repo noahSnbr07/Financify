@@ -1,10 +1,9 @@
 import { database } from '@/src/configuration';
+import { FileExtension, FileMime, FileType } from '@/src/generated/prisma/enums';
 import { APIResponse } from '@/src/interfaces';
-import { getAuth } from '@/src/server';
+import { getAuth, uploadFile } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
-import { writeFileSync, mkdirSync } from 'fs';
 import { NextResponse } from 'next/server';
-import { join } from 'path';
 
 export async function POST(): Promise<NextResponse<APIResponse>> {
 
@@ -14,31 +13,16 @@ export async function POST(): Promise<NextResponse<APIResponse>> {
     const identifier = new Date().getTime();
 
     try {
-        await database.report.create({
-            data: {
-                user: {
-                    connect: {
-                        id: auth.id
-                    },
-                },
-                filename: String(identifier),
-            }
-        });
-
         //pull all data
-        const [transactions, accounts, categories] = await Promise.all([
+        const [transactions, accounts, categories, subscriptions] = await Promise.all([
             database.transaction.findMany({ where: { userId: auth.id } }),
             database.account.findMany({ where: { userId: auth.id } }),
             database.category.findMany({ where: { userId: auth.id } }),
+            database.subscription.findMany({ where: { userId: auth.id } }),
         ]);
 
-        //create the parent directory
-        mkdirSync(join(process.cwd(), 'data/backups'), { recursive: true });
 
-        //construct the absolute path to thr requested file
-        const filePath = join(process.cwd(), 'data/backups', `${String(identifier)}.json`);
-
-        const fileBinary = JSON.stringify({
+        const fileBinary = new File([JSON.stringify({
             meta: {
                 created: {
                     date: new Date().toLocaleDateString(),
@@ -51,14 +35,21 @@ export async function POST(): Promise<NextResponse<APIResponse>> {
                     transactions: transactions.length,
                     accounts: accounts.length,
                     categories: categories.length,
+                    subscriptions: subscriptions.length,
                 }
             },
             user: auth,
-            transactions, accounts, categories
-        }, null, 2);
+            transactions, accounts, categories, subscriptions,
+        }, null, 2)], `report-${identifier}.json`, { type: 'application/json' });
 
 
-        writeFileSync(filePath, fileBinary);
+        await uploadFile({
+            extension: FileExtension.json,
+            file: fileBinary,
+            mime: FileMime.application,
+            type: FileType.REPORT,
+            userId: auth.id
+        })
 
         return NextResponse.json(apiResponsePresets.OK({ message: "Report created." }))
 

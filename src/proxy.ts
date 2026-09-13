@@ -27,7 +27,8 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
 
     if (request.nextUrl.pathname.startsWith("/api/authentication/login")) rateLimitPreset = LIMIT_PRESETS.AUTH;
     if (request.nextUrl.pathname.startsWith("/api/authentication/register")) rateLimitPreset = LIMIT_PRESETS.AUTH;
-    else if (request.nextUrl.pathname.startsWith("/api/report/create")) rateLimitPreset = LIMIT_PRESETS.STRICT;
+    else if (request.nextUrl.pathname.startsWith("/api/resource/upload")) rateLimitPreset = LIMIT_PRESETS.STRICT;
+    else if (request.nextUrl.pathname.startsWith("/api/me/avatar/update")) rateLimitPreset = LIMIT_PRESETS.STRICT;
     else if (request.nextUrl.pathname.startsWith("/api/ai/")) rateLimitPreset = LIMIT_PRESETS.AI;
     else rateLimitPreset = LIMIT_PRESETS.STANDARD;
 
@@ -76,7 +77,9 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
                 expiresIn: "15m",
             });
 
-            response.cookies.set({
+            request.cookies.set("financify-access-token", newAccessToken);
+            const refreshedResponse = NextResponse.next({ request });
+            refreshedResponse.cookies.set({
                 name: "financify-access-token",
                 value: newAccessToken,
                 httpOnly: true,
@@ -85,7 +88,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
                 sameSite: "lax",
             });
 
-            return response;
+            return refreshedResponse;
         } catch (refreshError) {
             console.error("Token refresh failed:", refreshError);
             return response;

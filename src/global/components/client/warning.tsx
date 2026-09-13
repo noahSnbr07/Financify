@@ -6,9 +6,10 @@ import Link from "next/link";
 
 interface _props {
     warning: WarningProps
+    noLink?: boolean;
 }
 
-export default function Warning({ warning }: _props) {
+export default function Warning({ warning, noLink }: _props) {
 
     return (
         <div className="bg-yellow-600/50 p-4 rounded-lg flex flex-col gap-4 border-2 border-yellow-400/50">
@@ -17,11 +18,13 @@ export default function Warning({ warning }: _props) {
                 <b> Warning </b>
             </div>
             <p> {warning.body} </p>
-            <Link
-                className="w-full rounded-sm py-2 bg-yellow-400/50 flex justify-center font-bold"
-                href={warning.href}>
-                {warning.label}
-            </Link>
+            {!noLink && (
+                <Link
+                    className="w-full rounded-sm py-2 bg-yellow-400/50 flex justify-center font-bold"
+                    href={warning.href}>
+                    {warning.label}
+                </Link>
+            )}
         </div>
     );
 }

@@ -9,20 +9,20 @@
 * 🟢 You can import this file directly.
 */
 
-export const SubscriptionState = {
-  active: 'active',
-  canceled: 'canceled'
-} as const
-
-export type SubscriptionState = (typeof SubscriptionState)[keyof typeof SubscriptionState]
-
-
 export const TransactionType = {
   manual: 'manual',
   subscription: 'subscription'
 } as const
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const SubscriptionState = {
+  active: 'active',
+  canceled: 'canceled'
+} as const
+
+export type SubscriptionState = (typeof SubscriptionState)[keyof typeof SubscriptionState]
 
 
 export const SubscriptionInterval = {
@@ -33,3 +33,32 @@ export const SubscriptionInterval = {
 } as const
 
 export type SubscriptionInterval = (typeof SubscriptionInterval)[keyof typeof SubscriptionInterval]
+
+
+export const FileType = {
+  AVATAR: 'AVATAR',
+  REPORT: 'REPORT',
+  SNAPSHOT: 'SNAPSHOT'
+} as const
+
+export type FileType = (typeof FileType)[keyof typeof FileType]
+
+
+export const FileMime = {
+  application: 'application',
+  image: 'image',
+  text: 'text'
+} as const
+
+export type FileMime = (typeof FileMime)[keyof typeof FileMime]
+
+
+export const FileExtension = {
+  jpeg: 'jpeg',
+  jpg: 'jpg',
+  png: 'png',
+  json: 'json',
+  svg: 'svg'
+} as const
+
+export type FileExtension = (typeof FileExtension)[keyof typeof FileExtension]

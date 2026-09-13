@@ -253,6 +253,84 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type EnumFileTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileType | Prisma.EnumFileTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileTypeFilter<$PrismaModel> | $Enums.FileType
+}
+
+export type EnumFileExtensionFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileExtension | Prisma.EnumFileExtensionFieldRefInput<$PrismaModel>
+  in?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel> | $Enums.FileExtension
+}
+
+export type EnumFileMimeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileMime | Prisma.EnumFileMimeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileMimeFilter<$PrismaModel> | $Enums.FileMime
+}
+
+export type IntFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntFilter<$PrismaModel> | number
+}
+
+export type EnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileType | Prisma.EnumFileTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileTypeWithAggregatesFilter<$PrismaModel> | $Enums.FileType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
+}
+
+export type EnumFileExtensionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileExtension | Prisma.EnumFileExtensionFieldRefInput<$PrismaModel>
+  in?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileExtensionWithAggregatesFilter<$PrismaModel> | $Enums.FileExtension
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel>
+}
+
+export type EnumFileMimeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileMime | Prisma.EnumFileMimeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileMimeWithAggregatesFilter<$PrismaModel> | $Enums.FileMime
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileMimeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileMimeFilter<$PrismaModel>
+}
+
+export type IntWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedIntFilter<$PrismaModel>
+  _max?: Prisma.NestedIntFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -503,6 +581,73 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumFileTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileType | Prisma.EnumFileTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileTypeFilter<$PrismaModel> | $Enums.FileType
+}
+
+export type NestedEnumFileExtensionFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileExtension | Prisma.EnumFileExtensionFieldRefInput<$PrismaModel>
+  in?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel> | $Enums.FileExtension
+}
+
+export type NestedEnumFileMimeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileMime | Prisma.EnumFileMimeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileMimeFilter<$PrismaModel> | $Enums.FileMime
+}
+
+export type NestedEnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileType | Prisma.EnumFileTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileType[] | Prisma.ListEnumFileTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileTypeWithAggregatesFilter<$PrismaModel> | $Enums.FileType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumFileExtensionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileExtension | Prisma.EnumFileExtensionFieldRefInput<$PrismaModel>
+  in?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileExtension[] | Prisma.ListEnumFileExtensionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileExtensionWithAggregatesFilter<$PrismaModel> | $Enums.FileExtension
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileExtensionFilter<$PrismaModel>
+}
+
+export type NestedEnumFileMimeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FileMime | Prisma.EnumFileMimeFieldRefInput<$PrismaModel>
+  in?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FileMime[] | Prisma.ListEnumFileMimeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFileMimeWithAggregatesFilter<$PrismaModel> | $Enums.FileMime
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFileMimeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFileMimeFilter<$PrismaModel>
+}
+
+export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedIntFilter<$PrismaModel>
+  _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
 

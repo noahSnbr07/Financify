@@ -401,8 +401,8 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Report: 'Report',
-  Subscription: 'Subscription'
+  Subscription: 'Subscription',
+  File: 'File'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "transaction" | "account" | "category" | "report" | "subscription"
+    modelProps: "user" | "transaction" | "account" | "category" | "subscription" | "file"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -718,80 +718,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Report: {
-      payload: Prisma.$ReportPayload<ExtArgs>
-      fields: Prisma.ReportFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ReportFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ReportFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        findFirst: {
-          args: Prisma.ReportFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ReportFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        findMany: {
-          args: Prisma.ReportFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
-        }
-        create: {
-          args: Prisma.ReportCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        createMany: {
-          args: Prisma.ReportCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ReportCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
-        }
-        delete: {
-          args: Prisma.ReportDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        update: {
-          args: Prisma.ReportUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        deleteMany: {
-          args: Prisma.ReportDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ReportUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ReportUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
-        }
-        upsert: {
-          args: Prisma.ReportUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
-        }
-        aggregate: {
-          args: Prisma.ReportAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateReport>
-        }
-        groupBy: {
-          args: Prisma.ReportGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReportGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ReportCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ReportCountAggregateOutputType> | number
-        }
-      }
-    }
     Subscription: {
       payload: Prisma.$SubscriptionPayload<ExtArgs>
       fields: Prisma.SubscriptionFieldRefs
@@ -863,6 +789,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SubscriptionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
+    File: {
+      payload: Prisma.$FilePayload<ExtArgs>
+      fields: Prisma.FileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        findFirst: {
+          args: Prisma.FileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        findMany: {
+          args: Prisma.FileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>[]
+        }
+        create: {
+          args: Prisma.FileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        createMany: {
+          args: Prisma.FileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>[]
+        }
+        delete: {
+          args: Prisma.FileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        update: {
+          args: Prisma.FileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        deleteMany: {
+          args: Prisma.FileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>[]
+        }
+        upsert: {
+          args: Prisma.FileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilePayload>
+        }
+        aggregate: {
+          args: Prisma.FileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFile>
+        }
+        groupBy: {
+          args: Prisma.FileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileCountAggregateOutputType> | number
         }
       }
     }
@@ -959,17 +959,6 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
-export const ReportScalarFieldEnum = {
-  id: 'id',
-  created: 'created',
-  updated: 'updated',
-  filename: 'filename',
-  userId: 'userId'
-} as const
-
-export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
-
-
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   created: 'created',
@@ -988,6 +977,23 @@ export const SubscriptionScalarFieldEnum = {
 } as const
 
 export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const FileScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  extension: 'extension',
+  mime: 'mime',
+  isPublic: 'isPublic',
+  size: 'size',
+  userId: 'userId'
+} as const
+
+export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1122,6 +1128,48 @@ export type EnumSubscriptionStateFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'SubscriptionState[]'
  */
 export type ListEnumSubscriptionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionState[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FileType'
+ */
+export type EnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileType'>
+    
+
+
+/**
+ * Reference to a field of type 'FileType[]'
+ */
+export type ListEnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FileExtension'
+ */
+export type EnumFileExtensionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileExtension'>
+    
+
+
+/**
+ * Reference to a field of type 'FileExtension[]'
+ */
+export type ListEnumFileExtensionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileExtension[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FileMime'
+ */
+export type EnumFileMimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileMime'>
+    
+
+
+/**
+ * Reference to a field of type 'FileMime[]'
+ */
+export type ListEnumFileMimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileMime[]'>
     
 
 
@@ -1293,8 +1341,8 @@ export type GlobalOmitConfig = {
   transaction?: Prisma.TransactionOmit
   account?: Prisma.AccountOmit
   category?: Prisma.CategoryOmit
-  report?: Prisma.ReportOmit
   subscription?: Prisma.SubscriptionOmit
+  file?: Prisma.FileOmit
 }
 
 /* Types for Logging */

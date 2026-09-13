@@ -55,8 +55,8 @@ export const ModelName = {
   Transaction: 'Transaction',
   Account: 'Account',
   Category: 'Category',
-  Report: 'Report',
-  Subscription: 'Subscription'
+  Subscription: 'Subscription',
+  File: 'File'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -129,17 +129,6 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
-export const ReportScalarFieldEnum = {
-  id: 'id',
-  created: 'created',
-  updated: 'updated',
-  filename: 'filename',
-  userId: 'userId'
-} as const
-
-export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
-
-
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   created: 'created',
@@ -158,6 +147,23 @@ export const SubscriptionScalarFieldEnum = {
 } as const
 
 export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const FileScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  extension: 'extension',
+  mime: 'mime',
+  isPublic: 'isPublic',
+  size: 'size',
+  userId: 'userId'
+} as const
+
+export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
 
 
 export const SortOrder = {

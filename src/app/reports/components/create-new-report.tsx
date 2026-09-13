@@ -5,6 +5,7 @@ import { SuccessAction, useFetch } from "@/src/hooks";
 export default function CreateNewReport() {
 
     const { SubmitButton } = useFetch({
+        buttonLabel: "Create Report",
         feedback: {
             error: "Report could not be created",
             success: "Report has been created",
@@ -12,7 +13,9 @@ export default function CreateNewReport() {
         href: "/api/report/create",
         onSuccess: SuccessAction.refresh,
         submitConditions: [],
-        data: {},
+        data: {
+
+        },
     })
 
     return (

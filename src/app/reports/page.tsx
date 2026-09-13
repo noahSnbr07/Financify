@@ -3,13 +3,14 @@ import { redirect } from "next/navigation";
 import { CreateNewReport, ReportsList } from "./components";
 import { database } from "@/src/configuration";
 import Link from "next/link";
+import { FileType } from "@/src/generated/prisma/enums";
 
 async function page() {
 
     const auth = await getAuth();
     if (!auth) redirect("/authentication");
 
-    const reports = await database.report.findMany({ where: { user: { id: auth.id } } });
+    const reports = await database.file.findMany({ where: { user: { id: auth.id }, type: FileType.REPORT } });
 
     return (
         <div className="flex flex-col gap-4">

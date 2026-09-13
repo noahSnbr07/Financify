@@ -1,8 +1,8 @@
-import { systemLog } from "@/utils";
+import { systemLog } from "@/utils/api/functions";
 import { database } from "../configuration";
 import { SubscriptionState, TransactionType } from "../generated/prisma/enums";
 import getNextBillingDate from "./get-next-billing-date";
-import { SystemLogGroup } from "@/utils/system-log";
+import { SystemLogGroup } from "@/utils/api/functions/system-log";
 
 interface BillingResult {
     processed: number;

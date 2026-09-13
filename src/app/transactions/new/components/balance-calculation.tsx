@@ -15,13 +15,6 @@ interface _props {
 export default function BalanceCalculation({ newTransaction }: _props) {
 
     const href = "/api/functions/get-balance-calculation";
-    const body: RequestInit = {
-        method: "POST",
-        body: JSON.stringify({
-            value: newTransaction.value,
-            received: !newTransaction.spent
-        }),
-    }
 
     const [data, setData] = useState<ReturnedData>({
         newBalance: 0,
@@ -36,8 +29,17 @@ export default function BalanceCalculation({ newTransaction }: _props) {
 
         async function refetchData() {
 
-            const response = await fetch(href, body);
-            if (!response.ok) toast("Uncaught server error.", { type: "error" });
+            const response = await fetch(href, {
+                method: "POST",
+                body: JSON.stringify({
+                    value: newTransaction.value,
+                    received: !newTransaction.spent,
+                }),
+            });
+            if (!response.ok) {
+                toast("Uncaught server error.", { type: "error" });
+                return;
+            }
 
             const data: APIResponseWithData<ReturnedData> = await response.json();
             setData(data.data);
@@ -45,7 +47,7 @@ export default function BalanceCalculation({ newTransaction }: _props) {
 
         const timeout = setTimeout(refetchData, 2000);
         return () => clearTimeout(timeout);
-    }, [newTransaction, body]);
+    }, [newTransaction.value, newTransaction.spent]);
 
     return (
         <div className="flex flex-col gap-4 p-4 bg-stack rounded-lg">

@@ -52,7 +52,7 @@ export default function DeleteModal({ categoryId, setModal, setPickedCategoryId 
                     <button
                         disabled={pending}
                         style={{ opacity: pending ? .1 : 1 }}
-                        onClick={() => deleteCategory(categoryId)} className="py-2 font-bold px-8 rounded-sm bg-red-400"> Delete </button>
+                        onClick={() => deleteCategory(categoryId)} className="py-2 font-bold px-8 rounded-sm bg-red-800"> Delete </button>
                 </div>
             </div>
         </div>

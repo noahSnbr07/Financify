@@ -18,15 +18,16 @@ const sidebarLinks: Record<string, SidebarLink[]> = {
     ],
     base: [
         { id: 0, label: "Dashboard", href: "/dashboard", icon: <LayoutDashboardIcon opacity={.5} /> },
-        { id: 1, label: "Settings", href: "/settings", icon: <Settings2Icon opacity={.5} /> },
-        { id: 2, label: "Profile", href: "/me", icon: <User2Icon opacity={.5} /> },
-        { id: 3, label: "AI Chat", href: "/chat", icon: <MessageCircleMoreIcon opacity={.5} /> },
+        { id: 1, label: "Profile", href: "/me", icon: <User2Icon opacity={.5} /> },
+        { id: 2, label: "AI Chat", href: "/chat", icon: <MessageCircleMoreIcon opacity={.5} /> },
+        { id: 3, label: "Settings", href: "/settings", icon: <Settings2Icon opacity={.5} /> },
     ],
     manage: [
         { id: 0, label: "Manage Transactions", href: "/transactions/manage", icon: <FolderIcon opacity={.5} /> },
         { id: 1, label: "Manage Categories", href: "/categories/manage", icon: <FolderIcon opacity={.5} /> },
         { id: 2, label: "Manage Accounts", href: "/accounts/manage", icon: <FolderIcon opacity={.5} /> },
         { id: 3, label: "Manage Subscriptions", href: "/subscriptions/manage", icon: <FolderIcon opacity={.5} /> },
+        { id: 4, label: "Manage Reports", href: "/reports", icon: <FolderIcon opacity={.5} /> },
     ]
 }
 

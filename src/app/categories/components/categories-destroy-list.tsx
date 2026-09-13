@@ -48,7 +48,7 @@ export default function CategoriesDestroyList({ categories }: _props) {
                                 opacity: modal ? .5 : 1
                             }}
                             onClick={() => runModal(category.id)}
-                            className="bg-red-400 px-4 py-2 rounded-sm grid place-content-center"
+                            className="bg-red-800 px-4 py-2 rounded-sm grid place-content-center"
                         >
                             <TrashIcon size={24} />
                         </button>

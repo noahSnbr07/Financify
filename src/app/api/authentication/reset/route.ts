@@ -17,7 +17,7 @@ export async function POST(): Promise<NextResponse<APIResponse>> {
             await transaction.subscription.deleteMany(query);
             await transaction.category.deleteMany(query);
             await transaction.account.deleteMany(query);
-            await transaction.report.deleteMany(query);
+            await transaction.file.deleteMany(query);
         });
 
         return NextResponse.json(apiResponsePresets.OK({ message: "All Data deleted" }))

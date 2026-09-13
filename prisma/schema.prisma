@@ -23,7 +23,7 @@ model User {
   accounts      Account[]
   categories    Category[]
   transactions  Transaction[]
-  reports       Report[]
+  files         File[]
   subscriptions Subscription[]
 }
 
@@ -45,6 +45,11 @@ model Transaction {
   subscriptionId String?
 
   @@index([userId, accountId, categoryId, subscriptionId])
+}
+
+enum TransactionType {
+  manual
+  subscription
 }
 
 model Account {
@@ -73,20 +78,6 @@ model Category {
   subscriptions Subscription[]
 
   @@index([userId])
-}
-
-model Report {
-  //base
-  id      String   @id @unique @default(uuid())
-  created DateTime @default(now())
-  updated DateTime @updatedAt
-
-  //props
-  filename String
-
-  //relations 
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
 }
 
 model Subscription {
@@ -128,14 +119,51 @@ enum SubscriptionState {
   canceled
 }
 
-enum TransactionType {
-  manual
-  subscription
-}
-
 enum SubscriptionInterval {
   weekly
   monthly
   quarterly
   annual
+}
+
+model File {
+  //base
+  id      String   @id @unique @default(uuid())
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+
+  //props
+  name      String        @unique
+  url       String        @unique //full path for blob storage
+  type      FileType //for filtering on database calls
+  extension FileExtension
+  mime      FileMime
+  isPublic  Boolean       @default(false)
+  size      Int //size in bytes
+  user      User          @relation(fields: [userId], references: [id])
+
+  //relations 
+  userId String
+
+  @@index([userId, type])
+}
+
+enum FileType {
+  AVATAR
+  REPORT
+  SNAPSHOT
+}
+
+enum FileMime {
+  application
+  image
+  text
+}
+
+enum FileExtension {
+  jpeg
+  jpg
+  png
+  json
+  svg
 }

@@ -26,7 +26,7 @@ export default function SubscriptionData({ averages }: _props) {
 function AverageEntry({ label, value }: { label: string; value: number; }) {
 
     return (
-        <div className="grid grid-cols-2 w-full py-2 items-center">
+        <div className="grid grid-cols-2 w-full p-2 items-center">
             <p> Average {label}: </p>
             <Digits additionalClassName="font-bold bg-stack p-2 rounded-sm" value={value} />
         </div>

@@ -2,7 +2,7 @@
 
 import { SubscriptionInterval } from "@/src/generated/prisma/browser";
 import { useState } from "react";
-import { Account, Category } from "@/src/generated/prisma/client";
+import { Account, Category } from "@/src/generated/prisma/browser";
 import { Warning } from "@/src/global/components";
 import { warnings } from "@/src/static/client";
 import { AccountSelector, CategorySelector, DatePicker, IntervalSelector, StringInput, ValuePicker } from "@/utils/form-components";

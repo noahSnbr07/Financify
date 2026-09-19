@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderIcon, LayoutDashboardIcon, MessageCircleMoreIcon, PlusIcon, Settings2Icon, User2Icon } from "lucide-react";
+import { FolderIcon, LayoutDashboardIcon, MessageCircleMoreIcon, PlusIcon, Settings2Icon, ShieldIcon, User2Icon } from "lucide-react";
 
 export interface SidebarLink {
     id: number;
@@ -21,6 +21,7 @@ const sidebarLinks: Record<string, SidebarLink[]> = {
         { id: 1, label: "Profile", href: "/me", icon: <User2Icon opacity={.5} /> },
         { id: 2, label: "AI Chat", href: "/chat", icon: <MessageCircleMoreIcon opacity={.5} /> },
         { id: 3, label: "Settings", href: "/settings", icon: <Settings2Icon opacity={.5} /> },
+        { id: 4, label: "Admin Panel", href: "/admin", icon: <ShieldIcon opacity={.5} /> },
     ],
     manage: [
         { id: 0, label: "Manage Transactions", href: "/transactions/manage", icon: <FolderIcon opacity={.5} /> },

@@ -6,7 +6,6 @@ export async function checkRateLimit(key: string, preset: RateLimiterRedis) {
         await preset.consume(key);
         return { success: true };
     } catch (error) {
-        console.error(error);
         if (error instanceof RateLimiterRes) {
             const retryAfter = Math.ceil(error.msBeforeNext / 1000);
             return {
@@ -14,6 +13,9 @@ export async function checkRateLimit(key: string, preset: RateLimiterRedis) {
                 retryAfter
             };
         }
-        return { success: false, retryAfter: 60 };
+
+        // Redis availability should not take the application offline.
+        console.error("Rate limiter unavailable:", error);
+        return { success: true };
     }
 }

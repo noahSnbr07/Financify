@@ -42,6 +42,7 @@ export type UserMinAggregateOutputType = {
   avatar: string | null
   hash: string | null
   budget: number | null
+  role: $Enums.UserRole | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type UserMaxAggregateOutputType = {
   avatar: string | null
   hash: string | null
   budget: number | null
+  role: $Enums.UserRole | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type UserCountAggregateOutputType = {
   avatar: number
   hash: number
   budget: number
+  role: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type UserMinAggregateInputType = {
   avatar?: true
   hash?: true
   budget?: true
+  role?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type UserMaxAggregateInputType = {
   avatar?: true
   hash?: true
   budget?: true
+  role?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type UserCountAggregateInputType = {
   avatar?: true
   hash?: true
   budget?: true
+  role?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type UserGroupByOutputType = {
   avatar: string
   hash: string
   budget: number
+  role: $Enums.UserRole
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type UserWhereInput = {
   avatar?: Prisma.StringFilter<"User"> | string
   hash?: Prisma.StringFilter<"User"> | string
   budget?: Prisma.FloatFilter<"User"> | number
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -247,6 +255,7 @@ export type UserOrderByWithRelationInput = {
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
   budget?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
@@ -265,6 +274,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   avatar?: Prisma.StringFilter<"User"> | string
   hash?: Prisma.StringFilter<"User"> | string
   budget?: Prisma.FloatFilter<"User"> | number
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -280,6 +290,7 @@ export type UserOrderByWithAggregationInput = {
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
   budget?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -298,6 +309,7 @@ export type UserScalarWhereWithAggregatesInput = {
   avatar?: Prisma.StringWithAggregatesFilter<"User"> | string
   hash?: Prisma.StringWithAggregatesFilter<"User"> | string
   budget?: Prisma.FloatWithAggregatesFilter<"User"> | number
+  role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
 }
 
 export type UserCreateInput = {
@@ -308,6 +320,7 @@ export type UserCreateInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -323,6 +336,7 @@ export type UserUncheckedCreateInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -338,6 +352,7 @@ export type UserUpdateInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -353,6 +368,7 @@ export type UserUncheckedUpdateInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -368,6 +384,7 @@ export type UserCreateManyInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
 }
 
 export type UserUpdateManyMutationInput = {
@@ -378,6 +395,7 @@ export type UserUpdateManyMutationInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -388,6 +406,7 @@ export type UserUncheckedUpdateManyInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -398,6 +417,7 @@ export type UserCountOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
   budget?: Prisma.SortOrder
+  role?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -412,6 +432,7 @@ export type UserMaxOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
   budget?: Prisma.SortOrder
+  role?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -422,6 +443,7 @@ export type UserMinOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   hash?: Prisma.SortOrder
   budget?: Prisma.SortOrder
+  role?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -447,6 +469,10 @@ export type FloatFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type EnumUserRoleFieldUpdateOperationsInput = {
+  set?: $Enums.UserRole
 }
 
 export type UserCreateNestedOneWithoutTransactionsInput = {
@@ -527,6 +553,7 @@ export type UserCreateWithoutTransactionsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
@@ -541,6 +568,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
@@ -571,6 +599,7 @@ export type UserUpdateWithoutTransactionsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
@@ -585,6 +614,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
@@ -599,6 +629,7 @@ export type UserCreateWithoutAccountsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
@@ -613,6 +644,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
@@ -643,6 +675,7 @@ export type UserUpdateWithoutAccountsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
@@ -657,6 +690,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
@@ -671,6 +705,7 @@ export type UserCreateWithoutCategoriesInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
@@ -685,6 +720,7 @@ export type UserUncheckedCreateWithoutCategoriesInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
@@ -715,6 +751,7 @@ export type UserUpdateWithoutCategoriesInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
@@ -729,6 +766,7 @@ export type UserUncheckedUpdateWithoutCategoriesInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
@@ -743,6 +781,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -757,6 +796,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -787,6 +827,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -801,6 +842,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -815,6 +857,7 @@ export type UserCreateWithoutFilesInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -829,6 +872,7 @@ export type UserUncheckedCreateWithoutFilesInput = {
   avatar: string
   hash: string
   budget: number
+  role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -859,6 +903,7 @@ export type UserUpdateWithoutFilesInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -873,6 +918,7 @@ export type UserUncheckedUpdateWithoutFilesInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   hash?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -954,6 +1000,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   avatar?: boolean
   hash?: boolean
   budget?: boolean
+  role?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
@@ -970,6 +1017,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   hash?: boolean
   budget?: boolean
+  role?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -980,6 +1028,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   hash?: boolean
   budget?: boolean
+  role?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -990,9 +1039,10 @@ export type UserSelectScalar = {
   avatar?: boolean
   hash?: boolean
   budget?: boolean
+  role?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created" | "updated" | "name" | "avatar" | "hash" | "budget", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created" | "updated" | "name" | "avatar" | "hash" | "budget" | "role", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
@@ -1021,6 +1071,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     avatar: string
     hash: string
     budget: number
+    role: $Enums.UserRole
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1456,6 +1507,7 @@ export interface UserFieldRefs {
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly hash: Prisma.FieldRef<"User", 'String'>
   readonly budget: Prisma.FieldRef<"User", 'Float'>
+  readonly role: Prisma.FieldRef<"User", 'UserRole'>
 }
     
 

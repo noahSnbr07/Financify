@@ -20,11 +20,18 @@ model User {
   avatar        String
   hash          String
   budget        Float
+  role          UserRole       @default(regular)
   accounts      Account[]
   categories    Category[]
   transactions  Transaction[]
   files         File[]
   subscriptions Subscription[]
+}
+
+enum UserRole {
+  regular
+  admin
+  suspended
 }
 
 model Transaction {

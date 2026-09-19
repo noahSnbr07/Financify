@@ -14,6 +14,8 @@ import getNextBillingDate from "./get-next-billing-date";
 import createTransactionFromSubscriptionBilling from "./create-transaction-from-subscription-billing";
 import generateSubscriptionsForecast from "./generate-subscriptions-forecast";
 import uploadFile from "./upload-file";
+import getAdminState from "./get-admin-state";
+import getFullServerHealthCheckReport from "./get-server-stats";
 
 export {
     getAuth,
@@ -22,9 +24,11 @@ export {
     getUserDatabaseStats,
     getDashboardData,
     getOllamaHost,
+    getAdminState,
     getAccountVolumes,
     getBudget,
     refreshAccessToken,
+    getFullServerHealthCheckReport,
     createTransactionFromSubscriptionBilling,
     getColorForBudgetExceeding,
     getClientIP,

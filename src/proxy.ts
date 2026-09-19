@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verify, sign } from 'jsonwebtoken';
+import { JsonWebTokenError, verify, sign } from 'jsonwebtoken';
 import { database } from '@/src/configuration';
 import { checkRateLimit } from './server/check-rate-limit';
 import { getClientIP } from './server';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import { LIMIT_PRESETS } from './static';
+import { writeTrafficLogToRedis } from '@/utils/functions/traffic-logger';
 
 export default async function proxy(request: NextRequest): Promise<NextResponse> {
 
@@ -12,6 +13,30 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
     const refreshToken = request.cookies.get("financify-refresh-token")?.value;
 
     const response = NextResponse.next();
+
+    const redirectToAuthentication = (): NextResponse => {
+        const authenticationResponse = NextResponse.redirect(
+            new URL("/authentication", request.nextUrl),
+            307,
+        );
+
+        authenticationResponse.cookies.set({
+            name: "financify-access-token",
+            value: "",
+            expires: new Date(0),
+            httpOnly: true,
+            path: "/",
+        });
+        authenticationResponse.cookies.set({
+            name: "financify-refresh-token",
+            value: "",
+            expires: new Date(0),
+            httpOnly: true,
+            path: "/",
+        });
+
+        return authenticationResponse;
+    };
 
     if (
         request.nextUrl.pathname.startsWith('/_next') ||
@@ -23,18 +48,28 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         return response;
     }
 
-    let rateLimitPreset: RateLimiterRedis = LIMIT_PRESETS.STRICT;
+    await writeTrafficLogToRedis({ request });
 
-    if (request.nextUrl.pathname.startsWith("/api/authentication/login")) rateLimitPreset = LIMIT_PRESETS.AUTH;
-    if (request.nextUrl.pathname.startsWith("/api/authentication/register")) rateLimitPreset = LIMIT_PRESETS.AUTH;
-    else if (request.nextUrl.pathname.startsWith("/api/resource/upload")) rateLimitPreset = LIMIT_PRESETS.STRICT;
-    else if (request.nextUrl.pathname.startsWith("/api/me/avatar/update")) rateLimitPreset = LIMIT_PRESETS.STRICT;
-    else if (request.nextUrl.pathname.startsWith("/api/ai/")) rateLimitPreset = LIMIT_PRESETS.AI;
-    else rateLimitPreset = LIMIT_PRESETS.STANDARD;
+    const keyPath = (query: string): boolean => request.nextUrl.pathname.startsWith(query);
+
+    let preset: RateLimiterRedis | null = LIMIT_PRESETS.STRICT;
+
+    if (keyPath("/api/authentication/login")) preset = LIMIT_PRESETS.AUTH;
+    else if (keyPath("/api/authentication/register")) preset = LIMIT_PRESETS.AUTH;
+
+    else if (keyPath("/api/resource/upload")) preset = LIMIT_PRESETS.STRICT;
+    else if (keyPath("/api/me/avatar/update")) preset = LIMIT_PRESETS.STRICT;
+
+    else if (keyPath("/api/ai/")) preset = LIMIT_PRESETS.AI;
+    else preset = LIMIT_PRESETS.STANDARD;
+
+    if (!preset) {
+        return response;
+    }
 
     const ip = await getClientIP({ request });
 
-    const { success, retryAfter } = await checkRateLimit(ip, rateLimitPreset);
+    const { success, retryAfter } = await checkRateLimit(ip, preset);
 
     if (!success) {
         return NextResponse.json(
@@ -48,13 +83,12 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
 
     try {
         if (!accessToken || accessToken === undefined) return response;
-
         const user = verify(accessToken || "", process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
         if (!user) response.cookies.delete("financify-access-token");
         return response;
     }
     catch {
-        if (!refreshToken) return NextResponse.redirect(new URL("/authentication", request.nextUrl), 308)
+        if (!refreshToken) return redirectToAuthentication();
 
         try {
             const decoded = verify(
@@ -69,7 +103,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
             });
 
             if (!user) {
-                return response;
+                return redirectToAuthentication();
             }
 
             const newAccessToken = sign(user, process.env.JWT_SECRET as string, {
@@ -90,8 +124,10 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
 
             return refreshedResponse;
         } catch (refreshError) {
-            console.error("Token refresh failed:", refreshError);
-            return response;
+            if (!(refreshError instanceof JsonWebTokenError)) {
+                console.error("Token refresh failed:", refreshError);
+            }
+            return redirectToAuthentication();
         }
     }
 }

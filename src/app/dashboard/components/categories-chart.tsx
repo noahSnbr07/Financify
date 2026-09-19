@@ -34,7 +34,8 @@ export default function CategoriesChart({ categories }: _props) {
                 minHeight={256}
                 width={"100%"}
             >
-                <PieChart>
+                <PieChart
+                >
                     <Pie
                         data={transformedCategories}
                         innerRadius="75%"

@@ -27,6 +27,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
 
     try {
         const accessToken = sign({
+            role: targetUser.role,
             name: targetUser.name,
             id: targetUser.id,
             created: targetUser.created,

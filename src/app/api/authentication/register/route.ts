@@ -1,4 +1,5 @@
 import { database } from '@/src/configuration';
+import { UserRole } from '@/src/generated/prisma/enums';
 import { APIResponse } from '@/src/interfaces';
 import { apiResponsePresets } from '@/src/static';
 import { hash } from 'bcrypt';
@@ -23,7 +24,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         const hashedPassword = await hash(password, 4);
 
         await database.user.create({
-            data: { name, hash: hashedPassword, avatar: "error.png", budget: 100 }
+            data: { name, hash: hashedPassword, avatar: "error.png", budget: 100, role: UserRole.regular }
         });
 
         return NextResponse.json(apiResponsePresets.CREATED({ message: "User created." }));

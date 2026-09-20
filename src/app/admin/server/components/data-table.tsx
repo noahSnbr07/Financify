@@ -18,7 +18,7 @@ export default function DataTable() {
             <div className="flex flex-col gap-4">
                 <hr className="border-stack rounded-full border-2" />
                 <p> VPS </p>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     <InfoCard label={"Available Memory"} value={general.availableMemory} />
                     <InfoCard label={"CPU Arch"} value={general.cpuArchitecture} />
                     <InfoCard label={"Platform"} value={general.platform} />
@@ -29,7 +29,7 @@ export default function DataTable() {
             <div className="flex flex-col gap-4">
                 <hr className="border-stack rounded-full border-2" />
                 <p> Operating System </p>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     <InfoCard label={"CPU Cores"} value={os.cores} />
                     <InfoCard label={"Free Memory"} value={os.freeMemory} />
                     <InfoCard label={"Release"} value={os.release} />
@@ -40,7 +40,7 @@ export default function DataTable() {
             <div className="flex flex-col gap-4">
                 <hr className="border-stack rounded-full border-2" />
                 <p> Runtime </p>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     <InfoCard label={"LTS"} value={node.lts} />
                     <InfoCard label={"Name"} value={node.name} />
                     <InfoCard label={"Version"} value={node.version} />
@@ -50,7 +50,7 @@ export default function DataTable() {
             <div className="flex flex-col gap-4">
                 <hr className="border-stack rounded-full border-2" />
                 <p> Resources </p>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     <InfoCard label={"CPU Time"} value={resources.cpu} />
                     <InfoCard label={"RAM Usage"} value={resources.memory} />
                     <InfoCard label={"RSS Usage"} value={resources.memoryRSS} />

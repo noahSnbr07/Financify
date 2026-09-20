@@ -1,5 +1,5 @@
 import { getAuth, getUserDatabaseStats } from "@/src/server";
-import { AvatarCard, MemberSince, QRCode, UpdateAvatar, UpdateBudget, UUIDDisplay } from "./components";
+import { AvatarCard, MemberSince, QRCode, RoleDisplay, UpdateAvatar, UpdateBudget, UUIDDisplay } from "./components";
 import { redirect } from "next/navigation";
 import Statistics from "./components/statistics";
 import Link from "next/link";
@@ -14,6 +14,7 @@ async function page() {
     return (
         <>
             <AvatarCard />
+            <RoleDisplay role={auth.role} />
             <Statistics
                 totalSubscriptions={stats.subscriptions}
                 totalFiles={stats.totalFiles}

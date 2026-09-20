@@ -35,10 +35,7 @@ export default function Avatar({ size, props }: _props) {
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(
-                        errorData.message || `Failed to fetch image: ${response.statusText}`
-                    );
+                    return setImageSrc("/default.png");
                 }
 
                 const blob = await response.blob();

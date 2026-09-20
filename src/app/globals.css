@@ -2,8 +2,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #101010;
+  --background: #101010;
+  --foreground: #ffffff;
   --stack: rgba(127, 127, 127, .1);
 }
 
@@ -15,10 +15,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #101010;
-    --foreground: #ededed;
+    --background: #ededed;
+    --foreground: #101010;
   }
 }
 

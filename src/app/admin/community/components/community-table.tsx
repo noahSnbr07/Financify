@@ -6,7 +6,6 @@ import { ROLE_COLORS } from "@/src/static/client";
 import { CheckIcon, LockIcon, ShieldIcon } from "lucide-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { CSSProperties } from "react";
 import { toast } from "react-toastify";
 

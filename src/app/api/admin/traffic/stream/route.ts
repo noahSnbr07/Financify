@@ -17,6 +17,18 @@ export async function GET(request: Request) {
     const stream = new ReadableStream({
         async start(controller) {
             const encoder = new TextEncoder();
+            let closed = false;
+            const heartbeat = setInterval(() => {
+                if (!closed) controller.enqueue(encoder.encode(": heartbeat\n\n"));
+            }, 15000);
+
+            const closeStream = async () => {
+                if (closed) return;
+                closed = true;
+                clearInterval(heartbeat);
+                if (subscriber.isOpen) await subscriber.disconnect();
+                controller.close();
+            };
 
             // Create Redis subscriber for this connection
             const subscriber = createClient({
@@ -36,32 +48,32 @@ export async function GET(request: Request) {
 
                 // Subscribe to live traffic channel
                 await subscriber.subscribe("proxy:traffic:live", (message) => {
+                    if (closed) return;
+
                     try {
                         const data = `data: ${message}\n\n`;
                         controller.enqueue(encoder.encode(data));
                     } catch (error) {
                         console.error("Streaming error:", error);
-                        controller.close();
+                        void closeStream();
                     }
                 });
             } catch (error) {
                 console.error("Redis subscriber connection failed:", error);
-                controller.close();
+                await closeStream();
             }
 
             // Cleanup on disconnect
-            request.signal.addEventListener("abort", async () => {
-                if (subscriber.isOpen) await subscriber.disconnect();
-                controller.close();
-            });
+            request.signal.addEventListener("abort", () => void closeStream(), { once: true });
         }
     });
 
     return new Response(stream, {
         headers: {
             "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "Connection": "keep-alive"
+            "Cache-Control": "no-cache, no-transform",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
         }
     });
 }

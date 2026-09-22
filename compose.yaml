@@ -38,6 +38,9 @@ services:
     command: tunnel --no-autoupdate --url http://server:3000
     depends_on:
       - server
+      - redis
+      - ollama
+      - database
 
   redis:
     container_name: Redis

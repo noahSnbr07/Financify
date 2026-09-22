@@ -1,6 +1,7 @@
 import getServerStats from "@/src/server/get-server-stats";
 import { UserRole } from "@/src/generated/prisma/enums";
 import { getAuth } from "@/src/server";
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,22 +12,16 @@ export async function GET(request: Request) {
         return new Response("Unauthorized", { status: 401 });
     }
 
-    // Create a readable stream
     const stream = new ReadableStream({
-        async start(controller) {
+        start(controller) {
             const encoder = new TextEncoder();
             let streamClosed = false;
 
-            // Force the first SSE chunk through reverse proxies that buffer small responses.
-            controller.enqueue(encoder.encode(`:${" ".repeat(2048)}\n\n`));
-
             const sendStats = async () => {
                 if (streamClosed) return;
-
                 try {
                     const stats = await getServerStats(auth);
                     if (!stats) return;
-
                     const data = `data: ${JSON.stringify(stats)}\n\n`;
                     controller.enqueue(encoder.encode(data));
                 } catch (error) {
@@ -36,28 +31,28 @@ export async function GET(request: Request) {
                 }
             };
 
-            await sendStats();
-            const interval = setInterval(sendStats, 1000);
-            const heartbeat = setInterval(() => {
-                if (!streamClosed) controller.enqueue(encoder.encode(": heartbeat\n\n"));
-            }, 15000);
+            // Initial send
+            void sendStats();
 
-            // Cleanup on client disconnect
+            const interval = setInterval(sendStats, 1000);
+
             request.signal.addEventListener("abort", () => {
+                if (streamClosed) return;
                 streamClosed = true;
                 clearInterval(interval);
-                clearInterval(heartbeat);
                 controller.close();
             });
         }
     });
 
-    return new Response(stream, {
+    return new NextResponse(stream, {
         headers: {
-            "Content-Type": "text/event-stream",
+            "Content-Type": "text/event-stream; charset=utf-8",
             "Cache-Control": "no-cache, no-transform",
             "Connection": "keep-alive",
             "X-Accel-Buffering": "no",
+            "X-Content-Type-Options": "nosniff",
+            "Transfer-Encoding": "chunked",
         }
     });
 }

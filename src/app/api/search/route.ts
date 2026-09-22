@@ -24,6 +24,8 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
 
     const queryConfig = {
         where: { user: { id: auth.id, }, name: { contains: query } },
+        orderBy: { created: "desc" as const },
+        take: 5,
     }
 
     try {

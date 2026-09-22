@@ -2,7 +2,7 @@ import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
 import { getAuth } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
-import { verify, sign } from 'jsonwebtoken';
+import { COOKIE_LIFETIME, TOKEN_IDENTIFIERS, refreshAuth } from '@/utils/functions/auth-tools';
 import { NextResponse, NextRequest } from 'next/server';
 
 export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
@@ -15,7 +15,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
         success: false
     });
 
-    const refreshToken = _request.cookies.get("financify-refresh-token")?.value;
+    const refreshToken = _request.cookies.get(TOKEN_IDENTIFIERS.REFRESH)?.value;
     if (!refreshToken) {
         return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
     }
@@ -30,13 +30,8 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             data: { budget, }
         });
 
-        const decoded = verify(
-            refreshToken,
-            process.env.REFRESH_TOKEN_SECRET as string,
-            { algorithms: ["HS256"] }
-        ) as { userId?: string };
-
-        if (!decoded.userId) {
+        const refreshed = await refreshAuth(refreshToken);
+        if (!refreshed) {
             return NextResponse.json({
                 data: null,
                 message: "Authentication failed",
@@ -44,27 +39,6 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
                 success: false,
             });
         }
-
-        // Get user from database
-        const user = await database.user.findUnique({
-            where: { id: decoded.userId },
-            omit: { hash: true },
-        });
-
-        if (!user) {
-            return NextResponse.json({
-                data: null,
-                message: "Authentication failed",
-                status: 401,
-                success: false,
-            });
-        }
-
-        // Create new access token
-        const newAccessToken = sign(user, process.env.JWT_SECRET as string, {
-            algorithm: "HS256",
-            expiresIn: "15m",
-        });
 
         const response = NextResponse.json({
             data: null,
@@ -73,14 +47,15 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             success: true,
         });
 
-        // Set new token in response
         response.cookies.set({
-            name: "financify-access-token",
-            value: newAccessToken,
+            name: TOKEN_IDENTIFIERS.ACCESS,
+            value: refreshed.accessToken,
             httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: COOKIE_LIFETIME,
             priority: "high",
             sameSite: "lax",
+            path: "/",
         });
 
         return response;

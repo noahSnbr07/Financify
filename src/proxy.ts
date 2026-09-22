@@ -1,16 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { JsonWebTokenError, verify, sign } from 'jsonwebtoken';
-import { database } from '@/src/configuration';
 import { checkRateLimit } from './server/check-rate-limit';
 import { getClientIP } from './server';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import { LIMIT_PRESETS } from './static';
 import { writeTrafficLogToRedis } from '@/utils/functions/traffic-logger';
+import {
+    COOKIE_LIFETIME,
+    TOKEN_IDENTIFIERS,
+    refreshAuth,
+    verifyAccessToken,
+} from '@/utils/functions/auth-tools';
 
 export default async function proxy(request: NextRequest): Promise<NextResponse> {
 
-    const accessToken = request.cookies.get("financify-access-token")?.value;
-    const refreshToken = request.cookies.get("financify-refresh-token")?.value;
+    const accessToken = request.cookies.get(TOKEN_IDENTIFIERS.ACCESS)?.value;
+    const refreshToken = request.cookies.get(TOKEN_IDENTIFIERS.REFRESH)?.value;
 
     const response = NextResponse.next();
 
@@ -21,14 +25,14 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         );
 
         authenticationResponse.cookies.set({
-            name: "financify-access-token",
+            name: TOKEN_IDENTIFIERS.ACCESS,
             value: "",
             expires: new Date(0),
             httpOnly: true,
             path: "/",
         });
         authenticationResponse.cookies.set({
-            name: "financify-refresh-token",
+            name: TOKEN_IDENTIFIERS.REFRESH,
             value: "",
             expires: new Date(0),
             httpOnly: true,
@@ -48,7 +52,7 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         return response;
     }
 
-    await writeTrafficLogToRedis({ request });
+    void writeTrafficLogToRedis({ request });
 
     const keyPath = (query: string): boolean => request.nextUrl.pathname.startsWith(query);
 
@@ -81,53 +85,29 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
         );
     }
 
-    try {
-        if (!accessToken || accessToken === undefined) return response;
-        const user = verify(accessToken || "", process.env.JWT_SECRET as string, { algorithms: ["HS256"] });
-        if (!user) response.cookies.delete("financify-access-token");
+    if (accessToken && verifyAccessToken(accessToken)) {
         return response;
     }
-    catch {
-        if (!refreshToken) return redirectToAuthentication();
 
-        try {
-            const decoded = verify(
-                refreshToken,
-                process.env.REFRESH_TOKEN_SECRET as string,
-                { algorithms: ["HS256"] }
-            ) as { userId: string; };
-
-            const user = await database.user.findUnique({
-                where: { id: decoded.userId },
-                omit: { hash: true },
-            });
-
-            if (!user) {
-                return redirectToAuthentication();
-            }
-
-            const newAccessToken = sign(user, process.env.JWT_SECRET as string, {
-                algorithm: "HS256",
-                expiresIn: "15m",
-            });
-
-            request.cookies.set("financify-access-token", newAccessToken);
-            const refreshedResponse = NextResponse.next({ request });
-            refreshedResponse.cookies.set({
-                name: "financify-access-token",
-                value: newAccessToken,
-                httpOnly: true,
-                maxAge: 60 * 60 * 24 * 7,
-                priority: "high",
-                sameSite: "lax",
-            });
-
-            return refreshedResponse;
-        } catch (refreshError) {
-            if (!(refreshError instanceof JsonWebTokenError)) {
-                console.error("Token refresh failed:", refreshError);
-            }
-            return redirectToAuthentication();
-        }
+    if (!refreshToken) {
+        return accessToken ? redirectToAuthentication() : response;
     }
+
+    const refreshed = await refreshAuth(refreshToken);
+    if (!refreshed) return redirectToAuthentication();
+
+    request.cookies.set(TOKEN_IDENTIFIERS.ACCESS, refreshed.accessToken);
+    const refreshedResponse = NextResponse.next({ request });
+    refreshedResponse.cookies.set({
+        name: TOKEN_IDENTIFIERS.ACCESS,
+        value: refreshed.accessToken,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: COOKIE_LIFETIME,
+        priority: "high",
+        sameSite: "lax",
+        path: "/",
+    });
+
+    return refreshedResponse;
 }

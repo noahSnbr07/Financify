@@ -2,9 +2,9 @@ import { database } from '@/src/configuration';
 import { APIResponse } from '@/src/interfaces';
 import { NextResponse, NextRequest } from 'next/server';
 import { compare } from "bcrypt"
-import { sign } from "jsonwebtoken";
 import { cookies } from 'next/headers';
 import { apiResponsePresets } from '@/src/static';
+import { COOKIE_LIFETIME, TOKEN_IDENTIFIERS, createAccessToken, createRefreshToken } from '@/utils/functions/auth-tools';
 
 export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
@@ -26,7 +26,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     if (!hashMatch) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Password incorrect." }));
 
     try {
-        const accessToken = sign({
+        const accessToken = createAccessToken({
             role: targetUser.role,
             name: targetUser.name,
             id: targetUser.id,
@@ -34,28 +34,30 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
             updated: targetUser.updated,
             avatar: targetUser.avatar,
             budget: targetUser.budget,
-        },
-            process.env.JWT_SECRET as string,
-            { algorithm: "HS256", expiresIn: "1m" });
+        });
 
-        const refreshToken = sign({ userId: targetUser.id }, process.env.REFRESH_TOKEN_SECRET!, { algorithm: "HS256", expiresIn: "7d" });
+        const refreshToken = createRefreshToken(targetUser.id);
 
         cookieStore.set({
-            name: "financify-access-token",
+            name: TOKEN_IDENTIFIERS.ACCESS,
             value: accessToken,
             httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: COOKIE_LIFETIME,
             priority: "high",
             sameSite: "lax",
+            path: "/",
         });
 
         cookieStore.set({
-            name: "financify-refresh-token",
+            name: TOKEN_IDENTIFIERS.REFRESH,
             value: refreshToken,
             httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: COOKIE_LIFETIME,
             priority: "high",
             sameSite: "lax",
+            path: "/",
         });
 
         return NextResponse.json(apiResponsePresets.OK({ message: "Logged in." }));

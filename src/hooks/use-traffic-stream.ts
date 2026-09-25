@@ -1,8 +1,9 @@
+import { Method } from "@/utils/functions/get-color-for-http-method";
 import { useEffect, useState } from "react";
 
 interface TrafficLog {
     timestamp: string;
-    method: string;
+    method: Method;
     path: string;
     status: number;
     duration: number;

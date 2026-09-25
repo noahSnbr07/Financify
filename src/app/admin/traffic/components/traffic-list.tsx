@@ -1,5 +1,7 @@
 'use client';
+import { SuccessAction, useFetch } from "@/src/hooks";
 import { useTrafficStream } from "@/src/hooks/use-traffic-stream";
+import getColorForHTTPMethod from "@/utils/functions/get-color-for-http-method";
 
 export default function TrafficList() {
 
@@ -15,7 +17,9 @@ export default function TrafficList() {
                     <div
                         className="grid grid-cols-4"
                         key={log.timestamp}>
-                        <b className="bg-stack rounded-sm px-2 py-1 w-32"> {log.method} </b>
+                        <b
+                            style={{ color: getColorForHTTPMethod({ method: log.method }) }}
+                            className="bg-stack text-center rounded-sm px-2 py-1 w-32"> {log.method} </b>
                         <p className="text-sm text-foreground/50"> {log.timestamp} </p>
                         <p> {log.ip} </p>
                         <p> {log.path} </p>
@@ -28,14 +32,27 @@ export default function TrafficList() {
 
 function TopOptions({ totalLogs, isConnected }: { totalLogs: number; isConnected: boolean; }) {
 
+    const { SubmitButton } = useFetch({
+        feedback: {
+            error: "Error flushing Traffic Logs",
+            success: "Traffic Logs Flushed",
+        },
+        href: "/api/admin/traffic/flush",
+        onSuccess: SuccessAction.refresh,
+        submitConditions: [],
+        buttonClassName: "bg-stack rounded-sm px-8 py-2",
+        buttonLabel: "Flush Traffic",
+    });
+
+
     return (
-        <div className="grid p-4 gap-4 grid-cols-2 rounded-lg border-2 border-stack">
+        <div className="grid p-4 gap-4 grid-cols-3 rounded-lg border-2 border-stack items-center">
             <div className="flex items-center gap-2">
                 <div className="bg-green-600 rounded-full size-2"></div>
                 <b> {isConnected ? "Connected" : "Disconnected"} </b>
             </div>
             <b> Logs: {totalLogs} </b>
-
+            {SubmitButton}
         </div>
     )
 }

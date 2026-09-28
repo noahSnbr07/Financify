@@ -32,13 +32,15 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     try {
 
         const [transactions, categories, accounts, subscriptions] = await Promise.all([
-            database.transaction.findMany({ ...queryConfig, include: { category: { select: { color: true, name: true, } }, account: { select: { color: true, name: true, } } } }),
+            database.transaction.findMany({ ...queryConfig, include: { category: { select: { color: true, name: true, id: true, } }, account: { select: { color: true, name: true, id: true, } } } }),
             database.category.findMany(queryConfig),
             database.account.findMany(queryConfig),
             database.subscription.findMany(queryConfig)
         ]);
 
-        return NextResponse.json({ ...apiResponsePresets.OK({ message: "success" }), data: { transactions, categories, accounts, subscriptions, } })
+        const parsedTransactions = transactions.map(t => ({ ...t, value: Number(t.value) }));
+
+        return NextResponse.json({ ...apiResponsePresets.OK({ message: "success" }), data: { transactions: parsedTransactions, categories, accounts, subscriptions, } })
 
     } catch (error) {
         console.error(error);

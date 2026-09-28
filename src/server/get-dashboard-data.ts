@@ -11,17 +11,13 @@ import generateSubscriptionsForecast from "./generate-subscriptions-forecast";
 import getColorForBudgetExceeding from "./get-color-for-budget-exceeding";
 import { User } from "../interfaces";
 import { Decimal } from "../generated/prisma/internal/prismaNamespace";
+import { UniversalTransaction } from "@/utils/universal-components/app-components";
 
 interface _props {
     range: number;
     auth: User;
 }
 
-export interface ParsedTransaction extends Omit<Transaction, "value"> {
-    account: { name: string; };
-    category: { name: string; };
-    value: number;
-}
 export interface ParsedAccount extends Omit<Account, "created" | "updated" | "userId"> {
     negativeSum: number;
     positiveSum: number;
@@ -62,7 +58,7 @@ export interface SubscriptionForecast {
 interface GetDashboardDataProps {
     totalBalance: number;
     budgetExceeded: number;
-    transactions: ParsedTransaction[];
+    transactions: UniversalTransaction[];
     categories: ParsedCategory[];
     accounts: ParsedAccount[];
     categoryPercentages: CategoryPercentage[];
@@ -72,16 +68,9 @@ interface GetDashboardDataProps {
 }
 
 export type TransactionWithRelations = Transaction & {
-    account: { name: string; };
-    category: { name: string; };
+    account: Pick<Account, "id" | "name" | "color">;
+    category: Pick<Category, "id" | "name" | "color">;
 };
-
-type CategoryWithTransaction = Category & {
-    transactions: {
-        value: Decimal;
-        received: boolean;
-    }[]
-}
 
 
 async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDataProps> {
@@ -104,15 +93,13 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-        type expectedData = [TransactionWithRelations[], CategoryWithTransaction[], Account[], Transaction[], Subscription[]]
-
-        const [transactions, categories, accounts, transactionsThisMonth, subscriptions]: expectedData = await Promise.all([
+        const [transactions, categories, accounts, transactionsThisMonth, subscriptions] = await Promise.all([
 
             database.transaction.findMany({
                 where: transactionFilter,
                 include: {
-                    account: { select: { name: true } },
-                    category: { select: { name: true } },
+                    account: { select: { name: true, id: true, color: true, } },
+                    category: { select: { name: true, id: true, color: true, } },
                 }, orderBy: { created: "asc" },
             }),
 
@@ -189,8 +176,13 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             }
         }));
 
-        const parsedTransactions = transactions.map(function (transaction) {
-            return { ...transaction, value: transaction.value.toNumber() }
+        const parsedTransactions: UniversalTransaction[] = transactions.map(function (transaction) {
+            return {
+                ...transaction,
+                value: Number(transaction.value),
+                category: transaction.category,
+                account: transaction.account,
+            }
         });
 
         const parsedSubscriptions: ParsedSubscription[] = subscriptions.map((s) => ({ ...s, value: Number(s.value) }));

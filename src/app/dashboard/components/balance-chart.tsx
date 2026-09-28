@@ -1,6 +1,6 @@
 'use client';
 
-import type { ParsedTransaction } from "@/src/server/get-dashboard-data";
+import { UniversalTransaction } from "@/utils/universal-components/app-components";
 import {
     CartesianGrid,
     Legend,
@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 interface Props {
-    transactions: ParsedTransaction[];
+    transactions: UniversalTransaction[];
 }
 
 export default function BalanceChart({ transactions }: Props) {

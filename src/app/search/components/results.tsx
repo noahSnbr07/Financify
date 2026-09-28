@@ -2,6 +2,7 @@
 
 import { Digits } from "@/src/global/components";
 import { useSearchData } from "@/src/hooks";
+import { TransactionLink } from "@/utils/universal-components/app-components";
 import { BookmarkIcon, CreditCardIcon, LucideProps, SearchIcon, TagIcon } from "lucide-react";
 
 export default function Results() {
@@ -28,31 +29,10 @@ export default function Results() {
             <ResultSubSection
                 label="Transactions">
                 {results.transactions.map((t) => (
-                    <div
+                    <TransactionLink
                         key={t.id}
-                        className="flex justify-between bg-stack rounded-sm p-4">
-                        <div className="flex flex-col gap-2">
-                            <b> {t.name} </b>
-                            <div className="flex gap-2">
-                                <div
-                                    className="rounded-full px-2 py-1 flex gap-2"
-                                    style={{ border: `2px solid ${t.category.color}` }}>
-                                    <TagIcon size={16} opacity={.5} />
-                                    <p className="text-xs text-foreground/50"> {t.category.name} </p>
-                                </div>
-                                <div
-                                    className="rounded-full px-2 py-1 flex gap-2"
-                                    style={{ border: `2px solid ${t.account.color}` }}>
-                                    <BookmarkIcon size={16} opacity={.5} />
-                                    <p className="text-xs text-foreground/50"> {t.account.name} </p>
-                                </div>
-                            </div>
-                            <i className="text-foreground/50 text-sm">
-                                {t.id}
-                            </i>
-                        </div>
-                        <b className="bg-background w-1/4 grid place-content-center h-min py-2 text-lg rounded-sm"> <Digits value={Number(t.value)} /> </b>
-                    </div>
+                        universalTransaction={t}
+                    />
                 ))}
             </ResultSubSection>
             <ResultSubSection

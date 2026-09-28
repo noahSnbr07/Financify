@@ -1,14 +1,13 @@
 'use client';
 
 import { createContext, useContext, useState } from "react";
-import { Account, Category, Subscription, Transaction } from "../generated/prisma/browser";
+import { Account, Category, Subscription } from "../generated/prisma/browser";
 import { toast } from "react-toastify";
 import { APIResponseWithData } from "../interfaces";
 import { SearchResult } from "../app/api/search/route";
+import { UniversalTransaction } from "@/utils/universal-components/app-components";
 
-type SearchResultTransaction = Pick<Transaction, "name" | "id" | "value" | "created" | "type">
-    &
-{ account: { color: string; name: string; }, category: { color: string; name: string; } };
+type SearchResultTransaction = UniversalTransaction;
 type SearchResultCategory = Pick<Category, "name" | "id" | "created"> & { color: string; };
 type SearchResultAccount = Pick<Account, "name" | "id" | "created"> & { color: string; };
 type SearchResultSubscription = Pick<Subscription, "name" | "id" | "value" | "created" | "state">;

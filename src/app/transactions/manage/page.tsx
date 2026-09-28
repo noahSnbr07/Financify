@@ -2,6 +2,7 @@ import { database } from "@/src/configuration";
 import { getAuth } from "@/src/server";
 import { redirect } from "next/navigation";
 import { ManageTransactions } from "./components";
+import { UniversalTransaction } from "@/utils/universal-components/app-components";
 
 
 async function page() {
@@ -19,13 +20,22 @@ async function page() {
             category: {
                 select: {
                     name: true,
+                    color: true,
+                    id: true,
                 }
-            }
+            },
+            account: {
+                select: {
+                    name: true,
+                    color: true,
+                    id: true,
+                }
+            },
         }
     });
 
-    const parsedTransactions = transactions.map(function (transaction) {
-        return { ...transaction, value: transaction.value.toNumber(), }
+    const parsedTransactions: UniversalTransaction[] = transactions.map(function (transaction) {
+        return { ...transaction, value: Number(transaction.value), }
     });
 
     return (

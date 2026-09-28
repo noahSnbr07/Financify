@@ -21,9 +21,10 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     if (!auth) return NextResponse.json({ ...apiResponsePresets.UNAUTHORIZED(), data: emptyDataSet });
 
     const { query }: { query: string } = await _request.json();
+    const formattedQuery = query.trim().toLowerCase();
 
     const queryConfig = {
-        where: { user: { id: auth.id, }, name: { contains: query } },
+        where: { user: { id: auth.id, }, name: { contains: formattedQuery } },
         orderBy: { created: "desc" as const },
         take: 5,
     }

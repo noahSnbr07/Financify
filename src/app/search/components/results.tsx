@@ -2,17 +2,26 @@
 
 import { Digits } from "@/src/global/components";
 import { useSearchData } from "@/src/hooks";
-import { BookmarkIcon, CreditCardIcon, LucideProps, TagIcon } from "lucide-react";
+import { BookmarkIcon, CreditCardIcon, LucideProps, SearchIcon, TagIcon } from "lucide-react";
 
 export default function Results() {
 
-
     const { results } = useSearchData();
+
+    const resultsEmpty = Boolean(
+        results.accounts.length < 1 &&
+        results.categories.length < 1 &&
+        results.subscriptions.length < 1 &&
+        results.transactions.length < 1
+    );
 
     const iconConfig: LucideProps = {
         size: 20,
         opacity: .5
     }
+
+
+    if (resultsEmpty) return <SuspenseContent />;
 
     return (
         <div className="flex-1 flex flex-col gap-4 overflow-y-scroll">
@@ -96,4 +105,16 @@ function ResultSubSection({ label, children }: { label: string; children: React.
             <div className="flex flex-col gap-2"> {children} </div>
         </div>
     )
+}
+
+function SuspenseContent() {
+
+    return (
+        <div className="flex-1 grid place-content-center">
+            <div className="flex gap-2 items-center">
+                <SearchIcon size={16} opacity={.5} />
+                <p className="text-foreground/50"> Search anything </p>
+            </div>
+        </div>
+    );
 }

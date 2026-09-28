@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import { APIResponseWithData } from "../interfaces";
 import { SearchResult } from "../app/api/search/route";
 
-type SearchResultTransaction = Pick<Transaction, "name" | "id" | "value" | "created" | "type">;
-type SearchResultCategory = Pick<Category, "name" | "id" | "created">;
-type SearchResultAccount = Pick<Account, "name" | "id" | "created">;
+type SearchResultTransaction = Pick<Transaction, "name" | "id" | "value" | "created" | "type">
+    &
+{ account: { color: string; name: string; }, category: { color: string; name: string; } };
+type SearchResultCategory = Pick<Category, "name" | "id" | "created"> & { color: string; };
+type SearchResultAccount = Pick<Account, "name" | "id" | "created"> & { color: string; };
 type SearchResultSubscription = Pick<Subscription, "name" | "id" | "value" | "created" | "state">;
 
 export { type SearchResultAccount, type SearchResultCategory, type SearchResultSubscription, type SearchResultTransaction }

@@ -5,6 +5,7 @@ import { compare } from "bcrypt"
 import { cookies } from 'next/headers';
 import { apiResponsePresets } from '@/src/static';
 import { COOKIE_LIFETIME, TOKEN_IDENTIFIERS, createAccessToken, createRefreshToken } from '@/utils/functions/auth-tools';
+import { UserRole } from '@/src/generated/prisma/enums';
 
 export async function POST(_request: NextRequest): Promise<NextResponse<APIResponse>> {
 
@@ -21,6 +22,8 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
 
     const targetUser = await database.user.findUnique({ where: { name } });
     if (!targetUser) return NextResponse.json(apiResponsePresets.NOT_FOUND({ message: "User could not be found." }));
+
+    if (targetUser.role === UserRole.suspended) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "User suspended" }));
 
     const hashMatch = await compare(password, targetUser.hash);
     if (!hashMatch) return NextResponse.json(apiResponsePresets.BAD_REQUEST({ message: "Password incorrect." }));

@@ -31,7 +31,7 @@ export async function POST(_request: NextRequest): Promise<NextResponse<APIRespo
     try {
 
         const [transactions, categories, accounts, subscriptions] = await Promise.all([
-            database.transaction.findMany(queryConfig),
+            database.transaction.findMany({ ...queryConfig, include: { category: { select: { color: true, name: true, } }, account: { select: { color: true, name: true, } } } }),
             database.category.findMany(queryConfig),
             database.account.findMany(queryConfig),
             database.subscription.findMany(queryConfig)

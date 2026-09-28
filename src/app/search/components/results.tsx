@@ -2,7 +2,7 @@
 
 import { Digits } from "@/src/global/components";
 import { useSearchData } from "@/src/hooks";
-import { BookmarkIcon, CreditCardIcon, HandCoinsIcon, LucideIcon, LucideProps, TagIcon } from "lucide-react";
+import { BookmarkIcon, CreditCardIcon, LucideProps, TagIcon } from "lucide-react";
 
 export default function Results() {
 
@@ -18,13 +18,31 @@ export default function Results() {
         <div className="flex-1 flex flex-col gap-4 overflow-y-scroll">
             <ResultSubSection
                 label="Transactions">
-                {results.transactions.slice(0).map((t) => (
-                    <div key={t.id} className="flex justify-between bg-stack px-4 py-2 rounded-sm">
-                        <div className="flex gap-4 items-center">
-                            <HandCoinsIcon {...iconConfig} />
-                            <p> {t.name} </p>
+                {results.transactions.map((t) => (
+                    <div
+                        key={t.id}
+                        className="flex justify-between bg-stack rounded-sm p-4">
+                        <div className="flex flex-col gap-2">
+                            <b> {t.name} </b>
+                            <div className="flex gap-2">
+                                <div
+                                    className="rounded-full px-2 py-1 flex gap-2"
+                                    style={{ border: `2px solid ${t.category.color}` }}>
+                                    <TagIcon size={16} opacity={.5} />
+                                    <p className="text-xs text-foreground/50"> {t.category.name} </p>
+                                </div>
+                                <div
+                                    className="rounded-full px-2 py-1 flex gap-2"
+                                    style={{ border: `2px solid ${t.account.color}` }}>
+                                    <BookmarkIcon size={16} opacity={.5} />
+                                    <p className="text-xs text-foreground/50"> {t.account.name} </p>
+                                </div>
+                            </div>
+                            <i className="text-foreground/50 text-sm">
+                                {t.id}
+                            </i>
                         </div>
-                        <b> <Digits value={Number(t.value)} /> </b>
+                        <b className="bg-background w-1/4 grid place-content-center h-min py-2 text-lg rounded-sm"> <Digits value={Number(t.value)} /> </b>
                     </div>
                 ))}
             </ResultSubSection>
@@ -34,6 +52,7 @@ export default function Results() {
                     <div key={c.id} className="flex justify-between bg-stack px-4 py-2 rounded-sm">
                         <div className="flex gap-4 items-center">
                             <TagIcon {...iconConfig} />
+                            <div style={{ background: c.color }} className="size-2 rounded-full"></div>
                             <b> {c.name} </b>
                         </div>
                         <p className="text-foreground/50 text-sm"> {c.id} </p>
@@ -46,6 +65,7 @@ export default function Results() {
                     <div key={a.id} className="flex justify-between bg-stack px-4 py-2 rounded-sm">
                         <div className="flex gap-4 items-center">
                             <BookmarkIcon {...iconConfig} />
+                            <div style={{ background: a.color }} className="size-2 rounded-full"></div>
                             <b> {a.name} </b>
                         </div>
                         <p className="text-foreground/50 text-sm"> {a.id} </p>

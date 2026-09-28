@@ -38,16 +38,16 @@ const LIMIT_PRESETS = {
         return createLimiter(100, 60, 60);
     },
     get STRICT() {
-        return createLimiter(25, 60, 60);
+        return createLimiter(50, 60, 60);
     },
     get AUTH() {
-        return createLimiter(5, 60, 60 * 15);
+        return createLimiter(10, 60, 60 * 15);
     },
     get AI() {
-        return createLimiter(10, 60, 60);
+        return createLimiter(5, 60, 60);
     },
     get RELAXED() {
-        return createLimiter(150, 60, 60);
+        return createLimiter(200, 60, 60);
     },
 };
 

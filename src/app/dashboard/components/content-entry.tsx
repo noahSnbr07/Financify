@@ -1,6 +1,9 @@
 "use client";
 
-import { InfoIcon } from "lucide-react"
+import { InfoIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import { TRANSITION_PRESETS } from "@/src/static/client";
+
 
 interface _props {
     children: React.ReactNode;
@@ -11,13 +14,16 @@ interface _props {
 
 export default function ContentEntry({ children, label, renderFallback, index }: _props) {
 
+    const transitionData = TRANSITION_PRESETS.SLIDE_VERTICALLY(index);
+
     return (
-        <div
+        <motion.div
+            {...transitionData}
             key={index}
             className="bg-stack rounded-xl p-2 flex flex-col min-h-24 gap-2"
         >
             {renderFallback ? <FallBackContent /> : <DefaultContent label={label}> {children} </DefaultContent>}
-        </div>
+        </motion.div>
     );
 }
 

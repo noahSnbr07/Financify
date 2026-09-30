@@ -23,7 +23,7 @@ export default function AccountsList({ accounts }: _props) {
 
 function AccountListEntry({ account }: { account: AccountsListAccountTypeParsed }) {
 
-    const [collapsed, setCollapsed] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(true);
 
     const Icon = collapsed ? <ChevronDownIcon opacity={.5} /> : <ChevronUpIcon opacity={.5} />
 

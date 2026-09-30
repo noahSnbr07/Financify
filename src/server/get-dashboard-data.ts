@@ -123,9 +123,6 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             database.account.findMany({
                 where: {
                     userId: auth.id,
-                    transactions: {
-                        some: transactionFilter,
-                    },
                 },
             }),
 

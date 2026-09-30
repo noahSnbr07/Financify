@@ -45,7 +45,7 @@ export default function BalanceChart({ transactions }: Props) {
                     height={"100%"}
                     width={"100%"}
                     data={data}>
-                    <CartesianGrid vertical={false} opacity={.5} />
+                    <CartesianGrid vertical={false} opacity={.25} />
 
                     <Line type="monotone" dataKey="expense" strokeWidth={2} stroke="orangered" dot={false} />
                     <Line type="monotone" dataKey="income" strokeWidth={2} stroke="limegreen" dot={false} />

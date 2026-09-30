@@ -30,7 +30,7 @@ export default function AccountChart({ accounts }: _props) {
                 margin={{ bottom: 24, left: 16, right: 16, top: 16 }}
             >
 
-                <CartesianGrid amplitude={100} opacity={.5} />
+                <CartesianGrid amplitude={100} opacity={.25} />
                 <Typed.XAxis dataKey="name" />
 
                 <Bar fill="orangered" dataKey="negativeSum" stackId="a" opacity={.75} strokeWidth={0} label />

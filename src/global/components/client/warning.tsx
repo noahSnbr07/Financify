@@ -12,7 +12,7 @@ interface _props {
 export default function Warning({ warning, noLink }: _props) {
 
     return (
-        <div className="bg-yellow-600/50 p-4 rounded-lg flex flex-col gap-4 border-2 border-yellow-400/50">
+        <div className="bg-yellow-600/50 h-min p-4 rounded-lg flex flex-col gap-4 border-2 border-yellow-400/50">
             <div className="flex gap-4 items-center">
                 <TriangleAlertIcon size={20} />
                 <b> Warning </b>

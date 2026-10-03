@@ -28,7 +28,7 @@ type UseFetchResponse = {
     SubmitButton: React.JSX.Element;
 }
 
-export default function useFetch({ href, data, buttonLabel, buttonClassName = "", onSuccess, redirectHref = "", feedback, submitConditions }: _props): UseFetchResponse {
+export default function useFetch({ href, data, buttonLabel, buttonClassName = "", onSuccess, redirectHref = "", submitConditions }: _props): UseFetchResponse {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const conditionsFulfilled = submitConditions.every(Boolean);
@@ -44,10 +44,9 @@ export default function useFetch({ href, data, buttonLabel, buttonClassName = ""
             const responseData: APIResponse = await response.json();
 
             if (!response.ok || !responseData.success) {
-                return toast(feedback.error, { type: "error" });
+                return toast(responseData.message, { type: responseData.success ? "success" : "error" });
             }
 
-            toast(feedback.success, { type: "success" });
             if (onSuccess === SuccessAction.redirect) router.push(redirectHref)
             else if (onSuccess === SuccessAction.refresh) router.refresh();
 

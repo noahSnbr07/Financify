@@ -71,3 +71,8 @@ export type Subscription = Prisma.SubscriptionModel
  * 
  */
 export type File = Prisma.FileModel
+/**
+ * Model Transfer
+ * 
+ */
+export type Transfer = Prisma.TransferModel

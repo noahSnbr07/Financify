@@ -402,7 +402,8 @@ export const ModelName = {
   Account: 'Account',
   Category: 'Category',
   Subscription: 'Subscription',
-  File: 'File'
+  File: 'File',
+  Transfer: 'Transfer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "transaction" | "account" | "category" | "subscription" | "file"
+    modelProps: "user" | "transaction" | "account" | "category" | "subscription" | "file" | "transfer"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Transfer: {
+      payload: Prisma.$TransferPayload<ExtArgs>
+      fields: Prisma.TransferFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransferFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransferFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        findFirst: {
+          args: Prisma.TransferFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransferFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        findMany: {
+          args: Prisma.TransferFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>[]
+        }
+        create: {
+          args: Prisma.TransferCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        createMany: {
+          args: Prisma.TransferCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransferCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>[]
+        }
+        delete: {
+          args: Prisma.TransferDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        update: {
+          args: Prisma.TransferUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransferDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransferUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransferUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransferUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransferPayload>
+        }
+        aggregate: {
+          args: Prisma.TransferAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransfer>
+        }
+        groupBy: {
+          args: Prisma.TransferGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransferCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransferCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -995,6 +1070,20 @@ export const FileScalarFieldEnum = {
 } as const
 
 export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
+
+
+export const TransferScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  value: 'value',
+  name: 'name',
+  userId: 'userId',
+  originAccountId: 'originAccountId',
+  destinationAccountId: 'destinationAccountId'
+} as const
+
+export type TransferScalarFieldEnum = (typeof TransferScalarFieldEnum)[keyof typeof TransferScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1358,6 +1447,7 @@ export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   subscription?: Prisma.SubscriptionOmit
   file?: Prisma.FileOmit
+  transfer?: Prisma.TransferOmit
 }
 
 /* Types for Logging */

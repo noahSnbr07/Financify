@@ -25,6 +25,10 @@ async function page() {
                 href={"/admin/server"}
                 className="px-8 py-2 rounded-sm font-bold bg-stack min-w-xs text-center">
                 Server
+            </Link>            <Link
+                href={"/admin/storage"}
+                className="px-8 py-2 rounded-sm font-bold bg-stack min-w-xs text-center">
+                Storage
             </Link>
         </div>
     );

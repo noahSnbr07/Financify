@@ -1,5 +1,5 @@
 import Screen from "@/src/global/components/server/screen";
-import { AccountChart, AccountVolumes, AIChatBox, BalanceChart, BudgetRadarChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, SubscriptionData, TotalBalance, TransactionHistory } from "./components";
+import { AccountChart, AccountVolumes, AIChatBox, BalanceChart, BudgetRadarChart, CategoriesChart, ContentEntry, DateRangeSelector, QuickAccess, SubscriptionData, TotalBalance, TransactionHistory, TransferHistory } from "./components";
 import { getAuth, getDashboardData } from "@/src/server";
 import { redirect } from "next/navigation";
 import UpComingBillings from "./components/billings";
@@ -25,7 +25,8 @@ async function page({ searchParams }: _props) {
         categoryPercentages,
         subscriptions,
         subscriptionForecast,
-        budgetIndexColor
+        budgetIndexColor,
+        transfers,
     } = await getDashboardData({ auth, range });
 
     return (
@@ -63,6 +64,10 @@ async function page({ searchParams }: _props) {
 
             <ContentEntry renderFallback={transactions.length < 1} index={7} label="Transactions">
                 <TransactionHistory transactions={transactions} />
+            </ContentEntry>
+
+            <ContentEntry renderFallback={transfers.length < 1} index={7} label="Account Transfers">
+                <TransferHistory transfers={transfers} />
             </ContentEntry>
 
             <ContentEntry renderFallback={accounts.length < 1} index={8} label="Account Balances">

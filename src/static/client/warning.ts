@@ -23,6 +23,12 @@ const warnings: Record<string, WarningProps> = {
         href: "/",
         body: "Deleting this Account will also delete all Transactions and Subscriptions linked to this account",
         label: "Forceful Deletion",
+    },
+    TRANSFER_ACCOUNTS_INSUFFERABLE: {
+        id: 3,
+        href: "/accounts/new",
+        body: "At least 2 Accounts are necessary to transfer values.",
+        label: "Create Account"
     }
 
 }

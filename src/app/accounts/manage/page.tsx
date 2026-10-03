@@ -23,18 +23,35 @@ async function page() {
                     value: true,
                     received: true,
                 }
+            },
+            transfersFrom: {
+                select: {
+                    value: true,
+                    destinationAccountId: true,
+                }
+            },
+            transfersTo: {
+                select: {
+                    value: true,
+                    originAccountId: true,
+                }
             }
         }
     });
 
-    const parsed: AccountsListAccountTypeParsed[] = accounts.map(({ transactions, ...account }) => ({
-        ...account,
-        total: Math.floor(
-            transactions.reduce((acc, curr) => (
-                curr.received ? acc + Number(curr.value) : acc - Number(curr.value)
-            ), 0),
-        ),
-    }))
+    const parsed: AccountsListAccountTypeParsed[] = accounts.map(({ transactions, transfersFrom, transfersTo, ...account }) => {
+        const transactionTotal = transactions.reduce((acc, curr) => (
+            curr.received ? acc + Number(curr.value) : acc - Number(curr.value)
+        ), 0);
+
+        const incomingTransfers = transfersTo.reduce((acc, curr) => acc + Number(curr.value), 0);
+        const outgoingTransfers = transfersFrom.reduce((acc, curr) => acc + Number(curr.value), 0);
+
+        return {
+            ...account,
+            total: Math.floor(transactionTotal + incomingTransfers - outgoingTransfers),
+        };
+    })
 
     return (
         <>

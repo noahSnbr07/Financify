@@ -20,12 +20,14 @@ export default function ColorSelector({ color, onChange }: _props) {
                             key={indexedColor.id}
                             onClick={() => onChange(indexedColor.hsl)}
                             style={{
-                                background: indexedColor.hsl,
-                                border: `4px solid ${color === indexedColor.hsl ? "var(--foreground)" : "transparent"}`
+                                background: `${indexedColor.hsl !== color ? "transparent" : "var(--color-stack)"}`,
+                                border: `4px solid ${indexedColor.hsl}`
                             }}
                             className="rounded-sm aspect-square font-bold text-sm"
                         >
-                            {indexedColor.label}
+                            <p className="text-foreground/50">
+                                {indexedColor.label}
+                            </p>
                         </button>
                     );
                 })}

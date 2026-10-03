@@ -24,6 +24,7 @@ model User {
   accounts      Account[]
   categories    Category[]
   transactions  Transaction[]
+  transfers     Transfer[]
   files         File[]
   subscriptions Subscription[]
 }
@@ -69,6 +70,8 @@ model Account {
   user          User           @relation(fields: [userId], references: [id])
   transactions  Transaction[]
   subscriptions Subscription[]
+  transfersFrom Transfer[]     @relation("TransferOriginAccount")
+  transfersTo   Transfer[]     @relation("TransferDestinationAccount")
 
   @@index([userId])
 }
@@ -173,4 +176,27 @@ enum FileExtension {
   png
   json
   svg
+}
+
+model Transfer {
+  // base
+  id      String   @id @unique @default(uuid())
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+
+  // props
+  value Float
+  name  String
+
+  // foreign keys
+  userId               String
+  originAccountId      String
+  destinationAccountId String
+
+  // relations
+  user               User    @relation(fields: [userId], references: [id])
+  originAccount      Account @relation("TransferOriginAccount", fields: [originAccountId], references: [id])
+  destinationAccount Account @relation("TransferDestinationAccount", fields: [destinationAccountId], references: [id])
+
+  @@index([userId, originAccountId, destinationAccountId])
 }

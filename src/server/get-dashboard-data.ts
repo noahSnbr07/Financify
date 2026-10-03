@@ -1,5 +1,5 @@
 import { database } from "../configuration";
-import { Account, Category, Subscription, SubscriptionInterval, Transaction } from "../generated/prisma/client";
+import { Account, Category, Subscription, SubscriptionInterval, Transaction, Transfer } from "../generated/prisma/client";
 import { TransactionWhereInput } from "../generated/prisma/models";
 import getAccountVolumes from "./get-account-volumes";
 import getBudget from "./get-budget";
@@ -54,6 +54,8 @@ export interface SubscriptionForecast {
     billings: Billing[];
 }
 
+export type UniversalTransfer = Transfer & { originAccount: { name: string; }, destinationAccount: { name: string; } };
+
 //return type
 interface GetDashboardDataProps {
     totalBalance: number;
@@ -65,6 +67,7 @@ interface GetDashboardDataProps {
     subscriptions: ParsedSubscription[];
     subscriptionForecast: SubscriptionForecast;
     budgetIndexColor: string;
+    transfers: UniversalTransfer[];
 }
 
 export type TransactionWithRelations = Transaction & {
@@ -93,7 +96,7 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-        const [transactions, categories, accounts, transactionsThisMonth, subscriptions] = await Promise.all([
+        const [transactions, categories, accounts, transactionsThisMonth, subscriptions, transfers] = await Promise.all([
 
             database.transaction.findMany({
                 where: transactionFilter,
@@ -137,7 +140,19 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             }),
 
             database.subscription.findMany({
-                where: { userId: auth.id }
+                where: { userId: auth.id },
+            }),
+
+            database.transfer.findMany({
+                where: { userId: auth.id },
+                include: {
+                    destinationAccount: {
+                        select: { name: true }
+                    },
+                    originAccount: {
+                        select: { name: true }
+                    }
+                }
             })
 
         ]);
@@ -160,16 +175,35 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             })
         );
 
+        function getAccountTransferAdjustments(accountId: string): {
+            positiveSum: number;
+            negativeSum: number;
+            volume: number;
+        } {
+            const transfersToThisAccount = transfers.filter((t) => t.destinationAccountId === accountId);
+            const transfersFromThisAccount = transfers.filter((t) => t.originAccountId === accountId);
+
+            const incomingValue = transfersToThisAccount.reduce((acc, curr) => acc + curr.value, 0);
+            const outgoingValue = transfersFromThisAccount.reduce((acc, curr) => acc + curr.value, 0);
+
+            return {
+                positiveSum: Math.round(incomingValue),
+                negativeSum: Math.round(outgoingValue),
+                volume: Math.round(incomingValue - outgoingValue),
+            };
+        }
+
         const parsedAccounts: ParsedAccount[] = await Promise.all(accounts.map(async (account) => {
 
             const sums = await getAccountVolumes({ transactions, accountId: account.id });
             const volume = await getTotalAccountVolume({ auth, accountId: account.id });
+            const transferAdjustments = getAccountTransferAdjustments(account.id);
 
             return {
                 ...account,
-                negativeSum: Math.round(sums.negativeSum),
-                positiveSum: Math.round(sums.positiveSum),
-                volume: Math.round(volume),
+                negativeSum: Math.round(sums.negativeSum) + transferAdjustments.negativeSum,
+                positiveSum: Math.round(sums.positiveSum) + transferAdjustments.positiveSum,
+                volume: Math.round(volume) + transferAdjustments.volume,
             }
         }));
 
@@ -202,6 +236,7 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             subscriptions: parsedSubscriptions,
             subscriptionForecast,
             budgetIndexColor,
+            transfers,
         }
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);

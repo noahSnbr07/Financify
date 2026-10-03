@@ -1,4 +1,4 @@
-import { ArrowUpDownIcon, LayoutDashboardIcon, ServerIcon, ShieldIcon, User2Icon } from "lucide-react";
+import { ArrowUpDownIcon, FileIcon, LayoutDashboardIcon, ServerIcon, ShieldIcon, User2Icon } from "lucide-react";
 import Link from "next/link";
 
 interface _props {
@@ -48,6 +48,13 @@ function Sidebar() {
                     className="flex bg-stack rounded-sm gap-2 px-4 py-2">
                     <ServerIcon size={20} opacity={.5} />
                     <p> Server </p>
+                </Link>
+
+                <Link
+                    href={"/admin/storage"}
+                    className="flex bg-stack rounded-sm gap-2 px-4 py-2">
+                    <FileIcon size={20} opacity={.5} />
+                    <p> Storage </p>
                 </Link>
             </div>
         </div>

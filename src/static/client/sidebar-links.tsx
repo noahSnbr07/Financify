@@ -15,6 +15,7 @@ const sidebarLinks: Record<string, SidebarLink[]> = {
         { id: 1, label: "New Category", href: "/categories/new", icon: <PlusIcon size={32} opacity={.5} /> },
         { id: 2, label: "New Account", href: "/accounts/new", icon: <PlusIcon size={32} opacity={.5} /> },
         { id: 3, label: "New Subscription", href: "/subscriptions/new", icon: <PlusIcon size={32} opacity={.5} /> },
+        { id: 4, label: "New Transfer", href: "/transfers/new", icon: <PlusIcon size={32} opacity={.5} /> },
     ],
     base: [
         { id: 0, label: "Dashboard", href: "/dashboard", icon: <LayoutDashboardIcon opacity={.5} /> },
@@ -30,6 +31,7 @@ const sidebarLinks: Record<string, SidebarLink[]> = {
         { id: 2, label: "Manage Accounts", href: "/accounts/manage", icon: <FolderIcon opacity={.5} /> },
         { id: 3, label: "Manage Subscriptions", href: "/subscriptions/manage", icon: <FolderIcon opacity={.5} /> },
         { id: 4, label: "Manage Reports", href: "/reports", icon: <FolderIcon opacity={.5} /> },
+        { id: 5, label: "Manage Transfers", href: "/transfers/manage", icon: <FolderIcon opacity={.5} /> },
     ]
 }
 

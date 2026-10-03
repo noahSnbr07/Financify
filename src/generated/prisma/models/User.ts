@@ -243,6 +243,7 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  transfers?: Prisma.TransferListRelationFilter
   files?: Prisma.FileListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }
@@ -259,6 +260,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  transfers?: Prisma.TransferOrderByRelationAggregateInput
   files?: Prisma.FileOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
 }
@@ -278,6 +280,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AccountListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  transfers?: Prisma.TransferListRelationFilter
   files?: Prisma.FileListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }, "id" | "id" | "name">
@@ -324,6 +327,7 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
@@ -340,6 +344,7 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -356,6 +361,7 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
@@ -372,6 +378,7 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -545,6 +552,20 @@ export type UserUpdateOneRequiredWithoutFilesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFilesInput, Prisma.UserUpdateWithoutFilesInput>, Prisma.UserUncheckedUpdateWithoutFilesInput>
 }
 
+export type UserCreateNestedOneWithoutTransfersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransfersInput, Prisma.UserUncheckedCreateWithoutTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransfersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTransfersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransfersInput, Prisma.UserUncheckedCreateWithoutTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransfersInput
+  upsert?: Prisma.UserUpsertWithoutTransfersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransfersInput, Prisma.UserUpdateWithoutTransfersInput>, Prisma.UserUncheckedUpdateWithoutTransfersInput>
+}
+
 export type UserCreateWithoutTransactionsInput = {
   id?: string
   created?: Date | string
@@ -556,6 +577,7 @@ export type UserCreateWithoutTransactionsInput = {
   role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
@@ -571,6 +593,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -602,6 +625,7 @@ export type UserUpdateWithoutTransactionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
@@ -617,6 +641,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -632,6 +657,7 @@ export type UserCreateWithoutAccountsInput = {
   role?: $Enums.UserRole
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
@@ -647,6 +673,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   role?: $Enums.UserRole
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -678,6 +705,7 @@ export type UserUpdateWithoutAccountsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
@@ -693,6 +721,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -708,6 +737,7 @@ export type UserCreateWithoutCategoriesInput = {
   role?: $Enums.UserRole
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
@@ -723,6 +753,7 @@ export type UserUncheckedCreateWithoutCategoriesInput = {
   role?: $Enums.UserRole
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -754,6 +785,7 @@ export type UserUpdateWithoutCategoriesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
@@ -769,6 +801,7 @@ export type UserUncheckedUpdateWithoutCategoriesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -785,6 +818,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   files?: Prisma.FileCreateNestedManyWithoutUserInput
 }
 
@@ -800,6 +834,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -831,6 +866,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUpdateManyWithoutUserNestedInput
 }
 
@@ -846,6 +882,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -861,6 +898,7 @@ export type UserCreateWithoutFilesInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
@@ -876,6 +914,7 @@ export type UserUncheckedCreateWithoutFilesInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transfers?: Prisma.TransferUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -907,6 +946,7 @@ export type UserUpdateWithoutFilesInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
@@ -922,6 +962,87 @@ export type UserUncheckedUpdateWithoutFilesInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transfers?: Prisma.TransferUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTransfersInput = {
+  id?: string
+  created?: Date | string
+  updated?: Date | string
+  name: string
+  avatar: string
+  hash: string
+  budget: number
+  role?: $Enums.UserRole
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  files?: Prisma.FileCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTransfersInput = {
+  id?: string
+  created?: Date | string
+  updated?: Date | string
+  name: string
+  avatar: string
+  hash: string
+  budget: number
+  role?: $Enums.UserRole
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTransfersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransfersInput, Prisma.UserUncheckedCreateWithoutTransfersInput>
+}
+
+export type UserUpsertWithoutTransfersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransfersInput, Prisma.UserUncheckedUpdateWithoutTransfersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransfersInput, Prisma.UserUncheckedCreateWithoutTransfersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTransfersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransfersInput, Prisma.UserUncheckedUpdateWithoutTransfersInput>
+}
+
+export type UserUpdateWithoutTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  hash?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -934,6 +1055,7 @@ export type UserCountOutputType = {
   accounts: number
   categories: number
   transactions: number
+  transfers: number
   files: number
   subscriptions: number
 }
@@ -942,6 +1064,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   categories?: boolean | UserCountOutputTypeCountCategoriesArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  transfers?: boolean | UserCountOutputTypeCountTransfersArgs
   files?: boolean | UserCountOutputTypeCountFilesArgs
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
 }
@@ -980,6 +1103,13 @@ export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountTransfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FileWhereInput
 }
@@ -1004,6 +1134,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  transfers?: boolean | Prisma.User$transfersArgs<ExtArgs>
   files?: boolean | Prisma.User$filesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1047,6 +1178,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  transfers?: boolean | Prisma.User$transfersArgs<ExtArgs>
   files?: boolean | Prisma.User$filesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1060,6 +1192,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     categories: Prisma.$CategoryPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    transfers: Prisma.$TransferPayload<ExtArgs>[]
     files: Prisma.$FilePayload<ExtArgs>[]
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
   }
@@ -1469,6 +1602,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.User$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transfers<T extends Prisma.User$transfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   files<T extends Prisma.User$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1970,6 +2104,30 @@ export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * User.transfers
+ */
+export type User$transfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transfer
+   */
+  select?: Prisma.TransferSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transfer
+   */
+  omit?: Prisma.TransferOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferInclude<ExtArgs> | null
+  where?: Prisma.TransferWhereInput
+  orderBy?: Prisma.TransferOrderByWithRelationInput | Prisma.TransferOrderByWithRelationInput[]
+  cursor?: Prisma.TransferWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferScalarFieldEnum | Prisma.TransferScalarFieldEnum[]
 }
 
 /**

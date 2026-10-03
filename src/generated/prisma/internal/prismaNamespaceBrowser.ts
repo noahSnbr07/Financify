@@ -56,7 +56,8 @@ export const ModelName = {
   Account: 'Account',
   Category: 'Category',
   Subscription: 'Subscription',
-  File: 'File'
+  File: 'File',
+  Transfer: 'Transfer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -165,6 +166,20 @@ export const FileScalarFieldEnum = {
 } as const
 
 export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
+
+
+export const TransferScalarFieldEnum = {
+  id: 'id',
+  created: 'created',
+  updated: 'updated',
+  value: 'value',
+  name: 'name',
+  userId: 'userId',
+  originAccountId: 'originAccountId',
+  destinationAccountId: 'destinationAccountId'
+} as const
+
+export type TransferScalarFieldEnum = (typeof TransferScalarFieldEnum)[keyof typeof TransferScalarFieldEnum]
 
 
 export const SortOrder = {

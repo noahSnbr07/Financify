@@ -10,11 +10,12 @@ import BudgetRadarChart from "./budget-radar-chart";
 import SubscriptionData from "./subscriptions-data";
 import TransactionHistory from "./transaction-history";
 import AccountVolumes from "./account-volumes";
-
+import TransferHistory from "./transfer-history";
 
 
 export {
     ContentEntry,
+    TransferHistory,
     QuickAccess,
     CategoriesChart,
     AccountVolumes,

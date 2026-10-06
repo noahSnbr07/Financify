@@ -1,3 +1,4 @@
+
 'use client';
 
 interface _props {
@@ -11,8 +12,8 @@ export default function InfoCard({ label, value }: _props) {
         <div
             className="flex flex-col p-4 gap-4 rounded-lg bg-stack"
         >
-            <b> {label} </b>
-            <b className="text-xl font-black text-green-600 w-full text-right bg-stack p-2 rounded-sm truncate"> {value} </b>
+            <i> {label} </i>
+            <b className="text-xl font-black text-cyan-600 w-full text-right bg-stack p-2 rounded-sm truncate"> {value} </b>
         </div>
     );
 }

@@ -1,9 +1,13 @@
 import { redis } from "@/src/static/rate-limit-preset";
 import { NextRequest } from "next/server";
 
+const ignoredPaths: string[] = ["/api/resource/download", "/api/authentication/get-state"];
+
 export async function writeTrafficLogToRedis({ request }: { request: NextRequest }): Promise<void> {
 
     if (!redis) return;
+    if (ignoredPaths.includes(request.nextUrl.pathname)) return;
+
 
     const logEntry = {
         timestamp: new Date().toISOString(),

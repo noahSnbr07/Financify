@@ -61,6 +61,7 @@ function TransactionLinkExpandableOptions({ universalTransaction }: { universalT
             error: "Failed to delete Transaction",
             success: "Transaction deleted successfully",
         },
+        method: "DELETE",
         href: `/api/transaction/delete/${universalTransaction.id}`,
         onSuccess: SuccessAction.refresh,
         submitConditions: [universalTransaction !== null],

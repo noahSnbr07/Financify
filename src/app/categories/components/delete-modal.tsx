@@ -20,7 +20,7 @@ export default function DeleteModal({ categoryId, setModal, setPickedCategoryId 
 
         try {
             const requestBody = JSON.stringify({ categoryId });
-            await fetch(`/api/category/delete`, { body: requestBody, method: "POST" });
+            await fetch(`/api/category/delete`, { body: requestBody, method: "DELETE" });
             toast("Category has been deleted", { type: "success" });
         } catch (error) {
             console.error(error);

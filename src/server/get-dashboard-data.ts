@@ -96,7 +96,7 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-        const [transactions, categories, accounts, transactionsThisMonth, subscriptions, transfers] = await Promise.all([
+        const [transactions, categories, accounts, subscriptions, transfers] = await Promise.all([
 
             database.transaction.findMany({
                 where: transactionFilter,
@@ -129,15 +129,6 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
                 },
             }),
 
-            database.transaction.findMany({
-                where: {
-                    userId: auth.id,
-                    created: {
-                        gte: startOfMonth,
-                        lt: startOfNextMonth
-                    },
-                },
-            }),
 
             database.subscription.findMany({
                 where: { userId: auth.id },
@@ -152,13 +143,20 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
                     originAccount: {
                         select: { name: true }
                     }
-                }
+                },
+                orderBy: { created: "desc" }
             })
-
         ]);
+
+
+
+        const transactionsThisMonth = transactions.filter((t) => t.created >= startOfMonth && t.created <= startOfNextMonth);
+
         const monthlyTotal = transactionsThisMonth
             .filter((t) => !t.received)
             .reduce((accumulator, currentValue) => accumulator + currentValue.value.toNumber(), 0);
+
+
         const parsedCategories = await Promise.all(
             categories.map(async function (category) {
                 const transactionsWithParsedValues = category.transactions.map((t: { value: Decimal; received: boolean }) => ({
@@ -225,6 +223,7 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
         const categoryPercentages = await getCategoryPercentage({ transactions: transactionsThisMonth });
         const budgetExceededInPercentage = Number(((monthlyTotal / budget) * 100).toFixed(2));
         const budgetIndexColor = await getColorForBudgetExceeding({ exceeding: budgetExceededInPercentage });
+        const transfersShort = transfers.slice(undefined, 3);
 
         return {
             categories: parsedCategories,
@@ -236,7 +235,7 @@ async function getDashboardData({ range, auth }: _props): Promise<GetDashboardDa
             subscriptions: parsedSubscriptions,
             subscriptionForecast,
             budgetIndexColor,
-            transfers,
+            transfers: transfersShort,
         }
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);

@@ -17,6 +17,7 @@ interface _props {
     buttonClassName?: string;
     buttonLabel?: string;
     onSuccess: SuccessAction;
+    method?: "POST" | "DELETE" | "GET";
     feedback: {
         error: string;
         success: string;
@@ -28,7 +29,7 @@ type UseFetchResponse = {
     SubmitButton: React.JSX.Element;
 }
 
-export default function useFetch({ href, data, buttonLabel, buttonClassName = "", onSuccess, redirectHref = "", submitConditions }: _props): UseFetchResponse {
+export default function useFetch({ href, method = "POST", data, buttonLabel, buttonClassName = "", onSuccess, redirectHref = "", submitConditions }: _props): UseFetchResponse {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const conditionsFulfilled = submitConditions.every(Boolean);
@@ -40,7 +41,7 @@ export default function useFetch({ href, data, buttonLabel, buttonClassName = ""
         setIsSubmitting(true);
 
         try {
-            const response = await fetch(href, { method: "POST", body: JSON.stringify(data) });
+            const response = await fetch(href, { method, body: JSON.stringify(data) });
             const responseData: APIResponse = await response.json();
 
             if (!response.ok || !responseData.success) {

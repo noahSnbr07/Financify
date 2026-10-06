@@ -34,6 +34,7 @@ function AccountListEntry({ account }: { account: AccountsListAccountTypeParsed 
             error: "Account could not be Deleted",
             success: "Account has been deleted."
         },
+        method: "DELETE",
         href: `/api/account/delete/${account.id}`,
         onSuccess: SuccessAction.refresh,
         submitConditions: [account !== null],

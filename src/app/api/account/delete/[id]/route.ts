@@ -4,7 +4,7 @@ import { getAuth } from '@/src/server';
 import { apiResponsePresets } from '@/src/static';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(_request: NextRequest, { params }: { params: Promise<{ id: string }> }): Promise<NextResponse<APIResponse>> {
+export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }): Promise<NextResponse<APIResponse>> {
 
     const auth = await getAuth();
     if (!auth) return NextResponse.json(apiResponsePresets.UNAUTHORIZED());
